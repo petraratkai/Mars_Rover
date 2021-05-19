@@ -1,6 +1,6 @@
 var mqtt    = require('mqtt');
 var count =0;
-var client  = mqtt.connect("mqtt://192.168.1.157",{clientId:"mqttjs01"});
+var client  = mqtt.connect("mqtt://localhost",{clientId:"mqttjs01"});
 console.log("connected flag  " + client.connected);
 
 //handle incoming messages
