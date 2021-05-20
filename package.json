@@ -1,0 +1,25 @@
+{
+  "name": "EE-Rover-Project",
+  "version": "1.0.0",
+  "description": "This repository contains team 14's source code and other files used for the 2021 Imperial College EE second year \"Mars rover\" summer project.",
+  "main": "connect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidMael/EE-Rover-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "start": "node http_server/index.js"
+    "build": "cd client && npm install && npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/DavidMael/EE-Rover-Project/issues"
+  },
+  "homepage": "https://github.com/DavidMael/EE-Rover-Project#readme"
+
+}
