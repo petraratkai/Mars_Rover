@@ -1,6 +1,6 @@
 var mqtt    = require('mqtt');
 var count =0;
-var client  = mqtt.connect("mqtt://localhost",{clientId:"mqttjs01"});
+var client  = mqtt.connect("mqtt://localhost:1883",{clientId:"mqttjs01"});
 
 //receive messages - listener
 client.on('message', (topic, message, packet) => {
