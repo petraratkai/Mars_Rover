@@ -1,6 +1,6 @@
 npm install mqtt --save
 
-npm install mqtt -g
+sudo npm install mqtt -g
 
 sudo apt update
 sudo apt-get install mosquitto mosquitto-clients
@@ -12,3 +12,5 @@ npm init -y
 sudo npm i -g npx
 
 npx create-react-app client
+
+mosquitto -c mosquitto.conf
