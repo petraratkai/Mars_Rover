@@ -42,7 +42,7 @@ if (client.connected == true){
 	console.log("time took to publish: " + timeDiff + "ms");
 }
 count+=1;
-if (count==2)  //ens script
+if (count==10)  //ens script
 {
 	clearTimeout(timer_id); //stop timer
 	client.end();
