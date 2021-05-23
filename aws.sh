@@ -16,3 +16,5 @@ npx create-react-app client
 mosquitto -c mosquitto.conf
 
 npm i body-parser
+
+sudo cat /var/log/mosquitto/mosquitto.log

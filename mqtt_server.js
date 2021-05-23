@@ -53,7 +53,7 @@ var options={
 retain:true,
 qos:1};
 var topic="testtopic";
-var message="test message";
+var message="hi";
 var topic_list=["topic2","topic3","topic4"];
 var topic_o={"topic22":0,"topic33":1,"topic44":1};
 console.log("subscribing to topics");
