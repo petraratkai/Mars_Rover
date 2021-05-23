@@ -4,7 +4,7 @@
   "description": "This repository contains team 14's source code and other files used for the 2021 Imperial College EE second year \"Mars rover\" summer project.",
   "main": "connect.js",
   "scripts": {
-    "start": "node http_server/index.js",
+    "start": "nodemon http_server/index.js",
     "build": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,13 @@
   "bugs": {
     "url": "https://github.com/DavidMael/EE-Rover-Project/issues"
   },
-  "homepage": "https://github.com/DavidMael/EE-Rover-Project#readme"
-
+  "homepage": "https://github.com/DavidMael/EE-Rover-Project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }

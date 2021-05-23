@@ -19,15 +19,18 @@ process.exit(1)});
 
 //client.publish(topic, message, [options], [callback]);
 
-//client.subscribe(topic/topic array/topic object, [options], [callback])
+//client.subscribe(topic/topic array/topic object, [options], publish)
 
 function publish(topic,msg,options){
+	var startTime = new Date();
 console.log("publishing",msg);
 
 if (client.connected == true){
 
 client.publish(topic,msg,options);
-
+	var endTime = new Date();
+	var timeDiff = endTime-startTime;
+	console.log("time took to publish: " + timeDiff);
 }
 count+=1;
 //if (count==2)  //ens script

@@ -14,3 +14,5 @@ sudo npm i -g npx
 npx create-react-app client
 
 mosquitto -c mosquitto.conf
+
+npm i body-parser

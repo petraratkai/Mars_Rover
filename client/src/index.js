@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
 
 
 class GoToButton extends React.Component {
@@ -75,11 +76,43 @@ class NameForm extends React.Component {
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit() {
     //send the input to the http/mqtt http_server
-    
+    //console.log('alert not sent');
     alert('A destination point was submitted: ' + this.state.x + ', ' + this.state.y);
-    event.preventDefault();
+    //console.log("alert sent");
+    alert('point sent' + JSON.stringify(this.state));
+    const test = { test: "This is a test" };
+    const point = {
+      x: this.state.x,
+      y: this.state.y
+    };
+    axios.get('http://localhost:3001/api');
+    axios.post(
+  'http://localhost:3001/sendInfo',
+    //test
+
+  { point }
+  //{ headers: { 'Content-Type': 'application/json' } }
+).then(response => {
+    console.log(response);
+    return response.json();
+  });
+    /*fetch('http://localhost:3001/sendInfo', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+
+        // We convert the React state to JSON and send it as the POST body
+        body: JSON.stringify(this.state)
+
+      }).then(function(response) {
+        console.log(response);
+        return response.json();
+      })
+      .catch((ex) => {
+   console.log('parsing failed', ex)
+ });*/
+    //event.preventDefault();
   }
 
   render() {
