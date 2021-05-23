@@ -32,7 +32,7 @@ process.exit(1)});
 
 function publish(topic,msg,options){
 	var startTime = new Date();
-console.log("trying to publish",msg);
+//console.log("trying to publish",msg);
 
 if (client.connected == true){
 	console.log("publishing",msg);
@@ -44,7 +44,7 @@ if (client.connected == true){
 count+=1;
 //if (count==2)  //ens script
 	//clearTimeout(timer_id); //stop timer
-	//client.end();
+	client.end();
 }
 
 //////////////
