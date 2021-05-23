@@ -15,10 +15,10 @@ client.on('message', (topic, message, packet) => {
 client.on("connect", () => {
 console.log("connected");
 //client.end();
-var options={
+/*var options={
 retain:true,
-qos:1};
-publish("comm/laptoptest", "hello",options);
+qos:1};*/
+//publish("comm/laptoptest", "hello",options);
 
 })
 
