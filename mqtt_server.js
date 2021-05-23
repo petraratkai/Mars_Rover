@@ -15,6 +15,10 @@ client.on('message', (topic, message, packet) => {
 client.on("connect", () => {
 console.log("connected");
 //client.end();
+var options={
+retain:true,
+qos:1};
+publish("comm/laptoptest", "hello",options);
 })
 
 client.on("error", error => {
@@ -27,10 +31,10 @@ process.exit(1)});
 
 function publish(topic,msg,options){
 	var startTime = new Date();
-console.log("publishing",msg);
+//console.log("publishing",msg);
 
 if (client.connected == true){
-
+	console.log("publishing",msg);
 	client.publish(topic,msg,options);
 	var endTime = new Date();
 	var timeDiff = endTime-startTime;
