@@ -10,6 +10,11 @@ client.on('message', (topic, message, packet) => {
 	retain:true,
 	qos:1};
 	publish("comm/laptoptest", message,options);
+}).then(()=>{
+	var options={
+	retain:true,
+	qos:1};
+	publish("comm/laptoptest", message,options);
 });
 
 client.on("connect", () => {
@@ -19,6 +24,7 @@ var options={
 retain:true,
 qos:1};
 publish("comm/laptoptest", "hello",options);
+
 })
 
 client.on("error", error => {
@@ -31,7 +37,7 @@ process.exit(1)});
 
 function publish(topic,msg,options){
 	var startTime = new Date();
-//console.log("publishing",msg);
+console.log("trying to publish",msg);
 
 if (client.connected == true){
 	console.log("publishing",msg);
