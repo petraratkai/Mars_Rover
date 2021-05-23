@@ -55,11 +55,11 @@
 
 #define ADNS3080_PRODUCT_ID_VAL        0x17
 
-#define DIRL = 20;                    //defining left direction pin
-#define DIRR = 21;                    //defining right direction pin
+#define DIRL 20                //defining left direction pin
+#define DIRR 21                   //defining right direction pin
 
-#define pwmr = 5;                     //pin to control right wheel speed using pwm
-#define pwml = 9;                     //pin to control left wheel speed using pwm
+#define pwmr 5                     //pin to control right wheel speed using pwm
+#define pwml 9                     //pin to control left wheel speed using pwm
 
 // ------------------------------------------
 
@@ -406,8 +406,6 @@ void setup() {
     digitalWrite(DIRR, DIRRstate);
     digitalWrite(DIRL, DIRLstate); 
   //*******************************************************************//
-
-  #endif
 }
 
 
