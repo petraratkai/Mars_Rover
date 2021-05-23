@@ -81,38 +81,23 @@ class NameForm extends React.Component {
     //console.log('alert not sent');
     alert('A destination point was submitted: ' + this.state.x + ', ' + this.state.y);
     //console.log("alert sent");
-    alert('point sent' + JSON.stringify(this.state));
+    //alert('point sent' + JSON.stringify(this.state));
     const test = { test: "This is a test" };
     const point = {
       x: this.state.x,
       y: this.state.y
     };
-    axios.get('http://localhost:3001/api');
+    //axios.get('http://localhost:3001/api');
     axios.post(
   'http://localhost:3001/sendInfo',
     //test
 
-  { point }
   //{ headers: { 'Content-Type': 'application/json' } }
 ).then(response => {
     console.log(response);
     return response.json();
   });
-    /*fetch('http://localhost:3001/sendInfo', {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
 
-        // We convert the React state to JSON and send it as the POST body
-        body: JSON.stringify(this.state)
-
-      }).then(function(response) {
-        console.log(response);
-        return response.json();
-      })
-      .catch((ex) => {
-   console.log('parsing failed', ex)
- });*/
-    //event.preventDefault();
   }
 
   render() {
@@ -150,8 +135,10 @@ class Game extends React.Component {
     return <NameForm />;
   }
   render() {
+    const title = 'MARS ROVER';
     return (
       <div className="game">
+        <div className="title">{title}</div>
         <div className="game-board">
           <Board />
         </div>
