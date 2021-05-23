@@ -42,7 +42,7 @@ if (client.connected == true){
 	console.log("time took to publish: " + timeDiff + "ms");
 }
 count+=1;
-if (count==10)  //ens script
+if (count==1)  //ens script
 {
 	clearTimeout(timer_id); //stop timer
 	client.end();
@@ -62,7 +62,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic,{qos:1}); //single topic
 //client.subscribe(topic_list,{qos:1}); //topic list
 //client.subscribe(topic_o); //object
-publish("comm/laptoptest",message,options);
+//publish("comm/laptoptest",message,options);
 client.subscribe("control/esptest"/*, function(){publish("comm/laptoptest",message,options);}*/);
 
 
