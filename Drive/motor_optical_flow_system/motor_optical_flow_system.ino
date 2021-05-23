@@ -78,7 +78,7 @@ float uv_max=4, uv_min=0; //anti-windup limitation
 float ui_max=1, ui_min=0; //anti-windup limitation
 float current_limit = 1.0;
 boolean Boost_mode = 0;
-boolean CL_mode = 0;
+boolean CL_mode = 1;
 
 
 unsigned int loopTrigger;
@@ -253,21 +253,21 @@ void setup() {
   pinMode(DIRL, OUTPUT);
   pinMode(pwmr, OUTPUT);
   pinMode(pwml, OUTPUT);
-  analogWrite(pwmr, 200);       //setting right motor speed at maximum
-  analogWrite(pwml, 200);       //setting left motor speed at maximum
+  digitalWrite(pwmr, HIGH);       //setting right motor speed at maximum
+  digitalWrite(pwml, HIGH);       //setting left motor speed at maximum
   //*******************************************************************//
 
   //----------------------- SMPS -----------------------------//
   //Basic pin setups
   
   noInterrupts(); //disable all interrupts
-  pinMode(13, OUTPUT);  //Pin13 is used to time the loops of the controller
   pinMode(3, INPUT_PULLUP); //Pin3 is the input from the Buck/Boost switch
   pinMode(2, INPUT_PULLUP); // Pin 2 is the input from the CL/OL switch
   analogReference(EXTERNAL); // We are using an external analogue reference for the ADC
 
   //---------------------------------------------------------//
 
+  /*
   //++++++++++++++++++++++ Optical Flow Sensor ++++++++++++++//
   pinMode(PIN_SS,OUTPUT);
   pinMode(PIN_MISO,INPUT);
@@ -287,7 +287,7 @@ void setup() {
     while(1);
   }
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-
+  */
   // TimerA0 initialization for control-loop interrupt.
   
   TCA0.SINGLE.PER = 999; //
@@ -311,19 +311,8 @@ void setup() {
  void loop() {
   unsigned long currentMillis = millis();
   if(loopTrigger) { // This loop is triggered, it wont run unless there is an interrupt
-    
-    digitalWrite(13, HIGH);   // set pin 13. Pin13 shows the time consumed by each control cycle. It's used for debugging.
-    
-    // Sample all of the measurements and check which control mode we are in
+
     sampling();
-    CL_mode = digitalRead(3); // input from the OL_CL switch
-    Boost_mode = digitalRead(2); // input from the Buck_Boost switch
-   
-    // Closed Loop Buck
-    // The closed loop path has a voltage controller cascaded with a current controller. The voltage controller
-    // creates a current demand based upon the voltage error. This demand is saturated to give current limiting.
-    // The current loop then gives a duty cycle demand based upon the error between demanded current and measured
-    // current
     current_limit = 3; // Buck has a higher current limit
     ev = vref - vb;  //voltage error at this time
     cv=pidv(ev);  //voltage pid
@@ -332,10 +321,10 @@ void setup() {
     closed_loop=pidi(ei);  //current pid
     closed_loop=saturation(closed_loop,0.99,0.01);  //duty_cycle saturation
     pwm_modulate(closed_loop); //pwm modulation
-
-    digitalWrite(13, LOW);   // reset pin13.
+    
     loopTrigger = 0;
 
+    /*
     // ------------Update OFS ---------------//
     int val = mousecam_read_reg(ADNS3080_PIXEL_SUM);
     MD md;
@@ -365,6 +354,7 @@ void setup() {
     Serial.println("Distance_y = " + String(total_y));
     Serial.print('\n');
     //---------------------------------------//
+    */
   }
   
   //************************** Motor Testing **************************//
@@ -403,8 +393,8 @@ void setup() {
     
   }
 
-    digitalWrite(DIRR, DIRRstate);
-    digitalWrite(DIRL, DIRLstate); 
+  digitalWrite(DIRR, DIRRstate);
+  digitalWrite(DIRL, DIRLstate); 
   //*******************************************************************//
 }
 
