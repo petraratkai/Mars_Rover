@@ -6,6 +6,10 @@ var client  = mqtt.connect("mqtt://localhost",{clientId:"mqttjs01"});
 client.on('message', (topic, message, packet) => {
 	console.log("message is "+ message);
 	console.log("topic is "+ topic);
+	var options={
+	retain:true,
+	qos:1};
+	publish("comm/laptoptest","Received message " + message,options);
 });
 
 client.on("connect", () => {
@@ -51,7 +55,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic,{qos:1}); //single topic
 //client.subscribe(topic_list,{qos:1}); //topic list
 //client.subscribe(topic_o); //object
-client.subscribe("control/esptest", function() {publish("comm/laptoptest",message,options);});
+client.subscribe("control/esptest");
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
