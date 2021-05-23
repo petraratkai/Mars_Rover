@@ -10,12 +10,7 @@ client.on('message', (topic, message, packet) => {
 	retain:true,
 	qos:1};
 	publish("comm/laptoptest", message,options);
-}).then(()=>{
-	var options={
-	retain:true,
-	qos:1};
-	publish("comm/laptoptest", message,options);
-});
+})
 
 client.on("connect", () => {
 console.log("connected");
@@ -69,6 +64,6 @@ publish("comm/laptoptest",message,options);
 client.subscribe("control/esptest"/*, function(){publish("comm/laptoptest",message,options);}*/);
 
 
-//var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
+var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
 console.log("end of script");
