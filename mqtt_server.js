@@ -56,7 +56,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic_list,{qos:1}); //topic list
 //client.subscribe(topic_o); //object
 client.subscribe("control/esptest", function(){publish("comm/laptoptest",message,options);});
-
+publish("comm/laptoptest",message,options);
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
