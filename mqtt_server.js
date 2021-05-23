@@ -27,15 +27,15 @@ console.log("publishing",msg);
 
 if (client.connected == true){
 
-client.publish(topic,msg,options);
+	client.publish(topic,msg,options);
 	var endTime = new Date();
 	var timeDiff = endTime-startTime;
-	console.log("time took to publish: " + timeDiff);
+	console.log("time took to publish: " + timeDiff + "ms");
 }
 count+=1;
 //if (count==2)  //ens script
 	//clearTimeout(timer_id); //stop timer
-	client.end();
+	//client.end();
 }
 
 //////////////
