@@ -9,7 +9,7 @@ client.on('message', (topic, message, packet) => {
 	var options={
 	retain:true,
 	qos:1};
-	//publish("comm/laptoptest", message,options);
+	publish("comm/laptoptest", message,options);
 })
 
 client.on("connect", () => {
@@ -42,7 +42,7 @@ if (client.connected == true){
 	console.log("time took to publish: " + timeDiff + "ms");
 }
 count+=1;
-if (count==100)  //ens script
+if (count==5)  //ens script
 {
 	//clearTimeout(timer_id); //stop timer
 	client.end();
