@@ -66,6 +66,6 @@ console.log("subscribing to topics");
 client.subscribe("control/esptest"/*, function(){publish("comm/laptoptest",message,options);}*/);
 
 
-var timer_id=setInterval(function(){publish("comm/laptoptest",message + Math.random(),options);},5000);
+var timer_id=setInterval(function(){publish("comm/laptoptestb",message + Math.random(),options);},5000);
 //notice this is printed even before we connect
 console.log("end of script");
