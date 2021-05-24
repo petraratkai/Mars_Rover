@@ -138,9 +138,9 @@ int convTwosComp(int b){
 
 void mousecam_reset(){
   digitalWrite(PIN_MOUSECAM_RESET,HIGH);
-  delay(1); // reset pulse >10us
+  delayMicroseconds(50); // reset pulse >10us
   digitalWrite(PIN_MOUSECAM_RESET,LOW);
-  delay(35); // 35ms from reset to functional
+  delayMicroseconds(3500); // 35ms from reset to functional
 }
 
 int mousecam_init(){
@@ -157,7 +157,6 @@ int mousecam_init(){
 
   // turn on sensitive mode
   mousecam_write_reg(ADNS3080_CONFIGURATION_BITS, 0x19);
-
   return 0;
 }
 
@@ -267,7 +266,6 @@ void setup() {
 
   //---------------------------------------------------------//
 
-  /*
   //++++++++++++++++++++++ Optical Flow Sensor ++++++++++++++//
   pinMode(PIN_SS,OUTPUT);
   pinMode(PIN_MISO,INPUT);
@@ -278,16 +276,16 @@ void setup() {
   SPI.setClockDivider(SPI_CLOCK_DIV32);
   SPI.setDataMode(SPI_MODE3);
   SPI.setBitOrder(MSBFIRST);
-
+  
   Serial.begin(38400);
-
+  
   if(mousecam_init()==-1)
   {
     Serial.println("Mouse cam failed to init");
     while(1);
   }
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-  */
+  
   // TimerA0 initialization for control-loop interrupt.
   
   TCA0.SINGLE.PER = 255;
@@ -324,7 +322,6 @@ void setup() {
     
     loopTrigger = 0;
 
-    /*
     // ------------Update OFS ---------------//
     int val = mousecam_read_reg(ADNS3080_PIXEL_SUM);
     MD md;
@@ -354,7 +351,6 @@ void setup() {
     Serial.println("Distance_y = " + String(total_y));
     Serial.print('\n');
     //---------------------------------------//
-    */
   }
   
   //************************** Motor Testing **************************//
@@ -364,12 +360,16 @@ void setup() {
   if (currentMillis < f_i) {
     DIRRstate = HIGH;
     DIRLstate = LOW;
+    analogWrite(pwmr, 255);       
+    analogWrite(pwml, 255);
     
   }
   //rotating clockwise
   if (currentMillis > f_i && currentMillis <r_i) {
     DIRRstate = HIGH;
     DIRLstate = HIGH;
+    analogWrite(pwmr, 200);       
+    analogWrite(pwml, 200);
     
   }
 
@@ -377,12 +377,15 @@ void setup() {
   if (currentMillis > r_i && currentMillis <b_i) {
     DIRRstate = LOW;
     DIRLstate = HIGH;
-    
+    analogWrite(pwmr, 150);       
+    analogWrite(pwml, 150);
   }
   //rotating anticlockwise
   if (currentMillis > b_i && currentMillis <l_i) {
     DIRRstate = LOW;
     DIRLstate = LOW;
+    analogWrite(pwmr, 100);       
+    analogWrite(pwml, 100);
     
   }
 
@@ -390,6 +393,8 @@ void setup() {
   if (currentMillis > l_i) {
     DIRRstate = LOW;
     DIRLstate = LOW;
+    analogWrite(pwmr, 50);       
+    analogWrite(pwml, 50);
     
   }
 
