@@ -44,7 +44,7 @@ if (client.connected == true){
 count+=1;
 if (count==100)  //ens script
 {
-	clearTimeout(timer_id); //stop timer
+	//clearTimeout(timer_id); //stop timer
 	client.end();
 }
 }
