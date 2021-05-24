@@ -9,7 +9,7 @@ client.on('message', (topic, message, packet) => {
 	var options={
 	retain:true,
 	qos:1};
-	publish("comm/laptoptest", message,options);
+	//publish("comm/laptoptest", message,options);
 })
 
 client.on("connect", () => {
