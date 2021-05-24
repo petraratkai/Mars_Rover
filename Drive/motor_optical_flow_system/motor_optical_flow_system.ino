@@ -290,9 +290,9 @@ void setup() {
   */
   // TimerA0 initialization for control-loop interrupt.
   
-  TCA0.SINGLE.PER = 999; //
-  TCA0.SINGLE.CMP1 = 999; //
-  TCA0.SINGLE.CTRLA = TCA_SINGLE_CLKSEL_DIV16_gc | TCA_SINGLE_ENABLE_bm; //16 prescaler, 1M.
+  TCA0.SINGLE.PER = 255;
+  TCA0.SINGLE.CMP1 = 255;
+  TCA0.SINGLE.CTRLA = TCA_SINGLE_CLKSEL_DIV64_gc | TCA_SINGLE_ENABLE_bm;
   TCA0.SINGLE.INTCTRL = TCA_SINGLE_CMP1_bm; 
 
   // TimerB0 initialization for PWM output
