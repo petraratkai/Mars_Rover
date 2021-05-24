@@ -253,8 +253,8 @@ void setup() {
   pinMode(DIRL, OUTPUT);
   pinMode(pwmr, OUTPUT);
   pinMode(pwml, OUTPUT);
-  digitalWrite(pwmr, HIGH);       //setting right motor speed at maximum
-  digitalWrite(pwml, HIGH);       //setting left motor speed at maximum
+  analogWrite(pwmr, 200);       
+  analogWrite(pwml, 200);       
   //*******************************************************************//
 
   //----------------------- SMPS -----------------------------//
@@ -299,7 +299,7 @@ void setup() {
   
   pinMode(6, OUTPUT);
   TCB0.CTRLA=TCB_CLKSEL_CLKDIV1_gc | TCB_ENABLE_bm; //62.5kHz
-  analogWrite(6,120); 
+  analogWrite(6, 120); 
 
   interrupts();  //enable interrupts.
   Wire.begin(); // We need this for the i2c comms for the current sensor
