@@ -4,7 +4,7 @@
  * duty-cycle saturation is set as 2% - 98%
  * Control frequency is set as 1.25kHz. 
  * 
- * This program is an apaptation of Yue Zhu's work, combined with the sample code provided for the EE2 Rover.
+ * This program is an adaptation of Yue Zhu's work, combined with the sample code provided for the EE2 Rover.
  * Author, Miles Grist
  * Date, May 2021
  * 
@@ -104,11 +104,11 @@ int DIRLstate = HIGH;
 //*******************************************************************//
 
 //************************** Optical Flow Sensor **************************//
-int total_x = 0;
-int total_y = 0;
+int total_x = 0; // mm
+int total_y = 0; // mm
 
-int total_x1 = 0;
-int total_y1 = 0;
+int total_x1 = 0; // pixels
+int total_y1 = 0; // pixels
 
 int x=0;
 int y=0;
@@ -128,10 +128,12 @@ byte frame[ADNS3080_PIXELS_X * ADNS3080_PIXELS_Y];
 //*******************************************************************//
 
 //************************ Control Variables ***************************//
-enum command_state {standby, move, rotate, stop};
+enum command_state {rover_standby, rover_move, rover_rotate, rover_stop};
 enum motor_dir {fwd, bck, cw, ccw};
 
-int current_command_state = standby;
+command_state current_command_state = rover_standby;
+float target_dist = 0; // in mm
+float target_angle = 0; // in degrees
 //**********************************************************************//
 
 struct MD{
@@ -365,6 +367,22 @@ void setup() {
     Serial.println("Distance_y = " + String(total_y));
     Serial.print('\n');
     //---------------------------------------//
+
+    switch(current_command_state){
+      case rover_standby:
+        break;
+      case rover_move:
+        break;
+      case rover_rotate:
+        roverStandby();
+        break;
+      case rover_stop:
+        roverStandby();
+        break;
+      default:
+        roverStandby();
+        break;
+    }
   }
   
   //************************** Motor Testing **************************//
@@ -372,33 +390,25 @@ void setup() {
   
   //moving forwards
   if (currentMillis < f_i) {
-    setMotorDirection(fwd);
-    setMotorDelta(0);
+    roverStandby();
   }
   //rotating clockwise
   if (currentMillis > f_i && currentMillis <r_i) {
-    setMotorDirection(fwd);
-    setMotorDelta(110);
-    
+    roverMove(100.0f);
   }
 
   //moving backwards
   if (currentMillis > r_i && currentMillis <b_i) {
-    setMotorDirection(fwd);
-    setMotorDelta(-110);
+    roverStandby();
   }
   //rotating anticlockwise
   if (currentMillis > b_i && currentMillis <l_i) {
-    setMotorDirection(bck);
-    setMotorDelta(0);
-    
+    roverStandby();
   }
 
   //set your states
   if (currentMillis > l_i) {
-    setMotorDirection(cw);
-    setMotorDelta(0);
-    
+    roverStandby();
   }
 
   digitalWrite(DIRR, DIRRstate);
@@ -554,4 +564,55 @@ void setMotorDelta(int delta){
   analogWrite(pwml, 200 - d/2);  
 }
 
+void stopMotors(){
+  analogWrite(pwmr, 0);
+  analogWrite(pwml, 0);
+}
+
 //******************************************************************//
+
+//************************* Rover Commands ************************//
+
+void clearOFSTotal(){
+  total_x1 = 0;
+  total_y1 = 0;
+  total_x = 0;
+  total_y = 0;
+}
+
+void roverStandby(){
+  current_command_state = rover_standby;
+  target_dist = 0;
+  target_angle = 0;
+  stopMotors();
+  clearOFSTotal();
+}
+
+// Switches the drive system to the move state
+void roverMove(float dist){
+  current_command_state = rover_move;
+  target_dist = dist;
+  target_angle = 0;
+  if (dist > 0){
+    setMotorDirection(fwd);
+  } else {
+    setMotorDirection(bck);
+  }
+  setMotorDelta(0);
+  // ADD output of totals before clearing them in case the command is interrupting something prematurely
+  // output_distance_heading()
+  clearOFSTotal();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//****************************************************************//
