@@ -73,7 +73,8 @@
 INA219_WE ina219; // this is the instantiation of the library for the current sensor
 
 float open_loop, closed_loop; // Duty Cycles
-float vpd,vb,vref,iL,dutyref,current_mA; // Measurement Variables
+float vpd,vb,iL,dutyref,current_mA; // Measurement Variables
+float vref = 2;
 unsigned int sensorValue0,sensorValue1,sensorValue2,sensorValue3;  // ADC sample values declaration
 float ev=0,cv=0,ei=0,oc=0; //internal signals
 float Ts=0.0008; //1.25 kHz control frequency. It's better to design the control period as integral multiple of switching period.
@@ -322,7 +323,8 @@ void setup() {
   
 }
 
- void loop() {
+bool t = true;
+void loop() {
   unsigned long currentMillis = millis();
   if(loopTrigger) { // This loop is triggered, it wont run unless there is an interrupt
 
@@ -370,8 +372,14 @@ void setup() {
 
     switch(current_command_state){
       case rover_standby:
+        vref = 2;
         break;
       case rover_move:
+        vref = 2 + 0.02*(target_dist - total_y);
+        setMotorDelta(10*total_x1);
+        if ((target_dist - total_y) < 1){
+          roverStandby();
+        }
         break;
       case rover_rotate:
         roverStandby();
@@ -394,7 +402,10 @@ void setup() {
   }
   //rotating clockwise
   if (currentMillis > f_i && currentMillis <r_i) {
-    roverMove(100.0f);
+    if (t){
+      roverMove(100.0f);
+      t = false;
+    }
   }
 
   //moving backwards
@@ -442,7 +453,7 @@ void sampling(){
   
   vb = sensorValue0 * (4.096 / 1023.0); // Convert the Vb sensor reading to volts
   //vref = sensorValue2 * (4.096 / 1023.0); // Convert the Vref sensor reading to volts
-  vref = 4;
+  //vref = 4;
   vpd = sensorValue3 * (4.096 / 1023.0); // Convert the Vpd sensor reading to volts
 
   // The inductor current is in mA from the sensor so we need to convert to amps.
@@ -558,8 +569,8 @@ void setMotorDirection(motor_dir dir){
 }
 
 // delta represents the difference between the motor pwm, used to account for asymmetry of motors in the control loop
-void setMotorDelta(int delta){
-  int d = (delta > 110) ? 55 : delta/2; // Limit delta
+void setMotorDelta(float delta){
+  int d = (delta > 110) ? 55 : (int)delta/2; // Limit delta
   analogWrite(pwmr, 200 + d/2);       
   analogWrite(pwml, 200 - d/2);  
 }
