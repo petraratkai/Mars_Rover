@@ -95,7 +95,7 @@ unsigned int com_count=0;   // a variables to count the interrupts. Used for pro
 
 //************************** Motor Constants **************************//
 unsigned long previousMillis = 0; //initializing time counter
-const long f_i = 10000;           //time to move in forward direction, please calculate the precision and conversion factor
+const long f_i = 2000;           //time to move in forward direction, please calculate the precision and conversion factor
 const long r_i = 20000;           //time to rotate clockwise
 const long b_i = 30000;           //time to move backwards
 const long l_i = 40000;           //time to move anticlockwise
@@ -135,6 +135,7 @@ enum motor_dir {fwd, bck, cw, ccw};
 command_state current_command_state = rover_standby;
 float target_dist = 0; // in mm
 float target_angle = 0; // in degrees
+int target_x_change = 0; // in pixels, converted from the target angle
 //**********************************************************************//
 
 struct MD{
@@ -324,6 +325,7 @@ void setup() {
 }
 
 bool t = true;
+bool t2 = true;
 void loop() {
   unsigned long currentMillis = millis();
   if(loopTrigger) { // This loop is triggered, it wont run unless there is an interrupt
@@ -372,16 +374,21 @@ void loop() {
 
     switch(current_command_state){
       case rover_standby:
-        vref = 2;
+        vref = 1;
         break;
       case rover_move:
-        vref = 2 + 0.02*(target_dist - total_y);
-        setMotorDelta(10*total_x1);
+        vref = 1.5 + 0.005*(target_dist - total_y); // reduced accuracy
+        setMotorDelta(5*total_x1);
         if ((target_dist - total_y) < 1){
           roverStandby();
         }
         break;
       case rover_rotate:
+        vref = 1.5 + 0.005*(target_x_change - total_x1);
+        setMotorDelta(5*total_y1);
+        if ((target_x_change - total_x1) < 2){
+          roverStandby();
+        }
         roverStandby();
         break;
       case rover_stop:
@@ -403,7 +410,7 @@ void loop() {
   //rotating clockwise
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(100.0f);
+      roverRotate(90.0f);
       t = false;
     }
   }
@@ -584,6 +591,7 @@ void stopMotors(){
 
 //************************* Rover Commands ************************//
 
+// Resets totals measured from the optical flow sensor
 void clearOFSTotal(){
   total_x1 = 0;
   total_y1 = 0;
@@ -591,6 +599,7 @@ void clearOFSTotal(){
   total_y = 0;
 }
 
+// Switches the drive system to the rover_standby state
 void roverStandby(){
   current_command_state = rover_standby;
   target_dist = 0;
@@ -599,7 +608,7 @@ void roverStandby(){
   clearOFSTotal();
 }
 
-// Switches the drive system to the move state
+// Switches the drive system to the rover_move state
 void roverMove(float dist){
   current_command_state = rover_move;
   target_dist = dist;
@@ -615,10 +624,20 @@ void roverMove(float dist){
   clearOFSTotal();
 }
 
-
-
-
-
+// Switches the drive system to the rover_rotate state
+void roverRotate(float angle){
+  current_command_state = rover_rotate;
+  target_dist = 0;
+  target_angle = angle;
+  target_x_change = (int)(angle*41.1f);
+  if (angle > 0){
+    setMotorDirection(ccw);
+  } else {
+    setMotorDirection(cw);
+  }
+  setMotorDelta(0);
+  clearOFSTotal();
+}
 
 
 
