@@ -52,64 +52,9 @@ drive_smps smps;
 
 
 void setup() {
-
-  //************************** Motor Pins **************************//
-  pinMode(DIRR, OUTPUT);
-  pinMode(DIRL, OUTPUT);
-  pinMode(pwmr, OUTPUT);
-  pinMode(pwml, OUTPUT);
-  analogWrite(pwmr, 0);       
-  analogWrite(pwml, 0);       
-  //*******************************************************************//
-
-  //----------------------- SMPS -----------------------------//
-  //Basic pin setups
-  
-  noInterrupts(); //disable all interrupts
-  pinMode(3, INPUT_PULLUP); //Pin3 is the input from the Buck/Boost switch
-  pinMode(2, INPUT_PULLUP); // Pin 2 is the input from the CL/OL switch
-  analogReference(EXTERNAL); // We are using an external analogue reference for the ADC
-
-  //---------------------------------------------------------//
-
-  //++++++++++++++++++++++ Optical Flow Sensor ++++++++++++++//
-  pinMode(PIN_SS,OUTPUT);
-  pinMode(PIN_MISO,INPUT);
-  pinMode(PIN_MOSI,OUTPUT);
-  pinMode(PIN_SCK,OUTPUT);
-  
-  SPI.begin();
-  SPI.setClockDivider(SPI_CLOCK_DIV32);
-  SPI.setDataMode(SPI_MODE3);
-  SPI.setBitOrder(MSBFIRST);
-  
-  Serial.begin(38400);
-  
-  if(ofs.mousecam_init()==-1)
-  {
-    Serial.println("Mouse cam failed to init");
-    while(1);
-  }
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-  
-  // TimerA0 initialization for control-loop interrupt.
-  
-  TCA0.SINGLE.PER = 255;
-  TCA0.SINGLE.CMP1 = 255;
-  TCA0.SINGLE.CTRLA = TCA_SINGLE_CLKSEL_DIV64_gc | TCA_SINGLE_ENABLE_bm;
-  TCA0.SINGLE.INTCTRL = TCA_SINGLE_CMP1_bm; 
-
-  // TimerB0 initialization for SMPS PWM output
-  
-  pinMode(6, OUTPUT);
-  TCB0.CTRLA=TCB_CLKSEL_CLKDIV1_gc | TCB_ENABLE_bm; //62.5kHz
-  analogWrite(6, 120); 
-
-  interrupts();  //enable interrupts.
-  Wire.begin(); // We need this for the i2c comms for the current sensor
-  ina219.init(); // this initiates the current sensor
-  Wire.setClock(700000); // set the comms speed for i2c
-  
+  smps.setup();
+  motor.setup();     
+  ofs.setup();
 }
  
 bool t = true;
@@ -190,7 +135,6 @@ void loop() {
 
 // Timer A CMP1 interrupt. Every 800us the program enters this interrupt. 
 // This, clears the incoming interrupt flag and triggers the main loop.
-
 ISR(TCA0_CMP1_vect){
   TCA0.SINGLE.INTFLAGS |= TCA_SINGLE_CMP1_bm; //clear interrupt flag
   loopTrigger = 1;

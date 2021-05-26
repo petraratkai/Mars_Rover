@@ -47,3 +47,12 @@ void drive_motor::update(){
     digitalWrite(DIRR, DIRRstate);
     digitalWrite(DIRL, DIRLstate);
 }
+
+void drive_motor::setup(){
+    pinMode(DIRR, OUTPUT);
+    pinMode(DIRL, OUTPUT);
+    pinMode(pwmr, OUTPUT);
+    pinMode(pwml, OUTPUT);
+    analogWrite(pwmr, 0);       
+    analogWrite(pwml, 0);  
+}

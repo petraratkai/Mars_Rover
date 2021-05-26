@@ -38,4 +38,5 @@ public:
     float vref = 2;
     
     void update();
+    void setup();
 };

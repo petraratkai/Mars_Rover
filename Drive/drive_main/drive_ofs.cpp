@@ -85,6 +85,26 @@ void drive_ofs::update(MD *p){
     total_y = 10*total_y1/157; //Conversion from counts per inch to mm (400 counts per inch)
 }
 
+void drive_ofs::setup(){
+  pinMode(PIN_SS,OUTPUT);
+  pinMode(PIN_MISO,INPUT);
+  pinMode(PIN_MOSI,OUTPUT);
+  pinMode(PIN_SCK,OUTPUT);
+  
+  SPI.begin();
+  SPI.setClockDivider(SPI_CLOCK_DIV32);
+  SPI.setDataMode(SPI_MODE3);
+  SPI.setBitOrder(MSBFIRST);
+  
+  Serial.begin(38400);
+  
+  if(mousecam_init()==-1)
+  {
+    Serial.println("Mouse cam failed to init");
+    while(1);
+  }
+}
+
 void drive_ofs::clear(){
     total_x1 = 0;
     total_y1 = 0;

@@ -18,5 +18,7 @@ public:
     void setMotorDirection(motor_dir dir);
     void setMotorDelta(float delta);
     void stopMotors();
+
     void update();
+    void setup();
 };

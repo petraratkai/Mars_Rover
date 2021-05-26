@@ -106,3 +106,28 @@ void drive_smps::update(){
   closed_loop=saturation(closed_loop,0.99,0.01);  //duty_cycle saturation
   pwm_modulate(closed_loop); //pwm modulation
 }
+
+void drive_smps::setup(){
+  noInterrupts(); //disable all interrupts
+  pinMode(3, INPUT_PULLUP); //Pin3 is the input from the Buck/Boost switch
+  pinMode(2, INPUT_PULLUP); // Pin 2 is the input from the CL/OL switch
+  analogReference(EXTERNAL); // We are using an external analogue reference for the ADC
+
+  // TimerA0 initialization for control-loop interrupt.
+  
+  TCA0.SINGLE.PER = 255;
+  TCA0.SINGLE.CMP1 = 255;
+  TCA0.SINGLE.CTRLA = TCA_SINGLE_CLKSEL_DIV64_gc | TCA_SINGLE_ENABLE_bm;
+  TCA0.SINGLE.INTCTRL = TCA_SINGLE_CMP1_bm; 
+
+  // TimerB0 initialization for SMPS PWM output
+  
+  pinMode(6, OUTPUT);
+  TCB0.CTRLA=TCB_CLKSEL_CLKDIV1_gc | TCB_ENABLE_bm; //62.5kHz
+  analogWrite(6, 120); 
+
+  interrupts();  //enable interrupts.
+  Wire.begin(); // We need this for the i2c comms for the current sensor
+  ina219.init(); // this initiates the current sensor
+  Wire.setClock(700000); // set the comms speed for i2c
+}
