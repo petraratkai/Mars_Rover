@@ -4,9 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
+import './assets/css/bootstrap.min.css'
+import './assets/css/light-bootstrap-dashboard.css'
+import './assets/css/dashboard.css'
 
 
-class GoToButton extends React.Component {
+/*class GoToButton extends React.Component {
   render() {
     return (
       <button className="goto">
@@ -20,7 +23,7 @@ class Square extends React.Component {
   render() {
     return (
       <button className="square">
-        {/* TODO */}
+        {}
       </button>
     );
   }
@@ -143,8 +146,8 @@ class Game extends React.Component {
           <Board />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
+          <div>{}</div>
+          <ol>{}</ol>
         </div>
         <div className="nameform">
           <div> {this.renderNameForm()} </div>
@@ -152,14 +155,13 @@ class Game extends React.Component {
       </div>
     );
   }
-}
+}*/
 
 
 
 // ========================================
 ReactDOM.render(
   <React.StrictMode>
-    <Game />
     <App />
   </React.StrictMode>,
   document.getElementById('root')

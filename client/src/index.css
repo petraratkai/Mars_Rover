@@ -37,19 +37,20 @@ ol, ul {
   width: 34px;
 }
 
-.goto {
+.mapbackground {
   background: #fff;
   border: 1px solid #999;
-  float: left;
+  float: center;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
+  height: 440px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 200px;
+  width: 440px;
+
 }
 
 .square:focus {
@@ -70,4 +71,31 @@ ol, ul {
 }
 
 .nameform {
+}
+
+.menu {
+  width: 200px;
+  height: 400px;
+  background: #456;
+}
+
+.block-icon {
+  position: relative;
+  display: inline-flex;
+}
+
+.ball {
+  position: absolute;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+.rover {
+  position: absolute;
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  z-index: 1;
+
 }

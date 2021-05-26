@@ -21,8 +21,24 @@ app.use(cors());
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from the server!"});
 });
+var x = 0;
+var y = 0;
 
-app.post('/sendInfo', function(req, res) {
+app.get("/rover", (req, res) => {
+  x+=0.1;
+  y+=0.1;
+  //console.log("rover pos request received");
+  res.send("{\"x\": " + x%100 + ", \"y\": " + y%100 + "}");
+})
+var i = 0;
+app.get("/balls", (req, res) => {
+  i++;
+  console.log("ball request received");
+  if(i<2)
+  res.send("{\"x\": " + 30 + ", \"y\": " + 10 + "}")
+})
+
+app.post('/sendInfo', (req, res) => {
     //var input = JSON.parse(req);
     //console.log(JSON.stringify(req.headers));
     console.log("recieved request: " + JSON.stringify(req.body));
