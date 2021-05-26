@@ -16,13 +16,13 @@ switch (dir)
     break;
 
   case cw:
-    DIRRstate = LOW;
-    DIRLstate = LOW;
+    DIRRstate = HIGH;
+    DIRLstate = HIGH;
     break;
 
   case ccw:
-    DIRRstate = HIGH;
-    DIRLstate = HIGH;
+    DIRRstate = LOW;
+    DIRLstate = LOW;
     break;
   
   default:
