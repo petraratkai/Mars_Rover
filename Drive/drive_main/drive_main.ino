@@ -185,7 +185,7 @@ void loop() {
   //rotating clockwise
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(100.0f);
+      roverRotate(45.0f);
       t = false;
     }
   }

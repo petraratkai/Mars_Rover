@@ -346,6 +346,7 @@ void loop() {
     int val = mousecam_read_reg(ADNS3080_PIXEL_SUM);
     MD md;
     mousecam_read_motion(&md);
+    /*
     for(int i=0; i<md.squal/4; i++)
       Serial.print('*');
     Serial.print(' ');
@@ -354,7 +355,7 @@ void loop() {
     Serial.print(md.shutter); Serial.print(" (");
     Serial.print((int)md.dx); Serial.print(',');
     Serial.print((int)md.dy); Serial.println(')');
-
+    */
     // Serial.println(md.max_pix);
 
     distance_x = md.dx; //convTwosComp(md.dx);
@@ -366,10 +367,10 @@ void loop() {
     total_x = 10*total_x1/157; //Conversion from counts per inch to mm (400 counts per inch)
     total_y = 10*total_y1/157; //Conversion from counts per inch to mm (400 counts per inch)
   
-    Serial.print('\n');
-    Serial.println("Distance_x = " + String(total_x));
-    Serial.println("Distance_y = " + String(total_y));
-    Serial.print('\n');
+    //Serial.print('\n');
+    //Serial.println("Distance_x = " + String(total_x));
+    //Serial.println("Distance_y = " + String(total_y));
+    //Serial.print('\n');
     //---------------------------------------//
 
     switch(current_command_state){
@@ -384,12 +385,12 @@ void loop() {
         }
         break;
       case rover_rotate:
+        Serial.println("rotate state");
         vref = 1.5 + 0.005*(target_x_change - total_x1);
         setMotorDelta(5*total_y1);
-        if ((target_x_change - total_x1) < 2){
+        if ((target_x_change - total_x1) < 1){
           roverStandby();
         }
-        roverStandby();
         break;
       case rover_stop:
         roverStandby();
@@ -629,7 +630,7 @@ void roverRotate(float angle){
   current_command_state = rover_rotate;
   target_dist = 0;
   target_angle = angle;
-  target_x_change = (int)(angle*41.1f);
+  target_x_change = (int)(angle*41);
   if (angle > 0){
     setMotorDirection(ccw);
   } else {
