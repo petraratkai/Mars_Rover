@@ -16,54 +16,8 @@
 #include <INA219_WE.h>
 
 #include "drive_motor.hpp"
+#include "drive_ofs.hpp"
 
-// ------------ PIN DEFINITIONS --------------
-#define PIN_SS        10
-#define PIN_MISO      12
-#define PIN_MOSI      11
-#define PIN_SCK       13
-
-#define PIN_MOUSECAM_RESET     8
-#define PIN_MOUSECAM_CS        7
-
-#define ADNS3080_PIXELS_X                 30
-#define ADNS3080_PIXELS_Y                 30
-
-#define ADNS3080_PRODUCT_ID            0x00
-#define ADNS3080_REVISION_ID           0x01
-#define ADNS3080_MOTION                0x02
-#define ADNS3080_DELTA_X               0x03
-#define ADNS3080_DELTA_Y               0x04
-#define ADNS3080_SQUAL                 0x05
-#define ADNS3080_PIXEL_SUM             0x06
-#define ADNS3080_MAXIMUM_PIXEL         0x07
-#define ADNS3080_CONFIGURATION_BITS    0x0a
-#define ADNS3080_EXTENDED_CONFIG       0x0b
-#define ADNS3080_DATA_OUT_LOWER        0x0c
-#define ADNS3080_DATA_OUT_UPPER        0x0d
-#define ADNS3080_SHUTTER_LOWER         0x0e
-#define ADNS3080_SHUTTER_UPPER         0x0f
-#define ADNS3080_FRAME_PERIOD_LOWER    0x10
-#define ADNS3080_FRAME_PERIOD_UPPER    0x11
-#define ADNS3080_MOTION_CLEAR          0x12
-#define ADNS3080_FRAME_CAPTURE         0x13
-#define ADNS3080_SROM_ENABLE           0x14
-#define ADNS3080_FRAME_PERIOD_MAX_BOUND_LOWER      0x19
-#define ADNS3080_FRAME_PERIOD_MAX_BOUND_UPPER      0x1a
-#define ADNS3080_FRAME_PERIOD_MIN_BOUND_LOWER      0x1b
-#define ADNS3080_FRAME_PERIOD_MIN_BOUND_UPPER      0x1c
-#define ADNS3080_SHUTTER_MAX_BOUND_LOWER           0x1e
-#define ADNS3080_SHUTTER_MAX_BOUND_UPPER           0x1e
-#define ADNS3080_SROM_ID               0x1f
-#define ADNS3080_OBSERVATION           0x3d
-#define ADNS3080_INVERSE_PRODUCT_ID    0x3f
-#define ADNS3080_PIXEL_BURST           0x40
-#define ADNS3080_MOTION_BURST          0x50
-#define ADNS3080_SROM_LOAD             0x60
-
-#define ADNS3080_PRODUCT_ID_VAL        0x17
-
-// ------------------------------------------
 
 //************************** SMPS **************************//
 INA219_WE ina219; // this is the instantiation of the library for the current sensor
@@ -98,30 +52,6 @@ const long l_i = 40000;           //time to move anticlockwise
 const long s_i = 50000;    
 //*******************************************************************//
 
-//************************** Optical Flow Sensor **************************//
-int total_x = 0; // mm
-int total_y = 0; // mm
-
-int total_x1 = 0; // pixels
-int total_y1 = 0; // pixels
-
-int x=0;
-int y=0;
-
-int a=0;
-int b=0;
-
-int distance_x=0;
-int distance_y=0;
-
-int tdistance = 0;
-  
-volatile byte movementflag=0;
-volatile int xydat[2];
-
-byte frame[ADNS3080_PIXELS_X * ADNS3080_PIXELS_Y];
-//*******************************************************************//
-
 //************************ Control Variables ***************************//
 enum command_state {rover_standby, rover_move, rover_rotate, rover_stop};
 
@@ -131,132 +61,9 @@ float target_angle = 0; // in degrees
 int target_x_change = 0; // in pixels, converted from the target angle
 
 drive_motor motor;
+drive_ofs ofs;
 //**********************************************************************//
 
-struct MD{
- byte motion;
- char dx, dy;
- byte squal;
- word shutter;
- byte max_pix;
-};
-
-int convTwosComp(int b){
-  //Convert from 2's complement
-  if(b & 0x80){
-    b = -1 * ((b ^ 0xff) + 1);
-    }
-  return b;
-}
-
-void mousecam_reset(){
-  digitalWrite(PIN_MOUSECAM_RESET,HIGH);
-  delayMicroseconds(50); // reset pulse >10us
-  digitalWrite(PIN_MOUSECAM_RESET,LOW);
-  delayMicroseconds(3500); // 35ms from reset to functional
-}
-
-int mousecam_init(){
-  pinMode(PIN_MOUSECAM_RESET,OUTPUT);
-  pinMode(PIN_MOUSECAM_CS,OUTPUT);
-  
-  digitalWrite(PIN_MOUSECAM_CS,HIGH);
-  
-  mousecam_reset();
-  
-  int pid = mousecam_read_reg(ADNS3080_PRODUCT_ID);
-  if(pid != ADNS3080_PRODUCT_ID_VAL)
-    return -1;
-
-  // turn on sensitive mode
-  mousecam_write_reg(ADNS3080_CONFIGURATION_BITS, 0x19);
-  return 0;
-}
-
-void mousecam_write_reg(int reg, int val){
-  digitalWrite(PIN_MOUSECAM_CS, LOW);
-  SPI.transfer(reg | 0x80);
-  SPI.transfer(val);
-  digitalWrite(PIN_MOUSECAM_CS,HIGH);
-  delayMicroseconds(50);
-}
-
-int mousecam_read_reg(int reg){
-  digitalWrite(PIN_MOUSECAM_CS, LOW);
-  SPI.transfer(reg);
-  delayMicroseconds(75);
-  int ret = SPI.transfer(0xff);
-  digitalWrite(PIN_MOUSECAM_CS,HIGH); 
-  delayMicroseconds(1);
-  return ret;
-}
-
-char asciiart(int k)
-{
-  static char foo[] = "WX86*3I>!;~:,`. ";
-  return foo[k>>4];
-}
-
-void mousecam_read_motion(struct MD *p){
-  digitalWrite(PIN_MOUSECAM_CS, LOW);
-  SPI.transfer(ADNS3080_MOTION_BURST);
-  delayMicroseconds(75);
-  p->motion =  SPI.transfer(0xff);
-  p->dx =  SPI.transfer(0xff);
-  p->dy =  SPI.transfer(0xff);
-  p->squal =  SPI.transfer(0xff);
-  p->shutter =  SPI.transfer(0xff)<<8;
-  p->shutter |=  SPI.transfer(0xff);
-  p->max_pix =  SPI.transfer(0xff);
-  digitalWrite(PIN_MOUSECAM_CS,HIGH); 
-  delayMicroseconds(5);
-}
-
-// pdata must point to an array of size ADNS3080_PIXELS_X x ADNS3080_PIXELS_Y
-// you must call mousecam_reset() after this if you want to go back to normal operation
-int mousecam_frame_capture(byte *pdata)
-{
-  mousecam_write_reg(ADNS3080_FRAME_CAPTURE,0x83);
-  
-  digitalWrite(PIN_MOUSECAM_CS, LOW);
-  
-  SPI.transfer(ADNS3080_PIXEL_BURST);
-  delayMicroseconds(50);
-  
-  int pix;
-  byte started = 0;
-  int count;
-  int timeout = 0;
-  int ret = 0;
-  for(count = 0; count < ADNS3080_PIXELS_X * ADNS3080_PIXELS_Y; )
-  {
-    pix = SPI.transfer(0xff);
-    delayMicroseconds(10);
-    if(started==0)
-    {
-      if(pix&0x40)
-        started = 1;
-      else
-      {
-        timeout++;
-        if(timeout==100)
-        {
-          ret = -1;
-          break;
-        }
-      }
-    }
-    if(started==1)
-    {
-      pdata[count++] = (pix & 0x3f)<<2; // scale to normal grayscale byte range
-    }
-  }
-
-  digitalWrite(PIN_MOUSECAM_CS,HIGH); 
-  delayMicroseconds(14);
-  
-  return ret;
-}
 
 void setup() {
 
@@ -292,7 +99,7 @@ void setup() {
   
   Serial.begin(38400);
   
-  if(mousecam_init()==-1)
+  if(ofs.mousecam_init()==-1)
   {
     Serial.println("Mouse cam failed to init");
     while(1);
@@ -324,7 +131,7 @@ bool t2 = true;
 void loop() {
   unsigned long currentMillis = millis();
   if(loopTrigger) { // This loop is triggered, it wont run unless there is an interrupt
-
+    loopTrigger = 0;
     sampling();
     current_limit = 3; // Buck has a higher current limit
     ev = vref - vb;  //voltage error at this time
@@ -334,37 +141,10 @@ void loop() {
     closed_loop=pidi(ei);  //current pid
     closed_loop=saturation(closed_loop,0.99,0.01);  //duty_cycle saturation
     pwm_modulate(closed_loop); //pwm modulation
-    
-    loopTrigger = 0;
 
     // ------------Update OFS ---------------//
-    int val = mousecam_read_reg(ADNS3080_PIXEL_SUM);
     MD md;
-    mousecam_read_motion(&md);
-    for(int i=0; i<md.squal/4; i++)
-      Serial.print('*');
-    Serial.print(' ');
-    Serial.print((val*100)/351);
-    Serial.print(' ');
-    Serial.print(md.shutter); Serial.print(" (");
-    Serial.print((int)md.dx); Serial.print(',');
-    Serial.print((int)md.dy); Serial.println(')');
-
-    // Serial.println(md.max_pix);
-
-    distance_x = md.dx; //convTwosComp(md.dx);
-    distance_y = md.dy; //convTwosComp(md.dy);
-
-    total_x1 = (total_x1 + distance_x);
-    total_y1 = (total_y1 + distance_y);
-
-    total_x = 10*total_x1/157; //Conversion from counts per inch to mm (400 counts per inch)
-    total_y = 10*total_y1/157; //Conversion from counts per inch to mm (400 counts per inch)
-  
-    Serial.print('\n');
-    Serial.println("Distance_x = " + String(total_x));
-    Serial.println("Distance_y = " + String(total_y));
-    Serial.print('\n');
+    ofs.update(&md);
     //---------------------------------------//
 
     switch(current_command_state){
@@ -372,16 +152,16 @@ void loop() {
         vref = 1;
         break;
       case rover_move:
-        vref = 1.5 + 0.005*(target_dist - total_y); // reduced accuracy
-        motor.setMotorDelta(5*total_x1);
-        if ((target_dist - total_y) < 1){
+        vref = 1.5 + 0.005*(target_dist - ofs.total_y); // reduced accuracy
+        motor.setMotorDelta(5*ofs.total_x1);
+        if ((target_dist - ofs.total_y) < 1){
           roverStandby();
         }
         break;
       case rover_rotate:
-        vref = 1.5 + 0.005*(target_x_change - total_x1);
-        motor.setMotorDelta(5*total_y1);
-        if ((target_x_change - total_x1) < 2){
+        vref = 1.5 + 0.005*(target_x_change - ofs.total_x1);
+        motor.setMotorDelta(5*ofs.total_y1);
+        if ((target_x_change - ofs.total_x1) < 2){
           roverStandby();
         }
         roverStandby();
@@ -538,21 +318,13 @@ float pidi(float pid_input){
 
 //************************* Rover Commands ************************//
 
-// Resets totals measured from the optical flow sensor
-void clearOFSTotal(){
-  total_x1 = 0;
-  total_y1 = 0;
-  total_x = 0;
-  total_y = 0;
-}
-
 // Switches the drive system to the rover_standby state
 void roverStandby(){
   current_command_state = rover_standby;
   target_dist = 0;
   target_angle = 0;
   motor.stopMotors();
-  clearOFSTotal();
+  ofs.clear();
 }
 
 // Switches the drive system to the rover_move state
@@ -568,7 +340,7 @@ void roverMove(float dist){
   motor.setMotorDelta(0);
   // ADD output of totals before clearing them in case the command is interrupting something prematurely
   // output_distance_heading()
-  clearOFSTotal();
+  ofs.clear();
 }
 
 // Switches the drive system to the rover_rotate state
@@ -583,13 +355,7 @@ void roverRotate(float angle){
     motor.setMotorDirection(cw);
   }
   motor.setMotorDelta(0);
-  clearOFSTotal();
+  ofs.clear();
 }
-
-
-
-
-
-
 
 //****************************************************************//
