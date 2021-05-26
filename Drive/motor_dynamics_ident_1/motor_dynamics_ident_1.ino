@@ -64,11 +64,8 @@ void loop() {
     ofs.update(&md);
 
     if (currentMillis > f_i && currentMillis <r_i) {
-      char data_str[100] = "";
-      strcat(data_str, ofs.total_x1);
-      strcat(data_str, ", ");
-      strcat(data_str, ofs.total_y1);
-      Serial.println(data_str);
+      String dataString = String(ofs.total_x1) + ", " + String(ofs.total_y1);
+      Serial.println(dataString);
     }
   }
   

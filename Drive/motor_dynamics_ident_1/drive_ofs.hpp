@@ -82,11 +82,11 @@ class drive_ofs {
     void mousecam_read_motion(struct MD *p);
 
 public:
-    long long int total_x = 0; // mm
-    long long int total_y = 0; // mm
+    long int total_x = 0; // mm
+    long int total_y = 0; // mm
 
-    long long int total_x1 = 0; // pixels
-    long long int total_y1 = 0; // pixels
+    long int total_x1 = 0; // pixels
+    long int total_y1 = 0; // pixels
 
     drive_ofs():total_x(0), total_y(0), total_x1(0), total_y1(0), x(0), y(0), a(0), b(0), distance_x(0), distance_y(0), tdistance(0), movementflag(0){}
 
