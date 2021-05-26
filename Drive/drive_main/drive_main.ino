@@ -161,10 +161,9 @@ void loop() {
       case rover_rotate:
         vref = 1.5 + 0.005*(target_x_change - ofs.total_x1);
         motor.setMotorDelta(5*ofs.total_y1);
-        if ((target_x_change - ofs.total_x1) < 2){
+        if ((target_x_change - ofs.total_x1) < 1){
           roverStandby();
         }
-        roverStandby();
         break;
       case rover_stop:
         roverStandby();
