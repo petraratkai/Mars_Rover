@@ -63,7 +63,7 @@ void loop() {
     MD md;
     ofs.update(&md);
 
-    if (currentMillis > f_i && currentMillis <r_i) {
+    if (currentMillis > f_i && currentMillis <b_i) {
       String dataString = String(ofs.total_x1) + ", " + String(ofs.total_y1);
       Serial.println(dataString);
     }
