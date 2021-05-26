@@ -3,10 +3,8 @@ close all
 clc
 
 zeta = 0.7;
-w_n = 40.4;
-sys = tf(1000, [1, 2*zeta*w_n, w_n^2]);
-
-stepplot(sys)
+w_n = 30;
+sys = tf(624, [1, 2*zeta*w_n, w_n^2]);
 
 D = readmatrix("test1_forced.csv");
 pos_y = D(:, 2).';
