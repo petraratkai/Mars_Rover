@@ -6,23 +6,23 @@ void drive_motor::setMotorDirection(motor_dir dir){
 switch (dir)
   {
   case fwd:
+    DIRRstate = HIGH;
+    DIRLstate = LOW;
+    break;
+
+  case bck:
     DIRRstate = LOW;
     DIRLstate = HIGH;
     break;
 
-  case bck:
-    DIRRstate = HIGH;
-    DIRLstate = LOW;
-    break;
-
   case cw:
-    DIRRstate = HIGH;
+    DIRRstate = LOW;
     DIRLstate = LOW;
     break;
 
   case ccw:
-    DIRRstate = LOW;
-    DIRLstate = LOW;
+    DIRRstate = HIGH;
+    DIRLstate = HIGH;
     break;
   
   default:

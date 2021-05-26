@@ -1,10 +1,10 @@
 #pragma once
 
-#define DIRL 20                //defining left direction pin
-#define DIRR 21                   //defining right direction pin
+#define DIRR 20                //defining right direction pin
+#define DIRL 21                   //defining left direction pin
 
-#define pwmr 5                     //pin to control right wheel speed using pwm
-#define pwml 9                     //pin to control left wheel speed using pwm
+#define pwmr 5                     //pin to control left wheel speed using pwm. Original provided code labelled the wheels in reverse
+#define pwml 9                     //pin to control right wheel speed using pwm
 
 enum motor_dir {fwd, bck, cw, ccw};
 
