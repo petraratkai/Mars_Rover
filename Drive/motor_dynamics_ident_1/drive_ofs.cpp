@@ -96,7 +96,7 @@ void drive_ofs::setup(){
   SPI.setDataMode(SPI_MODE3);
   SPI.setBitOrder(MSBFIRST);
   
-  Serial.begin(38400);
+  Serial.begin(9600);
   
   if(mousecam_init()==-1)
   {

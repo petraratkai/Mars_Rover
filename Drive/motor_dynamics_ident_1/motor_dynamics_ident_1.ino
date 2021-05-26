@@ -65,9 +65,9 @@ void loop() {
 
     if (currentMillis > f_i && currentMillis <r_i) {
       char data_str[100] = "";
-      strcat(data_str, md.dx);
+      strcat(data_str, ofs.total_x1);
       strcat(data_str, ", ");
-      strcat(data_str, md.dx);
+      strcat(data_str, ofs.total_y1);
       Serial.println(data_str);
     }
   }
