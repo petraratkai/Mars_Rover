@@ -2,9 +2,9 @@ clear
 close all
 clc
 
-Kp = 0.834; % HOW TO CONVERT THIS TO GAINS FOR ACTUAL CONTROLLER?
-Ki = 11.9;
-Kd = 0.0146;
+Kp = 0.209; % HOW TO CONVERT THIS TO GAINS FOR ACTUAL CONTROLLER?
+Ki = 14.29;
+Kd = 0;
 
 % Motor values
 m_zeta = 0.7;
