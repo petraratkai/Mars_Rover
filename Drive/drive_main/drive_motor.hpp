@@ -22,3 +22,5 @@ public:
     void update();
     void setup();
 };
+
+void pid_update(float *in, float *out, float *setpoint, float *e1, float *k);

@@ -48,6 +48,8 @@
 
 #define ADNS3080_PRODUCT_ID_VAL        0x17
 
+int[5] dy_buffer;
+
 struct MD{
  byte motion;
  char dx, dy;
@@ -57,6 +59,8 @@ struct MD{
 };
 
 class drive_ofs {
+    short buff_i = 0;
+    
     int x=0;
     int y=0;
 
@@ -93,4 +97,5 @@ public:
     void update(MD *p); // Pulls new x and y from sensor
     void setup();
     void clear(); // Resets total values (dones before issuing a new transform)
+    float getAvgdy(); // returns a time-averaged speed in pixels/cycle
 };

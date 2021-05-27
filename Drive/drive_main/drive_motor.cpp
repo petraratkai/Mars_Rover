@@ -56,3 +56,8 @@ void drive_motor::setup(){
     analogWrite(pwmr, 0);       
     analogWrite(pwml, 0);  
 }
+
+void pid_update(float *in, float *out, float *setpoint, float *e1, float *k){
+  float e = *in - *setpoint;
+  *e1 = e;
+}

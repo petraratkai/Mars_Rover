@@ -78,6 +78,8 @@ void drive_ofs::update(MD *p){
     distance_x = p->dx; //convTwosComp(md.dx);
     distance_y = p->dy; //convTwosComp(md.dy);
 
+    dy_buffer[buff_i] = distance_y;
+
     total_x1 = (total_x1 + distance_x);
     total_y1 = (total_y1 + distance_y);
 
@@ -110,4 +112,8 @@ void drive_ofs::clear(){
     total_y1 = 0;
     total_x = 0;
     total_y = 0;
+}
+
+float drive_ofs::getAvgdy(){
+  return ((float)(dy_buffer[0] + dy_buffer[1] + dy_buffer[2] + dy_buffer[3] + dy_buffer[4]))/5.0f;
 }
