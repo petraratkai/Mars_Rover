@@ -16,8 +16,16 @@ L = G*C;
 
 F = feedback(L, 1);
 
-t = 0:0.001:10;
-u = [zeros(1, 1000), 3*ones(1, 2000), zeros(1, 1000), -3*ones(1,2000), zeros(1,4001)];
+t = 0:0.001:10; % time in seconds
+u = [zeros(1, 1000), 3*ones(1, 2000), zeros(1, 1000), -3*ones(1,2000), zeros(1,4001)]; % velocity set-point in pixels/cycle ~ pixels/ms
 
 step(F, t)
-lsim(F, u, t);
+
+y = lsim(F, u, t);
+e = u - (y.');
+vref = lsim(C, e, t);
+
+figure
+hold on
+plot(y, t);
+plot(vref, t);
