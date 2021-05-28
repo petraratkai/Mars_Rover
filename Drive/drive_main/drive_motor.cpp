@@ -58,7 +58,7 @@ void drive_motor::setup(){
 }
 
 float pid_update(float in, float setpoint, float *e1, const float kp, const float ki, const float kd, float *acc){
-  float e = in - setpoint;
+  float e = setpoint - in;
   *acc =  *acc + e*0.001024;
   float o = kp*e + ki*(*acc) + kd*(e - *e1)/0.001024; // dt = 0.001024s due to control frequency
   *e1 = e;
