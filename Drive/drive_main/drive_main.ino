@@ -82,7 +82,7 @@ void loop() {
     float v;
     switch(current_command_state){
       case rover_standby:
-        smps.vref = 0;
+        smps.vref = 0.8;
         break;
 
       case rover_move:
@@ -93,7 +93,7 @@ void loop() {
         } else {
           motor.setMotorDirection(bck);
         }
-        smps.vref = (abs(v) > 4) ? 4 : abs(v); // Limiting and sign function implementation
+        smps.vref = (abs(v) > 3.2) ? 4 : 0.8 + abs(v); // Limiting and sign function implementation. Constant 0.8v to stop cross-over distortion
 
         //motor.setMotorDelta(5*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
 
