@@ -130,7 +130,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(300.0f);
+      roverMove(200.0f);
       t = false;
     }
   }
@@ -174,7 +174,7 @@ void roverStandby(){
 void roverMove(float dist){
   current_command_state = rover_move;
   target_dist = dist;
-  target_pixel_dist = (long int)(dist*157/10);
+  target_pixel_dist = (long int)(dist*15.748);
   target_angle = 0;
   if (dist > 0){
     motor.setMotorDirection(fwd);
