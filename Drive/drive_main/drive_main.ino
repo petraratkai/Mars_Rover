@@ -82,20 +82,20 @@ void loop() {
     float v;
     switch(current_command_state){
       case rover_standby:
-        smps.vref = 1;
+        smps.vref = 0;
         break;
 
       case rover_move:
         target_dy = 0.003*(target_pixel_dist - ofs.total_y1); // P controller for y
         v = pid_update(ofs.getAvgdy(), target_dy, &e1, ykp, yki, ykd, &acc1); // velocity PI controller
-        if (v > 0){
+        if (v >= 0){
           motor.setMotorDirection(fwd);
         } else {
           motor.setMotorDirection(bck);
         }
         smps.vref = (abs(v) > 4) ? 4 : abs(v); // Limiting and sign function implementation
 
-        motor.setMotorDelta(5*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
+        //motor.setMotorDelta(5*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
 
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
@@ -112,7 +112,7 @@ void loop() {
       case rover_stop:
         roverStandby();
         break;
-        
+
       default:
         roverStandby();
         break;

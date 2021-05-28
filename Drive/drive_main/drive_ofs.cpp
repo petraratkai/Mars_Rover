@@ -105,11 +105,11 @@ void drive_ofs::setup(){
   SPI.setDataMode(SPI_MODE3);
   SPI.setBitOrder(MSBFIRST);
   
-  Serial.begin(38400);
+  //Serial.begin(38400);
   
   if(mousecam_init()==-1)
   {
-    Serial.println("Mouse cam failed to init");
+    //Serial.println("Mouse cam failed to init");
     while(1);
   }
 }
