@@ -50,7 +50,7 @@ int target_x_pixel_change = 0; // in pixels, converted from the target angle
 float e1 = 0;
 float acc1 = 0;
 
-const float y_kp = 0.003;
+const float y_kp = 0.002;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -86,7 +86,7 @@ void loop() {
         break;
 
       case rover_move:
-        target_dy = 0.003*(target_pixel_dist - ofs.total_y1); // P controller for y
+        target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
         v = pid_update(ofs.getAvgdy(), target_dy, &e1, ykp, yki, ykd, &acc1); // velocity PI controller
         if (v >= 0){
           motor.setMotorDirection(fwd);
