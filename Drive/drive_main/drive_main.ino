@@ -50,7 +50,7 @@ int target_x_pixel_change = 0; // in pixels, converted from the target angle
 float e1 = 0;
 float acc1 = 0;
 
-const float y_kp = 0.002;
+const float y_kp = 0.001;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -80,9 +80,10 @@ void loop() {
     //---------------------------------------//
     float target_dy;
     float v;
+    const float Vt = 1;
     switch(current_command_state){
       case rover_standby:
-        smps.vref = 0.8;
+        smps.vref = Vt;
         break;
 
       case rover_move:
@@ -93,10 +94,12 @@ void loop() {
         } else {
           motor.setMotorDirection(bck);
         }
-        smps.vref = (abs(v) > 3.2) ? 4 : 0.8 + abs(v); // Limiting and sign function implementation. Constant 0.8v to stop cross-over distortion
-
-        //motor.setMotorDelta(5*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
-
+        smps.vref = (abs(v) > 4 - Vt) ? 4 : Vt + abs(v); // Limiting and sign function implementation. Constant 0.8v to stop cross-over distortion
+        motor.setMotorDelta(2*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
+        if(abs(v) < 0.00005){
+          motor.stopMotors();
+          smps.vref = Vt;
+        }
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
@@ -127,7 +130,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(200.0f);
+      roverMove(300.0f);
       t = false;
     }
   }
