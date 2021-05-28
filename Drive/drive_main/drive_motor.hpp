@@ -6,7 +6,7 @@
 #define pwmr 5                     //pin to control left wheel speed using pwm. Original provided code labelled the wheels in reverse
 #define pwml 9                     //pin to control right wheel speed using pwm
 
-const float ykp = 0.2f, yki = 14.0f, ykd = 0;
+const float dykp = 0.2f, dyki = 14.0f, dykd = 0;
 
 enum motor_dir {fwd, bck, cw, ccw};
 
