@@ -1,5 +1,6 @@
 #include "drive_ofs.hpp"
 
+/*
 int drive_ofs::convTwosComp(int b){
   //Convert from 2's complement
   if(b & 0x80){
@@ -7,6 +8,7 @@ int drive_ofs::convTwosComp(int b){
     }
   return b;
 }
+*/
 
 void drive_ofs::mousecam_reset(){
   digitalWrite(PIN_MOUSECAM_RESET,HIGH);
@@ -78,13 +80,18 @@ void drive_ofs::update(MD *p){
     distance_x = p->dx; //convTwosComp(md.dx);
     distance_y = p->dy; //convTwosComp(md.dy);
 
-    dy_buffer[buff_i] = distance_y;
+    dy_buffer[buff_i] = distance_y; // Store motion in the dy_buffer for use in calculating average velocity in pixels/cycle
+    if (buff_i < 4){
+      buff_i++;
+    } else {
+      buff_i = 0;
+    }
 
     total_x1 = (total_x1 + distance_x);
     total_y1 = (total_y1 + distance_y);
 
-    total_x = 10*total_x1/157; //Conversion from counts per inch to mm (400 counts per inch)
-    total_y = 10*total_y1/157; //Conversion from counts per inch to mm (400 counts per inch)
+    //total_x = 10*total_x1/157; //Conversion from counts per inch to mm (400 counts per inch)
+    //total_y = 10*total_y1/157; //Conversion from counts per inch to mm (400 counts per inch)
 }
 
 void drive_ofs::setup(){

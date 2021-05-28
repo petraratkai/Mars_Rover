@@ -49,7 +49,6 @@
 #define ADNS3080_PRODUCT_ID_VAL        0x17
 
 int dy_buffer[5] = {0, 0, 0, 0, 0};
-
 struct MD{
  byte motion;
  char dx, dy;
@@ -77,7 +76,7 @@ class drive_ofs {
 
     byte frame[ADNS3080_PIXELS_X * ADNS3080_PIXELS_Y];
 
-    int convTwosComp(int b);
+    //int convTwosComp(int b);
     void mousecam_reset();
     int mousecam_init();
     void mousecam_write_reg(int reg, int val);
