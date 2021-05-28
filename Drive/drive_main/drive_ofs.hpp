@@ -91,7 +91,7 @@ public:
     long long int total_x1 = 0; // pixels
     long long int total_y1 = 0; // pixels
 
-    drive_ofs():total_x(0), total_y(0), total_x1(0), total_y1(0), x(0), y(0), a(0), b(0), distance_x(0), distance_y(0), tdistance(0), movementflag(0), dy_buffer({0, 0, 0, 0, 0}){}
+    drive_ofs():total_x(0), total_y(0), total_x1(0), total_y1(0), x(0), y(0), a(0), b(0), distance_x(0), distance_y(0), tdistance(0), movementflag(0), dy_buffer{0, 0, 0, 0, 0}{}
 
     void update(MD *p); // Pulls new x and y from sensor
     void setup();

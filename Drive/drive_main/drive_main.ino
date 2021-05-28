@@ -42,7 +42,7 @@ enum command_state {rover_standby, rover_move, rover_rotate, rover_stop};
 
 command_state current_command_state = rover_standby;
 float target_dist = 0; // in mm
-float target_pixel_dist = 0;
+long int target_pixel_dist = 0;
 float target_angle = 0; // in degrees
 int target_x_pixel_change = 0; // in pixels, converted from the target angle
 
@@ -84,6 +84,7 @@ void loop() {
       case rover_standby:
         smps.vref = 1;
         break;
+
       case rover_move:
         target_dy = 0.003*(target_pixel_dist - ofs.total_y1); // P controller for y
         v = pid_update(ofs.getAvgdy(), target_dy, &e1, ykp, yki, ykd, &acc1); // velocity PI controller
@@ -99,6 +100,7 @@ void loop() {
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
+
       case rover_rotate:
         smps.vref = 1.5 + 0.005*(target_x_pixel_change - ofs.total_x1);
         motor.setMotorDelta(5*ofs.total_y1);
@@ -106,9 +108,11 @@ void loop() {
           roverStandby();
         }
         break;
+
       case rover_stop:
         roverStandby();
         break;
+        
       default:
         roverStandby();
         break;
@@ -167,7 +171,7 @@ void roverStandby(){
 void roverMove(float dist){
   current_command_state = rover_move;
   target_dist = dist;
-  target_pixel_dist = dist*157/10;
+  target_pixel_dist = (long int)(dist*157/10);
   target_angle = 0;
   if (dist > 0){
     motor.setMotorDirection(fwd);
