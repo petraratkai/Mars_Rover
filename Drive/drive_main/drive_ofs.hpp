@@ -48,7 +48,7 @@
 
 #define ADNS3080_PRODUCT_ID_VAL        0x17
 
-int[5] dy_buffer;
+int dy_buffer[5] = {0, 0, 0, 0, 0};
 
 struct MD{
  byte motion;

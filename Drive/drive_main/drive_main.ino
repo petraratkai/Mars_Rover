@@ -48,6 +48,9 @@ int target_x_pixel_change = 0; // in pixels, converted from the target angle
 
 // PID
 float e1 = 0;
+float acc1 = 0;
+
+const float y_kp = 0.003;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -75,15 +78,15 @@ void loop() {
     MD md;
     ofs.update(&md);
     //---------------------------------------//
-
+    float target_dy;
+    float v;
     switch(current_command_state){
       case rover_standby:
         smps.vref = 1;
         break;
       case rover_move:
-        const y_kp = 0.003;
-        float target_dy = 0.003*(target_pixel_dist - ofs.total_y1); // P controller for y
-        v = pid_update(ofs.getAvgdy, target_dy, &e1, &k1); // velocity PI controller
+        target_dy = 0.003*(target_pixel_dist - ofs.total_y1); // P controller for y
+        v = pid_update(ofs.getAvgdy(), target_dy, &e1, ykp, yki, ykd, &acc1); // velocity PI controller
         if (v > 0){
           motor.setMotorDirection(fwd);
         } else {
@@ -99,7 +102,7 @@ void loop() {
       case rover_rotate:
         smps.vref = 1.5 + 0.005*(target_x_pixel_change - ofs.total_x1);
         motor.setMotorDelta(5*ofs.total_y1);
-        if ((target_x_change - ofs.total_x1) < 1){
+        if ((target_x_pixel_change - ofs.total_x1) < 1){
           roverStandby();
         }
         break;
@@ -120,7 +123,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverRotate(45.0f);
+      roverMove(200.0f);
       t = false;
     }
   }
@@ -182,7 +185,7 @@ void roverRotate(float angle){
   current_command_state = rover_rotate;
   target_dist = 0;
   target_angle = angle;
-  target_x_change = (int)(angle*41.1f);
+  target_x_pixel_change = (int)(angle*41.1f);
   if (angle > 0){
     motor.setMotorDirection(ccw);
   } else {

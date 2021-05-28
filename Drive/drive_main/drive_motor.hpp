@@ -6,8 +6,7 @@
 #define pwmr 5                     //pin to control left wheel speed using pwm. Original provided code labelled the wheels in reverse
 #define pwml 9                     //pin to control right wheel speed using pwm
 
-const float[3] k1 = {0.21f, 14.3f, 0}; // PID gain values for forward/backward velocity control
-const float[3] k2; // PID gain values for angular rate control
+const float ykp = 0.21f, yki = 14.3f, ykd = 0;
 
 enum motor_dir {fwd, bck, cw, ccw};
 
@@ -26,5 +25,4 @@ public:
     void setup();
 };
 
-float i;
-float pid_update(float in, float setpoint, float *e1, const float *k);
+float pid_update(float in, float setpoint, float *e1, const float kp, const float ki, const float kd, float *acc); // acc is used to accumulate integral
