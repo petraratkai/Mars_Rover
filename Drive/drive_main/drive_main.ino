@@ -42,8 +42,12 @@ enum command_state {rover_standby, rover_move, rover_rotate, rover_stop};
 
 command_state current_command_state = rover_standby;
 float target_dist = 0; // in mm
+float target_pixel_dist = 0;
 float target_angle = 0; // in degrees
-int target_x_change = 0; // in pixels, converted from the target angle
+int target_x_pixel_change = 0; // in pixels, converted from the target angle
+
+// PID
+float e1 = 0;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -77,14 +81,23 @@ void loop() {
         smps.vref = 1;
         break;
       case rover_move:
-        smps.vref = 1.5 + 0.005*(target_dist - ofs.total_y); // reduced accuracy
-        motor.setMotorDelta(5*ofs.total_x1);
-        if ((target_dist - ofs.total_y) < 1){
-          roverStandby();
+        const y_kp = 0.003;
+        float target_dy = 0.003*(target_pixel_dist - ofs.total_y1); // P controller for y
+        v = pid_update(ofs.getAvgdy, target_dy, &e1, &k1); // velocity PI controller
+        if (v > 0){
+          motor.setMotorDirection(fwd);
+        } else {
+          motor.setMotorDirection(bck);
         }
+        smps.vref = (abs(v) > 4) ? 4 : abs(v); // Limiting and sign function implementation
+
+        motor.setMotorDelta(5*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
+
+        // Implement end condition here!!!!!!!!
+        // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
       case rover_rotate:
-        smps.vref = 1.5 + 0.005*(target_x_change - ofs.total_x1);
+        smps.vref = 1.5 + 0.005*(target_x_pixel_change - ofs.total_x1);
         motor.setMotorDelta(5*ofs.total_y1);
         if ((target_x_change - ofs.total_x1) < 1){
           roverStandby();
@@ -100,13 +113,11 @@ void loop() {
   }
   
   //************************** Motor Testing **************************//
-  //this part of the code decides the direction of motor rotations depending on the time lapsed. currentMillis records the time lapsed once it is called.
   
-  //moving forwards
   if (currentMillis < f_i) {
     roverStandby();
   }
-  //rotating clockwise
+
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
       roverRotate(45.0f);
@@ -114,16 +125,14 @@ void loop() {
     }
   }
 
-  //moving backwards
   if (currentMillis > r_i && currentMillis <b_i) {
     roverStandby();
   }
-  //rotating anticlockwise
+
   if (currentMillis > b_i && currentMillis <l_i) {
     roverStandby();
   }
 
-  //set your states
   if (currentMillis > l_i) {
     roverStandby();
   }
@@ -155,6 +164,7 @@ void roverStandby(){
 void roverMove(float dist){
   current_command_state = rover_move;
   target_dist = dist;
+  target_pixel_dist = dist*157/10;
   target_angle = 0;
   if (dist > 0){
     motor.setMotorDirection(fwd);

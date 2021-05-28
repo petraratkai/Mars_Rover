@@ -27,4 +27,4 @@ public:
 };
 
 float i;
-void pid_update(float *in, float *out, float *setpoint, float *e1, float *k);
+float pid_update(float in, float setpoint, float *e1, const float *k);
