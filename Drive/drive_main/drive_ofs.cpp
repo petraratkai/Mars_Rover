@@ -81,7 +81,7 @@ void drive_ofs::update(MD *p){
     distance_y = p->dy; //convTwosComp(md.dy);
 
     dy_buffer[buff_i] = distance_y; // Store motion in the dy_buffer for use in calculating average velocity in pixels/cycle
-    if (buff_i < 4){
+    if (buff_i < 9){
       buff_i++;
     } else {
       buff_i = 0;
@@ -122,5 +122,5 @@ void drive_ofs::clear(){
 }
 
 float drive_ofs::getAvgdy(){
-  return ((float)(dy_buffer[0] + dy_buffer[1] + dy_buffer[2] + dy_buffer[3] + dy_buffer[4]))/5.0f;
+  return ((float)(dy_buffer[0] + dy_buffer[1] + dy_buffer[2] + dy_buffer[3] + dy_buffer[4] + dy_buffer[5] + dy_buffer[6] + dy_buffer[7] + dy_buffer[8] + dy_buffer[9]))/10.0f;
 }

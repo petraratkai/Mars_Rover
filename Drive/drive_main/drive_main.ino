@@ -88,7 +88,7 @@ void loop() {
 
       case rover_move:
         target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
-        v = pid_update(ofs.getAvgdy(), target_dy, &e1, ykp, yki, ykd, &acc1); // velocity PI controller
+        v = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
         if (v >= 0){
           motor.setMotorDirection(fwd);
         } else {

@@ -58,7 +58,7 @@ struct MD{
 
 class drive_ofs {
     short buff_i = 0;
-    short int dy_buffer[5];
+    short int dy_buffer[10];
     
     int x=0;
     int y=0;
