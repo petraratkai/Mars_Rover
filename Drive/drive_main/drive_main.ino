@@ -80,7 +80,7 @@ void loop() {
     //---------------------------------------//
     float target_dy;
     float v;
-    const float Vt = 1;
+    const float Vt = 1.2;
     switch(current_command_state){
       case rover_standby:
         smps.vref = Vt;
@@ -88,6 +88,9 @@ void loop() {
 
       case rover_move:
         target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
+        if (abs(target_dy) > 3){
+          target_dy = (target_dy > 0) ? 3 : -3;
+        }
         v = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
         if (v >= 0){
           motor.setMotorDirection(fwd);
@@ -95,9 +98,9 @@ void loop() {
           motor.setMotorDirection(bck);
         }
         smps.vref = (abs(v) > 4 - Vt) ? 4 : Vt + abs(v); // Limiting and sign function implementation. Constant 0.8v to stop cross-over distortion
-        motor.setMotorDelta(2*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
+        motor.setMotorDelta(10*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
         if(abs(v) < 0.00005){
-          motor.stopMotors();
+          //motor.stopMotors();
           smps.vref = Vt;
         }
         // Implement end condition here!!!!!!!!
@@ -130,7 +133,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(200.0f);
+      roverMove(500.0f);
       t = false;
     }
   }

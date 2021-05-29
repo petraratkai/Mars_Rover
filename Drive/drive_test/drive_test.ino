@@ -50,7 +50,7 @@ int target_x_pixel_change = 0; // in pixels, converted from the target angle
 float e1 = 0;
 float acc1 = 0;
 
-const float y_kp = 0.001;
+const float y_kp = 0.003;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -89,13 +89,16 @@ void loop() {
       case rover_move:
         smps.vref = 4;
         target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
+        if (abs(target_dy) > 3){
+          target_dy = (target_dy > 0) ? 3 : -3;
+        }
         v = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
         if (v >= 0){
           motor.setMotorDirection(fwd);
         } else {
           motor.setMotorDirection(bck);
         }
-        motor.setMotorDelta((int)(v/smps.vref*255), (int)2*ofs.total_x1);
+        motor.setMotorDelta((int)(v/smps.vref*255), (int)-5*ofs.total_x1);
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
