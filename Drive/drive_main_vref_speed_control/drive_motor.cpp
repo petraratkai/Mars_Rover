@@ -32,20 +32,10 @@ switch (dir)
   }
 }
 
-// avg is used to control speed and delta is used to account for the difference in performance of the motors
-void drive_motor::setMotorDelta(int avg, int delta){
-    int r = constrain(avg + delta/2, -255, 255);
-    int l = constrain(avg - delta/2, -255, 255);
-    /* ADD CODE TO REVERSE MOTOR IF PWM LESS THAN 0
-    if (r < 0){
-      DIRRstate = (DIRRstate) ? LOW : HIGH;
-    }
-    if (l < 0){
-      DIRLstate = (DIRLstate) ? LOW : HIGH;
-    }
-    */
-    analogWrite(pwmr, abs(r));       
-    analogWrite(pwml, abs(l));  
+void drive_motor::setMotorDelta(float delta){
+    int d = (delta > 110) ? 55 : (int)delta/2; // Limit delta
+    analogWrite(pwmr, 200 + d/2);       
+    analogWrite(pwml, 200 - d/2);  
 }
 
 void drive_motor::stopMotors(){

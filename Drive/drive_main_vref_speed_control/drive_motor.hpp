@@ -3,10 +3,10 @@
 #define DIRR 20                //defining right direction pin
 #define DIRL 21                   //defining left direction pin
 
-#define pwml 5                     //pin to control left wheel speed using pwm. Original provided code labelled the wheels in reverse
-#define pwmr 9                     //pin to control right wheel speed using pwm
+#define pwmr 5                     //pin to control left wheel speed using pwm. Original provided code labelled the wheels in reverse
+#define pwml 9                     //pin to control right wheel speed using pwm
 
-const float dykp = 3.0f, dyki = 62.0f, dykd = 0.036;
+const float dykp = 0.2f, dyki = 14.0f, dykd = 0;
 
 enum motor_dir {fwd, bck, cw, ccw};
 
@@ -18,7 +18,7 @@ public:
     drive_motor(): DIRRstate(0), DIRLstate(1) {}
 
     void setMotorDirection(motor_dir dir);
-    void setMotorDelta(int avg, int delta);
+    void setMotorDelta(float delta);
     void stopMotors();
 
     void update();

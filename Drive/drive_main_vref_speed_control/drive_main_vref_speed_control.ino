@@ -50,7 +50,7 @@ int target_x_pixel_change = 0; // in pixels, converted from the target angle
 float e1 = 0;
 float acc1 = 0;
 
-const float y_kp = 0.003;
+const float y_kp = 0.001;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -80,14 +80,13 @@ void loop() {
     //---------------------------------------//
     float target_dy;
     float v;
-    const float Vt = 1;
+    const float Vt = 1.2;
     switch(current_command_state){
       case rover_standby:
         smps.vref = Vt;
         break;
 
       case rover_move:
-        smps.vref = 4;
         target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
         if (abs(target_dy) > 3){
           target_dy = (target_dy > 0) ? 3 : -3;
@@ -98,14 +97,19 @@ void loop() {
         } else {
           motor.setMotorDirection(bck);
         }
-        motor.setMotorDelta((int)(v/smps.vref*255), (int)-5*ofs.total_x1);
+        smps.vref = (abs(v) > 4 - Vt) ? 4 : Vt + abs(v); // Limiting and sign function implementation. Constant 0.8v to stop cross-over distortion
+        motor.setMotorDelta(10*ofs.total_x1); // botched proportional method for maintaining a straight line. Replace with controller
+        if(abs(v) < 0.00005){
+          //motor.stopMotors();
+          smps.vref = Vt;
+        }
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
 
       case rover_rotate:
         smps.vref = 1.5 + 0.005*(target_x_pixel_change - ofs.total_x1);
-        //motor.setMotorDelta(5*ofs.total_y1);
+        motor.setMotorDelta(5*ofs.total_y1);
         if ((target_x_pixel_change - ofs.total_x1) < 1){
           roverStandby();
         }
@@ -129,7 +133,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(200.0f);
+      roverMove(500.0f);
       t = false;
     }
   }
@@ -180,6 +184,7 @@ void roverMove(float dist){
   } else {
     motor.setMotorDirection(bck);
   }
+  motor.setMotorDelta(0);
   // ADD output of totals before clearing them in case the command is interrupting something prematurely
   // output_distance_heading()
   ofs.clear();
@@ -196,6 +201,7 @@ void roverRotate(float angle){
   } else {
     motor.setMotorDirection(cw);
   }
+  motor.setMotorDelta(0);
   ofs.clear();
 }
 
