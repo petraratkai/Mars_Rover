@@ -98,7 +98,7 @@ void loop() {
         } else {
           motor.setMotorDirection(bck);
         }
-        motor.setMotorDelta((int)(v/smps.vref*255), (int)-5*ofs.total_x1);
+        motor.setMotorDelta((int)(v/smps.vref*255), (int)-10*ofs.total_x1);
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
@@ -129,7 +129,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(200.0f);
+      roverMove(500.0f);
       t = false;
     }
   }

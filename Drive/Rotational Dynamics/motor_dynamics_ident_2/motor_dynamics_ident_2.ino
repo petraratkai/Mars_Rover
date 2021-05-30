@@ -83,7 +83,7 @@ void loop() {
 
   if (currentMillis > r_i && currentMillis <b_i) {
     motor.stopMotors();
-    motor.setMotorDirection(bck);
+    motor.setMotorDirection(cw);
   }
 
   if (currentMillis > b_i && currentMillis <l_i) {
