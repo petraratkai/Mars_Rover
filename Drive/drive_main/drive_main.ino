@@ -129,7 +129,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(500.0f);
+      roverMove(300.0f);
       t = false;
     }
   }

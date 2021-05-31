@@ -7,7 +7,7 @@
 #define pwmr 9                     //pin to control right wheel speed using pwm
 
 const float dykp = 3.0f, dyki = 62.0f, dykd = 0.036;
-const float dxkp = 2.0f, dyki = 65.0f, dykd = 0.015;
+const float dxkp = 2.0f, dxki = 65.0f, dxkd = 0.015;
 
 enum motor_dir {fwd, bck, cw, ccw};
 
