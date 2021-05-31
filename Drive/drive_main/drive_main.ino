@@ -114,11 +114,22 @@ void loop() {
         break;
 
       case rover_rotate:
-        smps.vref = 1.5 + 0.005*(target_x_pixel_change - ofs.total_x1);
-        //motor.setMotorDelta(5*ofs.total_y1);
-        if ((target_x_pixel_change - ofs.total_x1) < 1){
-          roverStandby();
+        smps.vref = 4;
+        
+        target_dy = y_kp*(0 - ofs.total_y1); // P controller for y
+        target_dx = x_kp*(target_x_pixel_change - ofs.total_x1); // P controller to maintain straight line
+
+        if (abs(target_dy) > 3){
+          target_dy = (target_dy > 0) ? 3 : -3;
         }
+        if (abs(target_dx) > 3){
+          target_dx = (target_dx > 0) ? 3 : -3;
+        }
+
+        v1 = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
+        v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2);
+
+        motor.setMotorDelta((int)(v1/smps.vref*255), (int)(v2/smps.vref*255));
         break;
 
       case rover_stop:
