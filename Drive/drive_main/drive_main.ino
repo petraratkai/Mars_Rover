@@ -58,8 +58,10 @@ const float x_kp = 0.004; // P gain of the x controller (angle)
 
 float max_vref = 4;
 
-int endpoint_beta = 3; // Tolerance of commands at the endpoint before returning to standby
-int endpoint_time_delta = 100; // Time (in control loop cycles) for which the endpoint needs to be reached before standby
+const short int endpoint_beta = 3; // Tolerance of commands at the endpoint before returning to standby
+const short int endpoint_time_delta = 100; // Time (in control loop cycles) for which the endpoint needs to be reached before standby
+short int endpoint_cycles_elapsed = 0;
+
 
 drive_motor motor;
 drive_ofs ofs;
@@ -97,13 +99,15 @@ void loop() {
         break;
 
       case rover_move:
-        roverUpdate();
-        // Implement end condition here!!!!!!!!
-        // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
+        if (roverUpdate()){
+          roverStandby();
+        }
         break;
 
       case rover_rotate:
-        roverUpdate();
+        if (roverUpdate()){
+          roverStandby();
+        }
         break;
 
       case rover_stop:
@@ -192,7 +196,7 @@ void roverRotate(float angle){
   ofs.clear();
 }
 
-void roverUpdate(){
+bool roverUpdate(){
   float target_dy; // Intermediate PID values used in the control 
   float target_dx;
 
@@ -200,9 +204,24 @@ void roverUpdate(){
   float v2;
 
   smps.vref = max_vref;
+
+  long int y_diff = target_pixel_dist - ofs.total_y1;
+  long int x_diff = target_x_pixel_change - ofs.total_x1;
+
+  if (y_diff < endpoint_beta){ // Check if the enpoint has been reached to a satisfactory accuracy
+    if (x_diff < endpoint_beta){
+      if (endpoint_cycles_elapsed == endpoint_time_delta){ // Ensure endpoint has been met for a minimum time, avoid overshoot incorrectly identified as endpoint
+        return true;
+        endpoint_cycles_elapsed = 0;
+      }
+      endpoint_cycles_elapsed++;
+    }
+  } else {
+    endpoint_cycles_elapsed = 0;
+  }
         
-  target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
-  target_dx = x_kp*(target_x_pixel_change - ofs.total_x1); // P controller to maintain straight line
+  target_dy = y_kp*(y_diff); // P controller for y
+  target_dx = x_kp*(x_diff); // P controller to maintain straight line
 
   // Limit the speed setpoint to 3 pixels/cycle which is close to the maximum of the rover. Helps to avoid overshoot of endpoint (waste of power)
   if (abs(target_dy) > 3){
@@ -216,7 +235,7 @@ void roverUpdate(){
   v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2); // Return value in volts 
 
   motor.setMotorDelta((int)(v1/smps.vref*255), (int)(2*v2/smps.vref*255)); // Voltage setpoint is converted to a PWM value on the motors
-  
+  return false;
 }
 
 //****************************************************************//
