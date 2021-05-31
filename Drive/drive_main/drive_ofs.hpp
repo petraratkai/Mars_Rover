@@ -58,7 +58,8 @@ struct MD{
 
 class drive_ofs {
     short buff_i = 0;
-    short int dy_buffer[10];
+    short int dy_buffer[5];
+    short int dx_buffer[5];
     
     int x=0;
     int y=0;
@@ -97,4 +98,5 @@ public:
     void setup();
     void clear(); // Resets total values (dones before issuing a new transform)
     float getAvgdy(); // returns a time-averaged speed in pixels/cycle
+    float getAvgdx();
 };
