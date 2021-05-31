@@ -47,10 +47,14 @@ float target_angle = 0; // in degrees
 int target_x_pixel_change = 0; // in pixels, converted from the target angle
 
 // PID
-float e1 = 0;
+float e1 = 0; // dy controller
 float acc1 = 0;
 
+float e2 = 0;
+float acc2 = 0; // dx controller
+
 const float y_kp = 0.003;
+const float x_kp = 0.003;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -79,8 +83,10 @@ void loop() {
     ofs.update(&md);
     //---------------------------------------//
     float target_dy;
-    float v;
-    const float Vt = 1;
+    float target_dx;
+    float v1;
+    float v2
+    const float Vt = 1; // Minimum voltage for motor rotation
     switch(current_command_state){
       case rover_standby:
         smps.vref = Vt;
@@ -88,17 +94,21 @@ void loop() {
 
       case rover_move:
         smps.vref = 4;
+
         target_dy = y_kp*(target_pixel_dist - ofs.total_y1); // P controller for y
+        target_dx = x_kp*(0 - ofs.total_x1); // P controller to maintain straight line
+
         if (abs(target_dy) > 3){
           target_dy = (target_dy > 0) ? 3 : -3;
         }
-        v = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
-        if (v >= 0){
-          motor.setMotorDirection(fwd);
-        } else {
-          motor.setMotorDirection(bck);
+        if (abs(target_dx) > 3){
+          target_dx = (target_dx > 0) ? 3 : -3;
         }
-        motor.setMotorDelta((int)(v/smps.vref*255), (int)-10*ofs.total_x1);
+
+        v1 = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
+        v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2);
+
+        motor.setMotorDelta((int)(v1/smps.vref*255), (int)(v2/smps.vref*255));
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
@@ -129,7 +139,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(300.0f);
+      roverMove(200.0f);
       t = false;
     }
   }
