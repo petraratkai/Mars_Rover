@@ -54,7 +54,7 @@ float e2 = 0;
 float acc2 = 0; // dx controller
 
 const float y_kp = 0.003;
-const float x_kp = 0.003;
+const float x_kp = 0.0045;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -85,7 +85,7 @@ void loop() {
     float target_dy;
     float target_dx;
     float v1;
-    float v2
+    float v2;
     const float Vt = 1; // Minimum voltage for motor rotation
     switch(current_command_state){
       case rover_standby:
@@ -139,7 +139,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(200.0f);
+      roverMove(100.0f);
       t = false;
     }
   }
