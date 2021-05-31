@@ -208,10 +208,10 @@ bool roverUpdate(){
   long int y_diff = target_pixel_dist - ofs.total_y1;
   long int x_diff = target_x_pixel_change - ofs.total_x1;
 
-  if (y_diff <= endpoint_beta){ // Check if the enpoint has been reached to a satisfactory accuracy
-    if (x_diff <= endpoint_beta){
+  if (abs(y_diff) <= endpoint_beta){ // Check if the enpoint has been reached to a satisfactory accuracy
+    if (abs(x_diff) <= endpoint_beta){
       if (endpoint_cycles_elapsed == endpoint_time_delta){ // Ensure endpoint has been met for a minimum time, avoid overshoot incorrectly identified as endpoint
-        //return true;
+        return true;
         endpoint_cycles_elapsed = 0;
       }
       endpoint_cycles_elapsed++;
