@@ -54,7 +54,7 @@ float e2 = 0;
 float acc2 = 0; // dx controller
 
 const float y_kp = 0.003;
-const float x_kp = 0.0045;
+const float x_kp = 0.004;
 
 drive_motor motor;
 drive_ofs ofs;
@@ -108,7 +108,7 @@ void loop() {
         v1 = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
         v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2);
 
-        motor.setMotorDelta((int)(v1/smps.vref*255), (int)(v2/smps.vref*255));
+        motor.setMotorDelta((int)(v1/smps.vref*255), (int)(2*v2/smps.vref*255));
         // Implement end condition here!!!!!!!!
         // Either stop command or position has settled for sufficiently long (e.g. 0.2s)
         break;
@@ -129,7 +129,7 @@ void loop() {
         v1 = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PI controller
         v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2);
 
-        motor.setMotorDelta((int)(v1/smps.vref*255), (int)(v2/smps.vref*255));
+        motor.setMotorDelta((int)(v1/smps.vref*255), (int)(2*v2/smps.vref*255));
         break;
 
       case rover_stop:
@@ -150,7 +150,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverMove(100.0f);
+      roverRotate(-45.0f);
       t = false;
     }
   }
@@ -211,7 +211,7 @@ void roverRotate(float angle){
   current_command_state = rover_rotate;
   target_dist = 0;
   target_angle = angle;
-  target_x_pixel_change = (int)(angle*41.1f);
+  target_x_pixel_change = (int)(angle*36.0f);
   if (angle > 0){
     motor.setMotorDirection(ccw);
   } else {
