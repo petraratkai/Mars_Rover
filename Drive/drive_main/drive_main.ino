@@ -62,6 +62,10 @@ const short int endpoint_beta = 3; // Tolerance of commands at the endpoint befo
 const short int endpoint_time_delta = 100; // Time (in control loop cycles) for which the endpoint needs to be reached before standby
 short int endpoint_cycles_elapsed = 0;
 
+short int stop_cycles_elapsed = 0; // Timer. Wait 'endpoint_cycles_elapsed' before returning errors via control link, after the rover has received a stop command
+bool return_error_due = false;
+bool return_success_due = false;
+
 
 drive_motor motor;
 drive_ofs ofs;
@@ -73,6 +77,8 @@ void setup() {
   smps.setup();
   motor.setup();     
   ofs.setup();
+
+  Serial1.begin(9600); // UART connection for the control link
 }
  
 bool t = true;
@@ -96,16 +102,40 @@ void loop() {
     switch(current_command_state){
       case rover_standby:
         smps.vref = max_vref;
+        if (stop_cycles_elapsed < endpoint_time_delta){ // Delay progression of the state machine to give time for the rover to stop moving
+          stop_cycles_elapsed++;
+        }
+        else{
+          if(return_error_due){
+            Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            return_error_due = false;
+          }
+          if(return_success_due){
+            Serial1.println("SUCCESS"); // Lets the control system know the rover is in standby and available for new commands
+            return_success_due = false;
+          }
+
+          if (Serial1.available() > 0){
+            // CHECK FOR INCOMING COMMANDS AND MOVE TO APPROPRIATE STATE
+          }
+        }
         break;
 
       case rover_move:
         if (roverUpdate()){
           roverStandby();
         }
+        if (checkStop()){
+          roverStandby();
+        }
         break;
 
       case rover_rotate:
         if (roverUpdate()){
+          roverStandby();
+        }
+        if (checkStop()){
           roverStandby();
         }
         break;
@@ -128,7 +158,7 @@ void loop() {
 
   if (currentMillis > f_i && currentMillis <r_i) {
     if (t){
-      roverRotate(-45.0f);
+      roverRotate(-90.0f);
       t = false;
     }
   }
@@ -187,7 +217,7 @@ void roverRotate(float angle){
   current_command_state = rover_rotate;
   target_dist = 0;
   target_angle = angle;
-  target_x_pixel_change = (int)(angle*37.0f);
+  target_x_pixel_change = (int)(angle*40.0f);
   if (angle > 0){
     motor.setMotorDirection(ccw);
   } else {
@@ -211,8 +241,9 @@ bool roverUpdate(){
   if (abs(y_diff) <= endpoint_beta){ // Check if the enpoint has been reached to a satisfactory accuracy
     if (abs(x_diff) <= endpoint_beta){
       if (endpoint_cycles_elapsed == endpoint_time_delta){ // Ensure endpoint has been met for a minimum time, avoid overshoot incorrectly identified as endpoint
-        return true;
         endpoint_cycles_elapsed = 0;
+        return_success_due = true;
+        return true;
       }
       endpoint_cycles_elapsed++;
     }
@@ -239,3 +270,18 @@ bool roverUpdate(){
 }
 
 //****************************************************************//
+
+//----------------------------- Control Connection -----------------------------//
+
+bool checkStop(){ // Checks serial buffer for the STOP instruction
+  if (Serial1.available() > 0){
+    if (Serial1.readString() == "STOP"){
+      return_error_due = true;
+      stop_cycles_elapsed = 0;
+      return true;
+    }
+  }
+  return false;
+}
+
+//------------------------------------------------------------------------------//
