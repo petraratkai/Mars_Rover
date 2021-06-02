@@ -63,7 +63,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic_list,{qos:1}); //topic list
 //client.subscribe(topic_o); //object
 //publish("comm/laptoptest",message,options);
-client.subscribe("control/esptest", function(){publish("comm/coords",message,options);});
+client.subscribe("control/esptest", function(){publish("comm/coords",JSON.stringify(message),options);});
 
 
 var timer_id=setInterval(function(){
