@@ -9,7 +9,7 @@ client.on('message', (topic, message, packet) => {
 	var options={
 	retain:true,
 	qos:1};
-	publish("comm/laptoptest", message,options);
+	//publish("comm/laptoptest", cord,options);
 })
 
 client.on("connect", () => {
@@ -55,7 +55,7 @@ var options={
 retain:true,
 qos:1};
 var topic="testtopic";
-var message="hi";
+var message= {x: 4, y: 20};
 var topic_list=["topic2","topic3","topic4"];
 var topic_o={"topic22":0,"topic33":1,"topic44":1};
 console.log("subscribing to topics");
@@ -63,9 +63,13 @@ console.log("subscribing to topics");
 //client.subscribe(topic_list,{qos:1}); //topic list
 //client.subscribe(topic_o); //object
 //publish("comm/laptoptest",message,options);
-client.subscribe("control/esptest", function(){publish("comm/laptoptest",message,options);});
+client.subscribe("control/esptest", function(){publish("comm/coords",message,options);});
 
 
-//var timer_id=setInterval(function(){publish("comm/laptoptestb",message + Math.random(),options);},5000);
+var timer_id=setInterval(function(){
+	var x = Math.random()*100;
+	var y = Math.random()*100;
+	publish("comm/coords", x + "|" + y ,options);
+},5000);
 //notice this is printed even before we connect
 console.log("end of script");
