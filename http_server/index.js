@@ -25,17 +25,28 @@ var x = 0;
 var y = 0;
 
 app.get("/rover", (req, res) => {
-  x+=0.1;
-  y+=0.1;
-  //console.log("rover pos request received");
+  x+=1;
+  y+=1;
+  console.log("rover pos request received");
   res.send("{\"x\": " + x%100 + ", \"y\": " + y%100 + "}");
 })
 var i = 0;
+var ballx, bally;
+let cord = [];
 app.get("/balls", (req, res) => {
   i++;
   console.log("ball request received");
-  if(i<2)
-  res.send("{\"x\": " + 30 + ", \"y\": " + 10 + "}")
+  if(i<=5) {
+  ballx = Math.random()*100;
+  bally = Math.random()*100;
+  let ball = {x: ballx, y:bally};
+  cord.push(ball);
+  //res.send(cord);
+  }
+  else {
+    //res.send(cord)
+  }
+  res.send(cord);
 })
 
 app.post('/sendInfo', (req, res) => {

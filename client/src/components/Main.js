@@ -15,10 +15,11 @@ class Main extends Component {
           <Route path="/profile" component={Other} />
           <Redirect from='*' to='/dashboard' />
         </Switch>
-      
+
       </div>
     )
   }
 }
+
 
 export default Main;

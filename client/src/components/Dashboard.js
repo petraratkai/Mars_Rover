@@ -3,6 +3,20 @@ import Map from "./Map.js";
 import Pointinput from "./PointInput.js";
 
 class Dashboard extends Component {
+  constructor(props){
+        super(props);
+        this.state = {
+            coords: {
+              x:0,
+              y:0
+            }
+        }
+    }
+  handleCallback = (coordinates) => {
+    //pointinput state
+    alert(JSON.stringify(coordinates));
+    this.setState({coords: coordinates});
+  }
   render() {
     return (
       <div className="content">
@@ -18,7 +32,7 @@ class Dashboard extends Component {
                 <div className="card-body ">
                   <div className="legend">
                   <div className = "board">
-                    <Map />
+                    <Map parentCallback = {this.handleCallback}/>
                     </div>
                     <hr />
                     <div className ="stats">
@@ -36,7 +50,7 @@ class Dashboard extends Component {
                     <p className="card-category">Input commands to control the rover</p>
                   </div>
                   <div className="card-body ">
-                    <Pointinput />
+                    <Pointinput coords = {this.state.coords}/>
                   </div>
                   <div className="card-footer ">
                     <hr />

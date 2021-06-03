@@ -41,25 +41,17 @@ import Main from './components/Main'
 function App() {
   const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) =>  setData(data.message));
-  }, []);
     return (
       <div className="wrapper">
         <Router>
           <Sidebar />
           <Route path='/' component={Main} />
         </Router>
-        <div>
-        <img src ={logo} className="App-logo" alt = "logo" />
-        <p>{!data ? "Loading..." : data} </p>
-        </div>
+
       </div>
 
     )
-  
+
 }
 
 

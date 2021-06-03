@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom'
 class Sidebar extends Component {
   render() {
     return (
-      <div className="sidebar">
+      <div className="sidebar" data-color="orange">
         <div className="sidebar-wrapper">
           <div className="logo">
             <Link to='/' className="simple-text">

@@ -11,8 +11,8 @@ import '../assets/css/dashboard.css'
 class Pointinput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {x: '', y: ''};
-
+    this.state = {x: props.coords.x, y: props.coords.y};
+    alert("props" + JSON.stringify(props));
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -26,7 +26,8 @@ class Pointinput extends React.Component {
     });
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
     alert('A destination point was submitted: ' + this.state.x + ', ' + this.state.y);
     const test = { test: "This is a test" };
     const point = {
@@ -34,22 +35,25 @@ class Pointinput extends React.Component {
       y: this.state.y
     };
     axios.post(
-  'http://localhost:3001/sendInfo',
-).then(response => {
+  'http://localhost:3001/sendInfo', this.state
+)/*.then(response => {
     console.log(response);
     return response.json();
-  });
+  })*/;
 
   }
+  componentWillReceiveProps(nextProps) {
+  this.setState({ x: nextProps.coords.x, y: nextProps.coords.y });
+}
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form  onSubmit={this.handleSubmit}>
         <label>
           x:
           <input
             name="x"
-            type="number"
+             type="text" pattern="[0-9]*([.][0.9])?*"
             value={this.state.x}
             style={{ width: "50px" }}
             onChange={this.handleInputChange} />
@@ -58,7 +62,7 @@ class Pointinput extends React.Component {
           y:
           <input
             name = "y"
-            type="number"
+            type="text" pattern="[0-9]*([.][0.9])?*"
             value={this.state.y}
             style={{ width: "50px"}}
             onChange={this.handleInputChange} />
