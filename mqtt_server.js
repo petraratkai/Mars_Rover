@@ -69,7 +69,7 @@ client.subscribe("control/esptest", function(){publish("comm/coords",JSON.string
 var timer_id=setInterval(function(){
 	var x = Math.random()*100;
 	var y = Math.random()*100;
-	publish("comm/coords", x + "|" + y ,options);
+	publish("comm/coords", 20 + "|" + 40.2 ,options);
 },90000);
 //notice this is printed even before we connect
 console.log("end of script");
