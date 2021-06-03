@@ -27,16 +27,6 @@ unsigned int loopTrigger;
 unsigned int com_count=0;   // a variables to count the interrupts. Used for program debugging.
 //*********************************************************//
 
-
-//************************** Motor Constants **************************//
-unsigned long previousMillis = 0; //initializing time counter
-const long f_i = 2000;           //time to move in forward direction, please calculate the precision and conversion factor
-const long r_i = 20000;           //time to rotate clockwise
-const long b_i = 30000;           //time to move backwards
-const long l_i = 40000;           //time to move anticlockwise
-const long s_i = 50000;    
-//*******************************************************************//
-
 //************************ Control Variables ***************************//
 enum command_state {rover_standby, rover_move, rover_rotate, rover_stop};
 
@@ -163,34 +153,6 @@ void loop() {
         break;
     }
   }
-  
-  //************************** Motor Testing **************************//
-  
-  if (currentMillis < f_i) {
-    roverStandby();
-  }
-
-  if (currentMillis > f_i && currentMillis <r_i) {
-    if (t){
-      roverRotate(-90.0f);
-      t = false;
-    }
-  }
-
-  if (currentMillis > r_i && currentMillis <b_i) {
-    roverStandby();
-  }
-
-  if (currentMillis > b_i && currentMillis <l_i) {
-    roverStandby();
-  }
-
-  if (currentMillis > l_i) {
-    roverStandby();
-  }
-
-  motor.update(); 
-  //*******************************************************************//
 }
 
 
