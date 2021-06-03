@@ -72,6 +72,10 @@ drive_ofs ofs;
 drive_smps smps;
 //**********************************************************************//
 
+// Control link
+const byte received_data_length = 32;
+char received_data[received_data_length];
+
 
 void setup() {
   smps.setup();
@@ -99,6 +103,7 @@ void loop() {
     float v1;
     float v2;
     const float Vt = 1; // Minimum voltage for motor rotation
+    String incoming_command = "";
     switch(current_command_state){
       case rover_standby:
         smps.vref = max_vref;
@@ -107,17 +112,26 @@ void loop() {
         }
         else{
           if(return_error_due){
+            Serial1.println("driveFail");
             Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
             Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial1.println("SUCCESS"); // Lets the control system know the rover is in standby and available for new commands
+            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
           if (Serial1.available() > 0){
             // CHECK FOR INCOMING COMMANDS AND MOVE TO APPROPRIATE STATE
+            incoming_command = Serial1.readStringUntil(':');
+            if (incoming_command == "rotate"){
+              roverRotate(Serial1.parseFloat());
+            } else if (incoming_command == "drive"){
+              roverMove(Serial1.parseFloat());
+            } else {
+              // RETURN ERROR
+            }
           }
         }
         break;
@@ -275,7 +289,7 @@ bool roverUpdate(){
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
   if (Serial1.available() > 0){
-    if (Serial1.readString() == "STOP"){
+    if (Serial1.readString() == "stop"){
       return_error_due = true;
       stop_cycles_elapsed = 0;
       return true;
@@ -284,4 +298,29 @@ bool checkStop(){ // Checks serial buffer for the STOP instruction
   return false;
 }
 
+/*
+void readToBuffer(){ // Read in new data from Serial1 to the received_data buffer
+  char end = '\n';
+  char c;
+  short int i = 0;
+
+  while (Serial1.available() > 0){
+    c = Serial1.read();
+
+    if (c != end){
+      received_data[i] = c;
+      i = (i >= received_data_length - 1) ? i : i + 1;
+    } else {
+      received_data[i] = '\0'; // Null-terminated string
+      i = 0;
+    }
+  }
+}
+*/
+
+bool checkCurrentLimit(){
+  // CHECK FOR HIGH CURRENT (e.g. motors have been stopped) 
+  // return an error to control and move to standby
+  return false;
+}
 //------------------------------------------------------------------------------//

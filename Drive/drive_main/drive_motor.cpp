@@ -36,14 +36,6 @@ switch (dir)
 void drive_motor::setMotorDelta(int avg, int delta){
     int r = constrain(avg + delta/2, -255, 255);
     int l = constrain(avg - delta/2, -255, 255);
-    /* ADD CODE TO REVERSE MOTOR IF PWM LESS THAN 0
-    if (r < 0){
-      DIRRstate = (DIRRstate) ? LOW : HIGH;
-    }
-    if (l < 0){
-      DIRLstate = (DIRLstate) ? LOW : HIGH;
-    }
-    */
     if (r > 0 && l > 0){
       setMotorDirection(fwd);
     } else if (r < 0 && l < 0){
