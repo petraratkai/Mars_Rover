@@ -156,7 +156,6 @@ void loop() {
         break;
     }
   }
-  motor.update();
 }
 
 
@@ -247,6 +246,7 @@ bool roverUpdate(){
   v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2); // Return value in volts 
 
   motor.setMotorDelta((int)(v1/smps.vref*255), (int)(2*v2/smps.vref*255)); // Voltage setpoint is converted to a PWM value on the motors
+  motor.update();
   return false;
 }
 
