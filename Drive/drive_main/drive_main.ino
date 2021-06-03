@@ -72,7 +72,7 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  Serial1.begin(9600); // UART connection for the control link
+  Serial.begin(9600); // UART connection for the control link
 }
  
 bool t = true;
@@ -102,23 +102,23 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial1.println("driveFail");
-            Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            Serial.println("driveFail");
+            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
-          if (Serial1.available() > 0){
+          if (Serial.available() > 0){
             // CHECK FOR INCOMING COMMANDS AND MOVE TO APPROPRIATE STATE
-            incoming_command = Serial1.readStringUntil(':');
+            incoming_command = Serial.readStringUntil(':');
             if (incoming_command == "rotate"){
-              roverRotate(Serial1.parseFloat());
+              roverRotate(Serial.parseFloat());
             } else if (incoming_command == "drive"){
-              roverMove(Serial1.parseFloat());
+              roverMove(Serial.parseFloat());
             } else {
               // RETURN ERROR
             }
@@ -250,8 +250,8 @@ bool roverUpdate(){
 //----------------------------- Control Connection -----------------------------//
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
-  if (Serial1.available() > 0){
-    if (Serial1.readString() == "stop"){
+  if (Serial.available() > 0){
+    if (Serial.readString() == "stop"){
       return_error_due = true;
       stop_cycles_elapsed = 0;
       return true;
