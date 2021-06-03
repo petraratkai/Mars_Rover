@@ -14,7 +14,7 @@ class Dashboard extends Component {
     }
   handleCallback = (coordinates) => {
     //pointinput state
-    alert(JSON.stringify(coordinates));
+    //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
   }
   render() {
