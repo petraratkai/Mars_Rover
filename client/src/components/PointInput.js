@@ -35,7 +35,7 @@ class Pointinput extends React.Component {
       y: this.state.y
     };
     axios.post(
-  'http://localhost:8000/sendInfo', this.state
+  'http://' + window.location.hostname + ':8000/sendInfo', this.state
 )/*.then(response => {
     console.log(response);
     return response.json();

@@ -100,7 +100,7 @@ class Map extends React.Component {
         })
     }, 500);
     this.ballinterval = setInterval(()=> {
-      alert(window.location.hostname);
+      //alert(window.location.hostname);
       axios.get('http://' + window.location.hostname + ':8000/balls')
         .then(res => {
           if(res.data) {
