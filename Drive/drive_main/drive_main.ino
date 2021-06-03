@@ -196,6 +196,7 @@ void roverMove(float dist){
 void roverRotate(float angle){
   current_command_state = rover_rotate;
   target_dist = 0;
+  target_pixel_dist = 0;
   target_angle = angle;
   target_x_pixel_change = (int)(angle*40.0f);
   if (angle > 0){
