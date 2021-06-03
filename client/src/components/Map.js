@@ -90,7 +90,7 @@ class Map extends React.Component {
   componentDidMount  ()
   {
     this.roverinterval = setInterval(()=> {
-      axios.get('http://localhost:3001/rover')
+      axios.get('http://' + window.location.hostname + ':3001/rover')
         .then(res => {
           //alert(this.rover.current);
           if(this.rover.current) this.rover.current.changePos(res.data.x,res.data.y);
@@ -100,7 +100,7 @@ class Map extends React.Component {
         })
     }, 500);
     this.ballinterval = setInterval(()=> {
-      axios.get('http://localhost:3001/balls')
+      axios.get('http://' + window.location.hostname + ':3001/balls')
         .then(res => {
           if(res.data) {
             //alert(JSON.stringify( res.data));

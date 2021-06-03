@@ -12,7 +12,7 @@ class Pointinput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {x: props.coords.x, y: props.coords.y};
-    alert("props" + JSON.stringify(props));
+    //alert("props" + JSON.stringify(props));
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
