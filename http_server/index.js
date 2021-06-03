@@ -93,7 +93,7 @@ app.post('/sendInfo', (req, res) => {
     console.log("recieved request: " + JSON.stringify(req.body));
     //console.log("test: " + req.body.{\"x)
     //res.json({message: "received req " + req});
-    publish('comm/coords', req.body, options);
+    publish('comm/coords', JSON.stringify(req.body), options);
     res.set('Content-Type', 'text/plain');
     res.send(`You sent: req to Express`);
 });
