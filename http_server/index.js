@@ -112,6 +112,6 @@ console.log("subscribing to topics");
 //client.subscribe(topic_o); //object
 client.subscribe("control/esptest");
 
-var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
+//var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
 console.log("end of script");
