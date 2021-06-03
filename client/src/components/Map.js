@@ -111,6 +111,7 @@ class Map extends React.Component {
             //let ball_cord = this.state.ball_cord.slice();
             //ball_cord.push(res.data);
             //alert(JSON.stringify(res.data));
+            alert(window.location.hostname)
             this.setState({ball_cord: res.data});
           }
         }
