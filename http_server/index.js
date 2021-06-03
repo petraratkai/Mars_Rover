@@ -5,7 +5,7 @@ const path = require("path");
 var cors = require('cors');
 var mqtt    = require('mqtt');
 var client  = mqtt.connect("mqtt:/localhost",{clientId:"mqttjs01"});
-
+var count = 0;
 var rover_cord = {x:0, y:0};
 var ball_cord = [];
 
@@ -33,10 +33,10 @@ client.publish(topic,msg,options);
 
 }
 count+=1;
-if (count==2) //ens script
+/*if (count==2) //ens script
 	clearTimeout(timer_id); //stop timer
 	client.end();
-}
+}*/
 
 const PORT = process.env.PORT || 8000;
 
@@ -92,7 +92,7 @@ app.post('/sendInfo', (req, res) => {
     console.log("recieved request: " + JSON.stringify(req.body));
     //console.log("test: " + req.body.{\"x)
     //res.json({message: "received req " + req});
-    publish('inputCoords', req.body, options);
+    publish('comm/coords', req.body, options);
     res.set('Content-Type', 'text/plain');
     res.send(`You sent: req to Express`);
 });
