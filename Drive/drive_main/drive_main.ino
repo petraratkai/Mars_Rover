@@ -88,12 +88,10 @@ void loop() {
     MD md; // ------------Update OFS ---------------//
     ofs.update(&md);
 
-    float target_dy;
-    float target_dx;
-    float v1;
-    float v2;
     const float Vt = 1; // Minimum voltage for motor rotation
+    float received_float = 0;
     String incoming_command = "";
+    
     switch(current_command_state){
       case rover_standby:
         smps.vref = max_vref;
@@ -115,10 +113,14 @@ void loop() {
           if (Serial.available() > 0){
             // CHECK FOR INCOMING COMMANDS AND MOVE TO APPROPRIATE STATE
             incoming_command = Serial.readStringUntil(':');
+            received_float = Serial.parseFloat();
             if (incoming_command == "rotate"){
-              roverRotate(Serial.parseFloat());
+              roverRotate(received_float);
+              Serial.println("Rotating");
+              Serial.println(received_float);
             } else if (incoming_command == "drive"){
-              roverMove(Serial.parseFloat());
+              roverMove(received_float);
+              Serial.println("Moving");
             } else {
               // RETURN ERROR
             }
@@ -130,18 +132,19 @@ void loop() {
         if (roverUpdate()){
           roverStandby();
         }
-        if (checkStop()){
-          roverStandby();
-        }
+        //if (checkStop()){
+        //  roverStandby();
+        //}
         break;
 
       case rover_rotate:
         if (roverUpdate()){
           roverStandby();
         }
-        if (checkStop()){
-          roverStandby();
-        }
+        //Serial.println("rotate_update");
+        //if (checkStop()){
+        //  roverStandby();
+        //}
         break;
 
       case rover_stop:
@@ -153,6 +156,7 @@ void loop() {
         break;
     }
   }
+  motor.update();
 }
 
 
@@ -179,6 +183,7 @@ void roverMove(float dist){
   current_command_state = rover_move;
   target_dist = dist;
   target_pixel_dist = (long int)(dist*15.748);
+  Serial.println(target_pixel_dist);
   target_x_pixel_change = 0;
   if (dist > 0){
     motor.setMotorDirection(fwd);
