@@ -65,8 +65,12 @@ drive_smps smps;
 // Control link
 const byte received_data_length = 32;
 char received_data[received_data_length];
+char temp_data[received_data_length];
 bool data_available = false;
 String input_string = "";
+
+char command_from_control[10] = {0};
+float float_from_control = 0; 
 
 
 void setup() {
@@ -74,7 +78,7 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  Serial1.begin(9600); // UART connection for the control link
+  Serial.begin(9600); // UART connection for the control link
 }
  
 bool t = true;
@@ -82,6 +86,9 @@ bool t2 = true;
 
 void loop() {
   unsigned long currentMillis = millis(); // Slower due to TCA0?
+
+  readToBuffer();
+  
   if(loopTrigger) { // 1000/1024 kHz, set by TCA0
     loopTrigger = 0;
     
@@ -102,27 +109,29 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial1.println("driveFail");
-            Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            Serial.println("driveFail");
+            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
-          if (Serial1.available() > 0){
-            // CHECK FOR INCOMING COMMANDS AND MOVE TO APPROPRIATE STATE
-            incoming_command = Serial1.readStringUntil(':');
-            received_float = Serial1.parseFloat();
-            if (incoming_command == "rotate"){
-              roverRotate(received_float);
-            } else if (incoming_command == "drive"){
-              roverMove(received_float);
-            } else {
-              // RETURN ERROR
+          if(data_available){
+            Serial.println("data received");
+            strcpy(temp_data, received_data);
+            parseCommand();
+            Serial.println(command_from_control);
+            Serial.println(float_from_control);
+
+            if (!strcmp(command_from_control, "rotate")){
+              roverRotate(float_from_control);
+            } else if (!strcmp(command_from_control, "drive")){
+              roverMove(float_from_control);
             }
+            data_available = false;
           }
         }
         break;
@@ -131,9 +140,15 @@ void loop() {
         if (roverUpdate()){
           roverStandby();
         }
-        //if (checkStop()){
-        //  roverStandby();
-        //}
+        if (data_available){
+          Serial.println("data received");
+          if(!strcmp(received_data, "stop")){
+            roverStandby();
+            return_error_due = true;
+            stop_cycles_elapsed = 0;
+          }
+          data_available = false;
+        }
         break;
 
       case rover_rotate:
@@ -254,8 +269,8 @@ bool roverUpdate(){
 //----------------------------- Control Connection -----------------------------//
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
-  if (Serial1.available() > 0){
-    if (Serial1.readString() == "stop"){
+  if (Serial.available() > 0){
+    if (Serial.readString() == "stop"){
       return_error_due = true;
       stop_cycles_elapsed = 0;
       return true;
@@ -264,14 +279,13 @@ bool checkStop(){ // Checks serial buffer for the STOP instruction
   return false;
 }
 
-/*
 void readToBuffer(){ // Read in new data from Serial1 to the received_data buffer
   char end = '\n';
   char c;
-  short int i = 0;
+  static short int i = 0;
 
-  while (Serial1.available() > 0 && !data_available){
-    c = Serial1.read();
+  while (Serial.available() > 0 && !data_available){
+    c = Serial.read();
 
     if (c != end){
       received_data[i] = c;
@@ -283,16 +297,14 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
     }
   }
 }
-*/
 
-/*
-void serialEvent(){
-  while(Serial.available()){
-    char inChar = Serial.read();
-    //input_string += 
-  }
+void parseCommand(){ // Called during standby if there is data_available
+  char *strtoki;
+  strtoki = strtok(temp_data, ":");
+  strcpy(command_from_control, strtoki);
+  strtoki = strtok(NULL, "\0");
+  float_from_control = atof(strtoki); 
 }
-*/
 
 bool checkCurrentLimit(){
   // CHECK FOR HIGH CURRENT (e.g. motors have been stopped) 
