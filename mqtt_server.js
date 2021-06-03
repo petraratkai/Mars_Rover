@@ -70,6 +70,6 @@ var timer_id=setInterval(function(){
 	var x = Math.random()*100;
 	var y = Math.random()*100;
 	publish("comm/coords", x + "|" + y ,options);
-},5000);
+},90000);
 //notice this is printed even before we connect
 console.log("end of script");
