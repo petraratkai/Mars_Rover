@@ -22,7 +22,19 @@ hold off
 
 figure
 hold on
+set(gca, 'fontsize', 12)
+yyaxis left
 plot(t, dx_mean);
+
+xlim([1000 1600]);
+title("Free Response X-axis")
+
+ylabel("Time-Averaged Velocity (pixels/cycle)")
+xlabel("Time (cycles)")
+
+yyaxis right
+ylabel("Voltage (V)")
 plot(t, v);
-xlim([1000 1800]);
+
 hold off
+saveas(gcf, "x_free_response.jpg")

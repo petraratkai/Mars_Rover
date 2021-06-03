@@ -29,10 +29,23 @@ tsim = 1:1e-3:2.999;
 y = lsim(sys, vsim, tsim);
 
 figure
+set(gca, 'fontsize', 12)
 hold on
+
+yyaxis left
 plot(t, dy_mean);
-plot(t, v);
 plot(tsim*1000, y);
-xlabel("cycles")
-ylabel("dy/cycle")
+ylim([-3.5 3.5])
+
+ylabel("Time-Averaged Velocity (pixels/cycle)")
+xlabel("Time (cycles)")
+
+yyaxis right
+ylabel("Voltage (V)")
+plot(t, v);
+
+legend("Measured", "Simulated", "Setpoint")
+title("Forced Doublet Response Y-axis")
 hold off
+
+saveas(gcf, "y_forced_response.jpg")
