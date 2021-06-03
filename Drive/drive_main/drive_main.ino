@@ -65,6 +65,8 @@ drive_smps smps;
 // Control link
 const byte received_data_length = 32;
 char received_data[received_data_length];
+bool data_available = false;
+String input_string = "";
 
 
 void setup() {
@@ -72,7 +74,7 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  Serial.begin(9600); // UART connection for the control link
+  Serial1.begin(9600); // UART connection for the control link
 }
  
 bool t = true;
@@ -100,27 +102,24 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial.println("driveFail");
-            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            Serial1.println("driveFail");
+            Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
-          if (Serial.available() > 0){
+          if (Serial1.available() > 0){
             // CHECK FOR INCOMING COMMANDS AND MOVE TO APPROPRIATE STATE
-            incoming_command = Serial.readStringUntil(':');
-            received_float = Serial.parseFloat();
+            incoming_command = Serial1.readStringUntil(':');
+            received_float = Serial1.parseFloat();
             if (incoming_command == "rotate"){
               roverRotate(received_float);
-              Serial.println("Rotating");
-              Serial.println(received_float);
             } else if (incoming_command == "drive"){
               roverMove(received_float);
-              Serial.println("Moving");
             } else {
               // RETURN ERROR
             }
@@ -143,7 +142,7 @@ void loop() {
         }
         //Serial.println("rotate_update");
         //if (checkStop()){
-        //  roverStandby();
+        // roverStandby();
         //}
         break;
 
@@ -182,7 +181,6 @@ void roverMove(float dist){
   current_command_state = rover_move;
   target_dist = dist;
   target_pixel_dist = (long int)(dist*15.748);
-  Serial.println(target_pixel_dist);
   target_x_pixel_change = 0;
   if (dist > 0){
     motor.setMotorDirection(fwd);
@@ -256,8 +254,8 @@ bool roverUpdate(){
 //----------------------------- Control Connection -----------------------------//
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
-  if (Serial.available() > 0){
-    if (Serial.readString() == "stop"){
+  if (Serial1.available() > 0){
+    if (Serial1.readString() == "stop"){
       return_error_due = true;
       stop_cycles_elapsed = 0;
       return true;
@@ -272,7 +270,7 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
   char c;
   short int i = 0;
 
-  while (Serial1.available() > 0){
+  while (Serial1.available() > 0 && !data_available){
     c = Serial1.read();
 
     if (c != end){
@@ -281,7 +279,17 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
     } else {
       received_data[i] = '\0'; // Null-terminated string
       i = 0;
+      data_available = true;
     }
+  }
+}
+*/
+
+/*
+void serialEvent(){
+  while(Serial.available()){
+    char inChar = Serial.read();
+    //input_string += 
   }
 }
 */
