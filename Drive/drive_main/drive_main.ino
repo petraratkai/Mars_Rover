@@ -78,7 +78,7 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  Serial1.begin(9600); // UART connection for the control link
+  //Serial1.begin(9600); // UART connection for the control link
   Serial.begin(9600);
 }
  
@@ -110,9 +110,9 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial1.println("driveFail");
-            Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            Serial.println("driveFail");
+            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
@@ -142,6 +142,7 @@ void loop() {
           roverStandby();
         }
         checkStop();
+        checkCurrent();
         break;
 
       case rover_rotate:
@@ -149,6 +150,7 @@ void loop() {
           roverStandby();
         }
         checkStop();
+        checkCurrent();
         break;
 
       case rover_stop:
@@ -260,7 +262,7 @@ bool roverUpdate(){
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
   if (data_available){
-    Serial1.println("data received");
+    Serial.println("data received");
     if(!strcmp(received_data, "stop")){
       roverStandby();
       return_error_due = true;
@@ -270,13 +272,22 @@ bool checkStop(){ // Checks serial buffer for the STOP instruction
   }
 }
 
+void checkCurrent(){ // Intended to identify when the rover's wheels have been stopped or locked up
+  if (smps.getiL() > 2.5 ){
+    Serial.println("current limited");
+    roverStandby();
+    return_error_due = true;
+    stop_cycles_elapsed = 0;
+  }
+}
+
 void readToBuffer(){ // Read in new data from Serial1 to the received_data buffer
   char end = '\n';
   char c;
   static short int i = 0;
 
-  while (Serial1.available() > 0 && !data_available){
-    c = Serial1.read();
+  while (Serial.available() > 0 && !data_available){
+    c = Serial.read();
 
     if (c != end){
       received_data[i] = c;

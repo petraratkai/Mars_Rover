@@ -39,4 +39,6 @@ public:
     
     void update();
     void setup();
+
+    float getiL();
 };

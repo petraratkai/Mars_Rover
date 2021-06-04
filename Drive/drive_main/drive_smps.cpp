@@ -131,3 +131,7 @@ void drive_smps::setup(){
   ina219.init(); // this initiates the current sensor
   Wire.setClock(700000); // set the comms speed for i2c
 }
+
+float drive_smps::getiL(){
+  return iL;
+}
