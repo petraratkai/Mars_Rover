@@ -118,16 +118,16 @@ void loop() {
             return_error_due = false;
           }
           if(return_success_due){
-            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            //Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
           if(data_available){
-            Serial.println("data received");
+            //Serial.println("data received");
             strcpy(temp_data, received_data);
             parseCommand();
-            Serial.println(command_from_control);
-            Serial.println(float_from_control);
+            //Serial.println(command_from_control);
+            //Serial.println(float_from_control);
 
             if (!strcmp(command_from_control, "rotate")){
               roverRotate(float_from_control);
@@ -162,12 +162,15 @@ void loop() {
         break;
     }
   }
-  if(slow_trigger == 100){
-    if(current_command_state == rover_move){
+  if(slow_trigger == 10){
+    if(current_command_state == rover_move || current_command_state == rover_rotate){
       Serial.print(smps.getiL());
+      Serial.print(",");
+      Serial.print(smps.getvb());
       Serial.print(",");
       Serial.println(currentMillis);
     }
+    slow_trigger = 0;
   }
 }
 
