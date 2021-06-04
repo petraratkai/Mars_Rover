@@ -78,7 +78,8 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  Serial.begin(9600); // UART connection for the control link
+  Serial1.begin(9600); // UART connection for the control link
+  Serial.begin(9600);
 }
  
 bool t = true;
@@ -109,13 +110,13 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial.println("driveFail");
-            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            Serial1.println("driveFail");
+            Serial1.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial1.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
@@ -259,7 +260,7 @@ bool roverUpdate(){
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
   if (data_available){
-    Serial.println("data received");
+    Serial1.println("data received");
     if(!strcmp(received_data, "stop")){
       roverStandby();
       return_error_due = true;
@@ -274,8 +275,8 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
   char c;
   static short int i = 0;
 
-  while (Serial.available() > 0 && !data_available){
-    c = Serial.read();
+  while (Serial1.available() > 0 && !data_available){
+    c = Serial1.read();
 
     if (c != end){
       received_data[i] = c;
