@@ -140,25 +140,14 @@ void loop() {
         if (roverUpdate()){
           roverStandby();
         }
-        if (data_available){
-          Serial.println("data received");
-          if(!strcmp(received_data, "stop")){
-            roverStandby();
-            return_error_due = true;
-            stop_cycles_elapsed = 0;
-          }
-          data_available = false;
-        }
+        checkStop();
         break;
 
       case rover_rotate:
         if (roverUpdate()){
           roverStandby();
         }
-        //Serial.println("rotate_update");
-        //if (checkStop()){
-        // roverStandby();
-        //}
+        checkStop();
         break;
 
       case rover_stop:
@@ -188,7 +177,7 @@ void roverStandby(){
   target_dist = 0;
   target_angle = 0;
   motor.stopMotors();
-  ofs.clear();
+  //ofs.clear();
 }
 
 // Switches the drive system to the rover_move state
@@ -269,14 +258,15 @@ bool roverUpdate(){
 //----------------------------- Control Connection -----------------------------//
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
-  if (Serial.available() > 0){
-    if (Serial.readString() == "stop"){
+  if (data_available){
+    Serial.println("data received");
+    if(!strcmp(received_data, "stop")){
+      roverStandby();
       return_error_due = true;
       stop_cycles_elapsed = 0;
-      return true;
     }
+    data_available = false;
   }
-  return false;
 }
 
 void readToBuffer(){ // Read in new data from Serial1 to the received_data buffer
