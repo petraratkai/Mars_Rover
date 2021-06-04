@@ -25,6 +25,7 @@ INA219_WE ina219; // this is the instantiation of the library for the current se
 
 unsigned int loopTrigger;
 unsigned int com_count=0;   // a variables to count the interrupts. Used for program debugging.
+unsigned int slow_trigger = 0; // operates at 100th speed of main control loop
 //*********************************************************//
 
 //************************ Control Variables ***************************//
@@ -79,7 +80,7 @@ void setup() {
   ofs.setup();
 
   //Serial1.begin(9600); // UART connection for the control link
-  Serial.begin(9600);
+  Serial.begin(1000000);
 }
  
 bool t = true;
@@ -92,6 +93,7 @@ void loop() {
   
   if(loopTrigger) { // 1000/1024 kHz, set by TCA0
     loopTrigger = 0;
+    slow_trigger++;
     
     smps.update(); // ------------- Update SMPS ------------//
 
@@ -142,9 +144,6 @@ void loop() {
           roverStandby();
         }
         checkStop();
-        Serial.print(smps.getiL());
-        Serial.print(",");
-        Serial.println(currentMillis);
         break;
 
       case rover_rotate:
@@ -161,6 +160,13 @@ void loop() {
       default:
         roverStandby();
         break;
+    }
+  }
+  if(slow_trigger == 100){
+    if(current_command_state == rover_move){
+      Serial.print(smps.getiL());
+      Serial.print(",");
+      Serial.println(currentMillis);
     }
   }
 }
