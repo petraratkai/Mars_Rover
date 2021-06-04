@@ -116,7 +116,7 @@ void loop() {
             return_error_due = false;
           }
           if(return_success_due){
-            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
@@ -273,7 +273,7 @@ bool checkStop(){ // Checks serial buffer for the STOP instruction
 }
 
 void checkCurrent(){ // Intended to identify when the rover's wheels have been stopped or locked up
-  if (smps.getiL() > 2.5 ){
+  if (smps.getiL() > 2){
     Serial.println("current limited");
     roverStandby();
     return_error_due = true;
