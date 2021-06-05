@@ -11,7 +11,7 @@ class Clearmap extends React.Component {
   }
   handleClick() {
     axios.post(
-  'http://' + window.location.hostname + ':8000/clearmap'
+  'http://' + window.location.hostname + ':8000/clearmap', "clearMap"
 );
   alert('resetting map');
   }
