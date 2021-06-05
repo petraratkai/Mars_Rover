@@ -85,6 +85,7 @@ app.get("/balls", (req, res) => {
 })
 
 app.get("/clearmap", (req, res) => {
+	console.log("map being cleared");
 	cord = [];
 })
 var options={
