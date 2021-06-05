@@ -83,6 +83,10 @@ app.get("/balls", (req, res) => {
   }
   res.send(cord);
 })
+
+app.get("/clearmap", (req, res) => {
+	cord = [];
+})
 var options={
 retain:true,
 qos:0};

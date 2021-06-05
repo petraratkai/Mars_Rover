@@ -98,3 +98,11 @@ ol, ul {
   z-index: 1;
 
 }
+
+.clearmap {
+  margin: 0;
+  position: relative;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}

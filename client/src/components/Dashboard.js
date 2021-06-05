@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Map from "./Map.js";
 import Pointinput from "./PointInput.js";
+import Clearmap from "./clearmap.js"
 
 class Dashboard extends Component {
   constructor(props){
@@ -51,6 +52,9 @@ class Dashboard extends Component {
                   </div>
                   <div className="card-body ">
                     <Pointinput coords = {this.state.coords}/>
+                  </div>
+                  <div>
+                    <Clearmap/>
                   </div>
                   <div className="card-footer ">
                     <hr />
