@@ -72,7 +72,7 @@ class Dashboard extends Component {
                     <p className="card-category">messages from the control module</p>
                   </div>
                   <div className="card-body ">
-
+                    <Notifications/>
                   </div>
                   <div className="card-footer ">
                     <hr />
