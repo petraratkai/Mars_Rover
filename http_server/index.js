@@ -84,7 +84,7 @@ app.get("/balls", (req, res) => {
   res.send(cord);
 })
 
-app.get("/clearmap", (req, res) => {
+app.post("/clearmap", (req, res) => {
 	console.log(req.body);
 	cord = [];
 })
