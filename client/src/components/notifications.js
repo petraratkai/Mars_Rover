@@ -3,11 +3,17 @@ import React, { Component } from 'react';
 class Notifications extends React.Component {
   render () {
     return (
-      <div>
-        hello
-        how are you
-        :)
-      </div>
+      <ul>
+        <li>
+          hello
+        </li>
+        <li>
+          how are you
+        </li>
+        <li>
+          :)
+        </li>
+      </ul>
     );
   }
 }
