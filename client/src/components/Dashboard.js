@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Map from "./Map.js";
 import Pointinput from "./PointInput.js";
 import Clearmap from "./clearmap.js"
+import Notifications from "./notifications.js"
 
 class Dashboard extends Component {
   constructor(props){
