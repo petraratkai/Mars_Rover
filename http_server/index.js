@@ -12,8 +12,8 @@ var ball_cord = [];
 //database stuff
 var dbo;
 const uri = "mongodb+srv://MarsRover:Ji3mrANVpliUEzA9@cluster0.899ar.mongodb.net/MarsRover?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(uri, (err, db) => {
+const mongoClient = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoClient.connect(uri, (err, db) => {
 	if(err)
 		throw(err);
 	dbo = db.db("MarsRover");
