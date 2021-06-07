@@ -107,6 +107,7 @@ app.get("/balls", (req, res) => {
 app.post("/clearmap", (req, res) => {
 	console.log(req.body);
 	cord = [];
+	dbo.collection("balls").deleteMany({});
 })
 var options={
 retain:true,
