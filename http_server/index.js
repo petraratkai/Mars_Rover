@@ -19,7 +19,10 @@ mongoClient.connect((err, db) => {
 	if(err)
 		throw(err);
 	dbo = db.db("MarsRover");
-	if(dbo) dbo.collection("balls").deleteMany({});
+	if(dbo) {
+		dbo.collection("balls").deleteMany({});
+		dbo.collection("commands").deleteMany({});
+	}
 	console.log("MongoDB connected")
 });
 
@@ -115,6 +118,7 @@ var options={
 retain:true,
 qos:0};
 
+var d = new Date;
 app.post('/sendInfo', (req, res) => {
     //var input = JSON.parse(req);
     //console.log(JSON.stringify(req.headers));
@@ -122,7 +126,8 @@ app.post('/sendInfo', (req, res) => {
     //console.log("test: " + req.body.{\"x)
     //res.json({message: "received req " + req});
     publish('comm/coords', req.body.x + '|' + req.body.y, options);
-		dbo.collection("commands").insertOne(req.body, (err, result) => {
+		var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
+		dbo.collection("commands").insertOne(command, (err, result) => {
 			if(err) throw err;
 			console.log("command saved in db");
 		})
