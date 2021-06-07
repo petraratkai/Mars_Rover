@@ -157,7 +157,7 @@ class Map extends React.Component {
         ball = greenball;
       else if(ball_el.color =="pink")
         ball = pinkball;
-      else throw("invalid color");
+      else throw("invalid color" + ball_el.color);
       //alert(JSON.stringify(ball_el));
       return (
         <Image
