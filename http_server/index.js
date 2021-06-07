@@ -8,6 +8,7 @@ var client  = mqtt.connect("mqtt:/localhost",{clientId:"mqttjs01"});
 var count = 0;
 var rover_cord = {x:0, y:0};
 var ball_cord = [];
+let ready = false;
 
 //database stuff
 var dbo;
@@ -121,6 +122,10 @@ app.post('/sendInfo', (req, res) => {
     //console.log("test: " + req.body.{\"x)
     //res.json({message: "received req " + req});
     publish('comm/coords', req.body.x + '|' + req.body.y, options);
+		dbo.collection("commands").insertOne(req.body, (err, result) => {
+			if(err) throw err;
+			console.log("command saved in db");
+		})
     res.set('Content-Type', 'text/plain');
     res.send(`You sent: req to Express`);
 });
