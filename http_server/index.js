@@ -1,4 +1,4 @@
-import Mongo from 'mongodb';
+var Mongo = require('mongodb');
 const express = require("express");
 const path = require("path");
 //var bodyParser = require('body-parser')
