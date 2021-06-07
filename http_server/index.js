@@ -150,9 +150,9 @@ app.post('/sendInfo', (req, res) => {
     //res.json({message: "received req " + req});
 		if(ready) {
     publish('comm/coords', req.body.x + '|' + req.body.y, options);
+		ready = false;
 		}
 		else {
-			ready = false;
 			var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
