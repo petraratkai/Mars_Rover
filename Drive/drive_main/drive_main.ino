@@ -36,6 +36,8 @@ long int target_pixel_dist = 0;
 float target_angle = 0; // in degrees
 int target_x_pixel_change = 0; // in pixels, converted from the target angle
 
+const float pixel_angle_ratio = 38.0f;
+
 // PID
 float e1 = 0; // dy controller
 float acc1 = 0;
@@ -78,8 +80,8 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  //Serial1.begin(9600); // UART connection for the control link
-  Serial.begin(9600);
+  Serial1.begin(9600); // UART connection for the control link
+  //Serial.begin(9600);
 }
  
 bool t = true;
@@ -110,22 +112,23 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial.println("driveFail");
-            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
+            Serial1.print("driveFail:");
+            Serial1.print((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial1.print(":");
+            Serial1.println((target_x_pixel_change - ofs.total_x1)/(pixel_angle_ratio)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
           if(data_available){
-            Serial.println("data received");
+            //Serial.println("data received");
             strcpy(temp_data, received_data);
             parseCommand();
-            Serial.println(command_from_control);
-            Serial.println(float_from_control);
+            //Serial.println(command_from_control);
+            //Serial.println(float_from_control);
 
             if (!strcmp(command_from_control, "rotate")){
               roverRotate(float_from_control);
@@ -203,7 +206,7 @@ void roverRotate(float angle){
   target_dist = 0;
   target_pixel_dist = 0;
   target_angle = angle;
-  target_x_pixel_change = (int)(angle*40.0f);
+  target_x_pixel_change = (int)(angle*pixel_angle_ratio);
   if (angle > 0){
     motor.setMotorDirection(ccw);
   } else {
@@ -262,7 +265,7 @@ bool roverUpdate(){
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
   if (data_available){
-    Serial.println("data received");
+    //Serial.println("data received");
     if(!strcmp(received_data, "stop")){
       roverStandby();
       return_error_due = true;
@@ -274,7 +277,7 @@ bool checkStop(){ // Checks serial buffer for the STOP instruction
 
 void checkCurrent(){ // Intended to identify when the rover's wheels have been stopped or locked up
   if (smps.getiL() > 2){
-    Serial.println("current limited");
+    //Serial.println("current limited");
     roverStandby();
     return_error_due = true;
     stop_cycles_elapsed = 0;
@@ -286,8 +289,8 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
   char c;
   static short int i = 0;
 
-  while (Serial.available() > 0 && !data_available){
-    c = Serial.read();
+  while (Serial1.available() > 0 && !data_available){
+    c = Serial1.read();
 
     if (c != end){
       received_data[i] = c;
