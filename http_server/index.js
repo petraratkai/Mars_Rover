@@ -89,11 +89,18 @@ app.get("/balls", (req, res) => {
   bally = Math.random()*100;
   let ball = {x: ballx, y:bally};
   cord.push(ball);
-  //res.send(cord);
-  }
-  else {
-    //res.send(cord)
-  }
+	//var myobj = { score: game.cars[i].score, Date: new Date() };
+	dbo.collection("balls").insertOne(ball, function(err, res) {
+		if (err) throw err;
+		console.log("1 ball inserted");
+	});
+
+	}
+	dbo.collection("balls").find({}).toArray((err,result) => {
+		if(err) throw err;
+		console.log("balls read");
+		cord = result;
+	});
   res.send(cord);
 })
 
