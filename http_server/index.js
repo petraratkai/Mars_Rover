@@ -8,7 +8,7 @@ var client  = mqtt.connect("mqtt:/localhost",{clientId:"mqttjs01"});
 var count = 0;
 var rover_cord = {x:0, y:0};
 var ball_cord = [];
-let ready = false;
+let ready = true;
 
 //database stuff
 var dbo;
@@ -26,22 +26,6 @@ mongoClient.connect((err, db) => {
 	console.log("MongoDB connected")
 });
 
-
-//receive messages - listener
-client.on('message', (topic, message, packet) => {
-	console.log("message is "+ message);
-	console.log("topic is "+ topic);
-});
-
-client.on("connect", () => {
-console.log("connected");
-//client.end();
-})
-
-client.on("error", error => {
-console.log("cannot connect " + error);
-process.exit(1)});
-
 function publish(topic,msg,options){
 console.log("publishing",msg);
 
@@ -56,6 +40,40 @@ count+=1;
 	client.end();
 }*/
 }
+
+
+//receive messages - listener
+client.on('message', (topic, message, packet) => {
+	console.log("message is "+ message);
+	console.log("topic is "+ topic);
+	if(topic == 'ready') {
+		var sort_chron = {time: 1};
+		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
+			if(err) throw err;
+			if(res.length===undefined || res.length = 0) {
+				ready = true;
+			}
+			else {
+				var options={
+				retain:true,
+				qos:0};
+				publish('comm/coords', res[0], options);
+				ready = false;
+			}
+		});
+	}
+});
+
+client.on("connect", () => {
+console.log("connected");
+//client.end();
+})
+
+client.on("error", error => {
+console.log("cannot connect " + error);
+process.exit(1)});
+
+
 
 const PORT = process.env.PORT || 8000;
 
@@ -125,12 +143,17 @@ app.post('/sendInfo', (req, res) => {
     //console.log("recieved request: " + JSON.stringify(req.body));
     //console.log("test: " + req.body.{\"x)
     //res.json({message: "received req " + req});
+		if(ready) {
     publish('comm/coords', req.body.x + '|' + req.body.y, options);
-		var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
-		if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
-			if(err) throw err;
-			console.log("command saved in db");
-		})
+		}
+		else {
+			ready = false;
+			var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
+			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
+				if(err) throw err;
+				console.log("command saved in db");
+			})
+		};
     res.set('Content-Type', 'text/plain');
     res.send(`You sent: req to Express`);
 });
@@ -148,6 +171,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic_list,{qos:1}); //topic list
 //client.subscribe(topic_o); //object
 client.subscribe("control/esptest");
+client.subscribe("ready");
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
