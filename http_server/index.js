@@ -101,7 +101,7 @@ app.get("/balls", (req, res) => {
 	});
 
 	}
-	dbo.collection("balls").find({}).toArray((err,result) => {
+	if(dbo) dbo.collection("balls").find({}).toArray((err,result) => {
 		if(err) throw err;
 		console.log("balls read");
 		cord = result;
@@ -112,7 +112,7 @@ app.get("/balls", (req, res) => {
 app.post("/clearmap", (req, res) => {
 	console.log(req.body);
 	cord = [];
-	dbo.collection("balls").deleteMany({});
+	if(dbo) dbo.collection("balls").deleteMany({});
 })
 var options={
 retain:true,
@@ -127,7 +127,7 @@ app.post('/sendInfo', (req, res) => {
     //res.json({message: "received req " + req});
     publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
-		dbo.collection("commands").insertOne(command, (err, result) => {
+		if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 			if(err) throw err;
 			console.log("command saved in db");
 		})
