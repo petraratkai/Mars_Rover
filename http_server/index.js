@@ -18,10 +18,9 @@ mongoClient.connect((err, db) => {
 	if(err)
 		throw(err);
 	dbo = db.db("MarsRover");
+	if(dbo) dbo.collection("balls").deleteMany({});
 	console.log("MongoDB connected")
 });
-
-dbo.collection("balls").deleteMany({});
 
 
 //receive messages - listener
