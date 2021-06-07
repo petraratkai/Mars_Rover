@@ -44,8 +44,8 @@ function App() {
     return (
       <div className="wrapper">
         <Router>
-          <Route path='/' component={Main} />
           <Sidebar />
+          <Route path='/' component={Main} />
         </Router>
 
       </div>

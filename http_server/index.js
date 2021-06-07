@@ -1,4 +1,4 @@
-//import Mongo from 'mongodb';
+import Mongo from 'mongodb';
 const express = require("express");
 const path = require("path");
 //var bodyParser = require('body-parser')
@@ -8,6 +8,18 @@ var client  = mqtt.connect("mqtt:/localhost",{clientId:"mqttjs01"});
 var count = 0;
 var rover_cord = {x:0, y:0};
 var ball_cord = [];
+
+//database stuff
+var dbo;
+const uri = "mongodb+srv://MarsRover:Ji3mrANVpliUEzA9@cluster0.899ar.mongodb.net/MarsRover?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(uri, (err, db) => {
+	if(err)
+		throw(err);
+	dbo = db.db("MarsRover");
+	console.log("MongoDB connected")
+});
+
 
 //receive messages - listener
 client.on('message', (topic, message, packet) => {
@@ -95,7 +107,7 @@ qos:0};
 app.post('/sendInfo', (req, res) => {
     //var input = JSON.parse(req);
     //console.log(JSON.stringify(req.headers));
-    console.log("recieved request: " + JSON.stringify(req.body));
+    //console.log("recieved request: " + JSON.stringify(req.body));
     //console.log("test: " + req.body.{\"x)
     //res.json({message: "received req " + req});
     publish('comm/coords', req.body.x + '|' + req.body.y, options);
