@@ -91,7 +91,7 @@ app.get("/balls", (req, res) => {
   let ball = {x: ballx, y:bally};
   cord.push(ball);
 	//var myobj = { score: game.cars[i].score, Date: new Date() };
-	dbo.collection("balls").insertOne(ball, function(err, res) {
+	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
 		console.log("1 ball inserted");
 	});
