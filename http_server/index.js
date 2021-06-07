@@ -21,6 +21,8 @@ mongoClient.connect((err, db) => {
 	console.log("MongoDB connected")
 });
 
+dbo.collection("balls").deleteMany({});
+
 
 //receive messages - listener
 client.on('message', (topic, message, packet) => {
