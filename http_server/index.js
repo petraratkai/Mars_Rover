@@ -109,7 +109,7 @@ app.get("/rover", (req, res) => {
 var i = 0;
 var ballx, bally;
 let cord = [];
-let colors = ["red", "blue", "yellow", "pink"];
+let colors = ["red", "blue", "yellow", "pink", "green"];
 app.get("/balls", (req, res) => {
   i++;
   //console.log("ball request received");
