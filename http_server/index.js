@@ -50,7 +50,7 @@ client.on('message', (topic, message, packet) => {
 		var sort_chron = {time: 1};
 		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
 			if(err) throw err;
-			if(res.length===undefined || res.length = 0) {
+			if(res.length===undefined || res.length == 0) {
 				ready = true;
 			}
 			else {
