@@ -74,7 +74,6 @@ class Rover extends React.Component {
 }
 
 
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -141,8 +140,24 @@ class Map extends React.Component {
         <Ball ref = {ball} />
       );
     });*/
+    var ball;
+    var redball = require('../assets/img/coloredspheres/sphere-11.png');
+    var blueball = require('../assets/img/coloredspheres/sphere-23.png');
+    var yellowball = require('../assets/img/coloredspheres/sphere-22.png');
+    var greenball = require('../assets/img/coloredspheres/sphere-14.png');
+    var pinkball = require('../assets/img/coloredspheres/sphere-16.png');
     return !this.state.ball_cord ? null : this.state.ball_cord.map((ball_el) => {
-      var ball = require('../assets/img/coloredspheres/sphere-08.png');
+      if(ball_el.color == "red")
+        ball = redball;
+      else if(ball_el.color == "blue")
+        ball = blueball;
+      else if(ball_el.color == "yellow")
+        ball = yellowball;
+      else if(ball_el.color == "green")
+        ball = greenball;
+      else if(ball_el.color =="pink")
+        ball = pinkball;
+      else throw("invalid color");
       //alert(JSON.stringify(ball_el));
       return (
         <Image

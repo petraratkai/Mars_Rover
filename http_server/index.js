@@ -109,13 +109,14 @@ app.get("/rover", (req, res) => {
 var i = 0;
 var ballx, bally;
 let cord = [];
+let colors = ["red", "blue", "yellow", "pink"];
 app.get("/balls", (req, res) => {
   i++;
   //console.log("ball request received");
   if(i<=5) {
   ballx = Math.random()*100;
   bally = Math.random()*100;
-  let ball = {x: ballx, y:bally};
+  let ball = {x: ballx, y:bally, color: colors[i-1]};
   //cord.push(ball);
 	//var myobj = { score: game.cars[i].score, Date: new Date() };
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
