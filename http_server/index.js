@@ -6,8 +6,8 @@ var cors = require('cors');
 var mqtt    = require('mqtt');
 var client  = mqtt.connect("mqtt:/localhost",{clientId:"mqttjs01"});
 var count = 0;
-var rover_cord = {x:0, y:0};
-var ball_cord = [];
+var rover_coord = {x:0, y:0};
+var ball_coord = [];
 let ready = true;
 
 //database stuff
@@ -108,7 +108,7 @@ app.get("/rover", (req, res) => {
 })
 var i = 0;
 var ballx, bally;
-let cord = [];
+let coord = [];
 let colors = ["red", "blue", "yellow", "pink", "green"];
 app.get("/balls", (req, res) => {
   i++;
@@ -117,7 +117,7 @@ app.get("/balls", (req, res) => {
   ballx = Math.random()*100;
   bally = Math.random()*100;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
-  //cord.push(ball);
+  //coord.push(ball);
 	//var myobj = { score: game.cars[i].score, Date: new Date() };
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
@@ -128,14 +128,14 @@ app.get("/balls", (req, res) => {
 	if(dbo) dbo.collection("balls").find({}).toArray((err,result) => {
 		if(err) throw err;
 		console.log("balls read");
-		cord = result;
+		coord = result;
 	});
-  res.send(cord);
+  res.send(coord);
 })
 
 app.post("/clearmap", (req, res) => {
 	console.log(req.body);
-	cord = [];
+	coord = [];
 	if(dbo) dbo.collection("balls").deleteMany({});
 })
 var options={
