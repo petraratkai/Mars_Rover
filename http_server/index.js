@@ -1,6 +1,7 @@
 var Mongo = require('mongodb');
 const express = require("express");
 const path = require("path");
+const {addObstacle, pathAdjust} = require('./pathfind.js');
 //var bodyParser = require('body-parser')
 var cors = require('cors');
 var mqtt    = require('mqtt');
