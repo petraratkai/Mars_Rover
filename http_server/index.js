@@ -18,6 +18,8 @@ let obst_complex = [];
 let allObstacles = [];
 let allHitboxes = [];
 let commandsNrOf = 0;
+
+let notifications = [];
 //database stuff
 var dbo;
 const uri = "mongodb+srv://MarsRover:Ji3mrANVpliUEzA9@cluster0.899ar.mongodb.net/MarsRover?retryWrites=true&w=majority";
@@ -145,6 +147,7 @@ app.get("/balls", (req, res) => {
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
 		console.log("1 ball inserted");
+		notifications.push("ball found: " + colors[i-1]);
 	});
 
 	}
@@ -160,6 +163,7 @@ app.post("/clearmap", (req, res) => {
 	console.log(req.body);
 	coord = [];
 	if(dbo) dbo.collection("balls").deleteMany({});
+	notifications.push("map cleared");
 })
 var options={
 retain:true,
@@ -200,6 +204,9 @@ app.post('/sendInfo', (req, res) => {
     res.send(`You sent: req to Express`);
 });
 
+app.get("/notifications", (req, res) => {
+	res.send(notifications);
+});
 app.listen(PORT, () => {
   console.log("Browser server listening on " + PORT);
 })

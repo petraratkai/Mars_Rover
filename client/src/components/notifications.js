@@ -1,39 +1,36 @@
 import React, { Component } from 'react';
 
 class Notifications extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { messages: [] };
+  }
+  componentDidMount() {
+    this.interval = setInterval(()=> {
+      axios.get('http://' + window.location.hostname + ':8000/notifications')
+        .then(res => {
+          //alert(this.rover.current);
+           this.setState({messages: res.data};
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }, 500);
+  }
+  renderNotifications() {
+    return !this.state.messages ? null : this.state.messages.map((notif) => {
+      return (
+        <li>
+          notif
+        </li>
+      );
+    });
+  }
   render () {
     return (
       <div className = "not-wrapper">
       <div>
-      <ul className = "notifications">
-        <li>
-          hello
-        </li>
-        <li>
-          how are you
-        </li>
-        <li>
-          :)
-        </li>
-        <li>
-          hello
-        </li>
-        <li>
-          how are you
-        </li>
-        <li>
-          :)
-        </li>
-        <li>
-          hello
-        </li>
-        <li>
-          how are you
-        </li>
-        <li>
-          :)
-        </li>
-      </ul>
+        {this.renderNotifications()}
       </div>
       <button className = "clearmap">
         clear
