@@ -20,6 +20,10 @@ ol, ul {
   margin-bottom: 10px;
 }
 
+.board {
+  height: 100%;
+}
+
 
 
 .square {
