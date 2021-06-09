@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 class Notifications extends React.Component {
   render () {
     return (
+      <button>
+        Clear notifications
+      </button>
       <ul className = "notifications">
         <li>
           hello
