@@ -5,7 +5,7 @@ class Notifications extends React.Component {
     return (
       <div className = "not-wrapper">
       <div>
-      <button style={{float: "center"}}>
+      <button className = "clearmap">
         clear
       </button>
       </div>
