@@ -143,11 +143,12 @@ app.get("/balls", (req, res) => {
   bally = Math.random()*100;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
+	notifications.unshift("ball found: " + colors[i-1]);
 	//var myobj = { score: game.cars[i].score, Date: new Date() };
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
 		console.log("1 ball inserted");
-		notifications.unshift("ball found: " + colors[i-1]);
+
 	});
 
 	}
