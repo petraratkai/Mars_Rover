@@ -73,7 +73,7 @@ class Dashboard extends Component {
                     <h4 className="card-title">Notifications</h4>
                     <p className="card-category">messages from the control module</p>
                   </div>
-                  <div className="card-body " style={{height: "80%""}}>
+                  <div className="card-body " style={{height: "80%"}}>
                     <Notifications/>
                   </div>
                   <div className="card-footer ">
