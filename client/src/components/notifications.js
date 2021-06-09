@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class Notifications extends React.Component {
   render () {
     return (
+      <div>
       <button>
         Clear notifications
       </button>
@@ -35,6 +36,7 @@ class Notifications extends React.Component {
           :)
         </li>
       </ul>
+      </div>
     );
   }
 }
