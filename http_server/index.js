@@ -147,7 +147,7 @@ app.get("/balls", (req, res) => {
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
 		console.log("1 ball inserted");
-		notifications.push("ball found: " + colors[i-1]);
+		notifications.unshift("ball found: " + colors[i-1]);
 	});
 
 	}
@@ -163,7 +163,7 @@ app.post("/clearmap", (req, res) => {
 	console.log(req.body);
 	coord = [];
 	if(dbo) dbo.collection("balls").deleteMany({});
-	notifications.push("map cleared");
+	notifications.unshift("map cleared");
 })
 var options={
 retain:true,
