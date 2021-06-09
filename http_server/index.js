@@ -70,7 +70,7 @@ client.on('message', (topic, message, packet) => {
 				dbo.collection("commands").deleteOne(query, (err, result) => {
 					if(err) throw err;
 				});
-				ready = false;
+				//ready = false;
 
 			}
 		});
@@ -172,10 +172,10 @@ function toXY(z) {
 app.post('/sendInfo', (req, res) => {
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
-		ready = false;
+		//ready = false;
 		let start = math.complex(rover_coord.x, rover_coord.y);
 		let end = math.complex(req.body.x, req.body.y);
-		let originalPath = [start, end];
+		/*let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		let first = toXY(originalPath[1]);
 		publish('comm/coords', first.x + '|' + first.y, options);
@@ -185,7 +185,8 @@ app.post('/sendInfo', (req, res) => {
 				if(err) throw err;
 				console.log("command saved in db");
 			})
-		}
+		}*/
+		publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		}
 		else {
 			var d = new Date;
