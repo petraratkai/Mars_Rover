@@ -30,9 +30,9 @@ class Notifications extends React.Component {
   render () {
     return (
       <div className = "not-wrapper">
-      <div>
+      <ul className = "notifications">
         {this.renderNotifications()}
-      </div>
+      </ul>
       <button className = "clearmap">
         clear
       </button>
