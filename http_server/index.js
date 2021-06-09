@@ -11,6 +11,11 @@ var rover_coord = {x:0, y:0};
 var ball_coord = [];
 let ready = true;
 
+var math = require('mathjs');
+let obst_complex = [];
+let allObstacles = [];
+let allHitboxes = [];
+let commandsNrOf = 0;
 //database stuff
 var dbo;
 const uri = "mongodb+srv://MarsRover:Ji3mrANVpliUEzA9@cluster0.899ar.mongodb.net/MarsRover?retryWrites=true&w=majority";
@@ -67,6 +72,20 @@ client.on('message', (topic, message, packet) => {
 
 			}
 		});
+	}
+	else if(topic == 'balls') {
+		//let ball = {x: ballx, y:bally, color: colors[i-1]};
+		//coord.push(ball);
+		//var myobj = { score: game.cars[i].score, Date: new Date() };
+		if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
+			if (err) throw err;
+			console.log("1 ball inserted");
+		});
+		let rad = 1;
+		let ball_compl = math.complex(message.x, message.y);
+		let newObst = {centre: ball_compl, radius: rad};
+		[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
+
 	}
 });
 
@@ -143,18 +162,30 @@ var options={
 retain:true,
 qos:0};
 
-var d = new Date;
+function toXY(z) {
+	return {x: z.re, y:z.im};
+}
+
 app.post('/sendInfo', (req, res) => {
-    //var input = JSON.parse(req);
-    //console.log(JSON.stringify(req.headers));
-    //console.log("recieved request: " + JSON.stringify(req.body));
-    //console.log("test: " + req.body.{\"x)
-    //res.json({message: "received req " + req});
 		if(ready) {
-    publish('comm/coords', req.body.x + '|' + req.body.y, options);
+    //publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		ready = false;
+		let start = math.complex(rover_coord.x, rover_coord.y);
+		let end = math.complex(req.body.x, req.body.y);
+		let originalPath = [start, end];
+		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+		let first = toXY(originalPath[1]);
+		publish('comm/coords', first.x + '|' + first.y, options);
+		for(int i = 2; i<originalPath.length; i++)
+		{
+			if(dbo) dbo.collection("commands").insertOne({x: originalPath[i].x, y: originalPath[i].y, time: d.getTime()}, (err, result) => {
+				if(err) throw err;
+				console.log("command saved in db");
+			})
+		}
 		}
 		else {
+			var d = new Date;
 			var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
@@ -179,6 +210,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic_o); //object
 client.subscribe("control/esptest");
 client.subscribe("ready");
+client.subscribe("balls");
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
