@@ -79,7 +79,7 @@ client.on('message', (topic, message, packet) => {
 		//let ball = {x: ballx, y:bally, color: colors[i-1]};
 		//coord.push(ball);
 		//var myobj = { score: game.cars[i].score, Date: new Date() };
-		coord.push(message);
+		//coord.push(message);
 		if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("1 ball inserted");
