@@ -77,6 +77,7 @@ client.on('message', (topic, message, packet) => {
 		//let ball = {x: ballx, y:bally, color: colors[i-1]};
 		//coord.push(ball);
 		//var myobj = { score: game.cars[i].score, Date: new Date() };
+		coord.push(message);
 		if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("1 ball inserted");
@@ -137,7 +138,7 @@ app.get("/balls", (req, res) => {
   ballx = Math.random()*100;
   bally = Math.random()*100;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
-  //coord.push(ball);
+  coord.push(ball);
 	//var myobj = { score: game.cars[i].score, Date: new Date() };
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
