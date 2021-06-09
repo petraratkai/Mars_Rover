@@ -157,7 +157,7 @@ app.get("/balls", (req, res) => {
 		coord = result;
 		res.send(coord);
 	});
-  res.send(coord);
+  //res.send(coord);
 })
 
 app.post("/clearmap", (req, res) => {
