@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 class Notifications extends React.Component {
   render () {
     return (
-      <div>
+      <div className = "not-wrapper">
       <button>
-        Clear notifications
+        clear
       </button>
       <ul className = "notifications">
         <li>

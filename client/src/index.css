@@ -113,5 +113,8 @@ ol, ul {
 
 .notifications {
   overflow-y: scroll;
-  height: 150px;
+
+}
+.not-wrapper {
+  height: 170px;
 }
