@@ -26,12 +26,12 @@ class Dashboard extends Component {
           <div className="row">
 
             <div className="col-md-6">
-              <div className="card " style={{height: "100%"}}>
+              <div className="card " >
                 <div className="card-header ">
                   <h4 className="card-title">Map</h4>
                   <p className="card-category">Obstacles and rover position</p>
                 </div>
-                <div className="card-body ">
+                <div className="card-body " style={{height: "100%"}}>
                   <div className="legend">
                   <div className = "board">
                     <Map parentCallback = {this.handleCallback}/>
