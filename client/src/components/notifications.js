@@ -9,6 +9,7 @@ class Notifications extends React.Component {
         clear
       </button>
       </div>
+      <div>
       <ul className = "notifications">
         <li>
           hello
@@ -38,6 +39,7 @@ class Notifications extends React.Component {
           :)
         </li>
       </ul>
+      </div>
       </div>
     );
   }
