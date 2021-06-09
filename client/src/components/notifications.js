@@ -22,7 +22,7 @@ class Notifications extends React.Component {
     return !this.state.messages ? null : this.state.messages.map((notif) => {
       return (
         <li>
-          notif
+          {notif}
         </li>
       );
     });
