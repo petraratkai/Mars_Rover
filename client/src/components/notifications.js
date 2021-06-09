@@ -5,11 +5,6 @@ class Notifications extends React.Component {
     return (
       <div className = "not-wrapper">
       <div>
-      <button className = "clearmap">
-        clear
-      </button>
-      </div>
-      <div>
       <ul className = "notifications">
         <li>
           hello
@@ -40,6 +35,9 @@ class Notifications extends React.Component {
         </li>
       </ul>
       </div>
+      <button className = "clearmap">
+        clear
+      </button>
       </div>
     );
   }
