@@ -23,7 +23,7 @@ class Dashboard extends Component {
     return (
       <div className="content" >
         <div className="container-fluid">
-          <div className="row" style={{height: "125%"}}>
+          <div className="row">
 
             <div className="col-md-6" style={{height: "100%"}}>
               <div className="card " >
@@ -67,7 +67,7 @@ class Dashboard extends Component {
                   </div>
                 </div>
               </div>
-              <div className = "row" style={{height:"50%"}}>
+              <div className = "row" style={{height:"40%"}}>
                 <div className="card">
                   <div className="card-header ">
                     <h4 className="card-title">Notifications</h4>
