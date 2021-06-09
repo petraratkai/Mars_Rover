@@ -31,7 +31,7 @@ class Dashboard extends Component {
                   <h4 className="card-title">Map</h4>
                   <p className="card-category">Obstacles and rover position</p>
                 </div>
-                <div className="card-body " style={{height: "100%"}}>
+                <div className="card-body " style={{height: "120%"}}>
                   <div className="legend">
                   <div className = "board">
                     <Map parentCallback = {this.handleCallback} style={{height: "100%"}} />
