@@ -177,7 +177,7 @@ app.post('/sendInfo', (req, res) => {
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		let first = toXY(originalPath[1]);
 		publish('comm/coords', first.x + '|' + first.y, options);
-		for(int i = 2; i<originalPath.length; i++)
+		for(var i = 2; i<originalPath.length; i++)
 		{
 			if(dbo) dbo.collection("commands").insertOne({x: originalPath[i].x, y: originalPath[i].y, time: d.getTime()}, (err, result) => {
 				if(err) throw err;
