@@ -106,3 +106,7 @@ ol, ul {
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
 }
+
+.notifications {
+  overflow-y: scroll;
+}
