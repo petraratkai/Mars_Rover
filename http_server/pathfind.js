@@ -422,7 +422,7 @@ exports.pathAdjust = function(originalPath, obstacleArray, hitboxArray, roverWid
 }
 
 //each obstacle is assumed or assimilated circular in the plane of collision with the rover
-var circa = {centre: maths.complex(3, 3), radius: 1};
+/*var circa = {centre: maths.complex(3, 3), radius: 1};
 var circb = {centre: maths.complex(5, 0), radius: 1};
 var circc = {centre: maths.complex(8, 2), radius: 1};
 var circd = {centre: maths.complex(6, 5), radius: 1};
@@ -461,4 +461,4 @@ console.log("starting pathfinding:");
 path = pathAdjust(path, circlearray, hitboxes, totalSpan, widthmargin);
 
 console.log("new path:");
-console.log(path);
+console.log(path);*/
