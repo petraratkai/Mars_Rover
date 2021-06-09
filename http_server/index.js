@@ -155,6 +155,7 @@ app.get("/balls", (req, res) => {
 		if(err) throw err;
 		console.log("balls read");
 		coord = result;
+		res.send(coord);
 	});
   res.send(coord);
 })
