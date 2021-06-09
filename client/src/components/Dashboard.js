@@ -35,7 +35,8 @@ class Dashboard extends Component {
                   <div className="legend">
                   <div className = "board">
                     <Map parentCallback = {this.handleCallback} style={{height: "100%"}} />
-                    </div>
+                  </div>
+                  <div className = "card-footer ">
                     <hr />
                     <div className ="stats">
                       <i className="fa fa-clock-o"></i>

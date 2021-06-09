@@ -700,7 +700,6 @@ body>.navbar-collapse[data-color="purple"]:after {
 
 .main-panel>.content {
     padding: 30px 15px;
-    height: 100%;
     min-height: calc(100% - 123px);
 }
 
