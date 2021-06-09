@@ -11,7 +11,7 @@ class Notifications extends React.Component {
     axios.get('http://' + window.location.hostname + ':8000/clearnotif')
       .then(res => {
         //alert(this.rover.current);
-        this.setState({messagesres.data});
+        this.setState({messages: res.data});
       })
       .catch(err => {
         console.log(err);
