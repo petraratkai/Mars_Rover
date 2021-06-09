@@ -4,9 +4,11 @@ class Notifications extends React.Component {
   render () {
     return (
       <div className = "not-wrapper">
+      <div>
       <button style={{float: "right"}}>
         clear
       </button>
+      </div>
       <ul className = "notifications">
         <li>
           hello
