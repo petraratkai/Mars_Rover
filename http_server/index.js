@@ -131,6 +131,11 @@ app.get("/rover", (req, res) => {
   //console.log("rover pos request received");
   res.send("{\"x\": " + x%100 + ", \"y\": " + y%100 + "}");
 })
+app.get("/clearnotif", (req, res) => {
+  notifications=[];
+  //console.log("rover pos request received");
+  res.send(notifications);
+})
 var i = 0;
 var ballx, bally;
 let coord = [];

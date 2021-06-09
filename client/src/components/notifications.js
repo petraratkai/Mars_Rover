@@ -5,6 +5,18 @@ class Notifications extends React.Component {
   constructor(props) {
     super(props);
     this.state = { messages: [] };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    axios.get('http://' + window.location.hostname + ':8000/clearnotif')
+      .then(res => {
+        //alert(this.rover.current);
+        this.setState({messagesres.data});
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    //alert('clearing notifi');
   }
   componentDidMount() {
     this.interval = setInterval(()=> {
