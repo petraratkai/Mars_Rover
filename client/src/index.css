@@ -109,4 +109,5 @@ ol, ul {
 
 .notifications {
   overflow-y: scroll;
+  height: 50%;
 }
