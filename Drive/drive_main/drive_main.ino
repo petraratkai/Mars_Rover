@@ -81,7 +81,7 @@ void setup() {
   ofs.setup();
 
   Serial1.begin(9600); // UART connection for the control link
-  //Serial.begin(9600);
+  Serial.begin(9600);
 }
  
 bool t = true;
@@ -120,15 +120,16 @@ void loop() {
           }
           if(return_success_due){
             Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial.println("driveDone");
             return_success_due = false;
           }
 
           if(data_available){
-            //Serial.println("data received");
+            Serial.println("data received");
             strcpy(temp_data, received_data);
             parseCommand();
-            //Serial.println(command_from_control);
-            //Serial.println(float_from_control);
+            Serial.println(command_from_control);
+            Serial.println(float_from_control);
 
             if (!strcmp(command_from_control, "rotate")){
               roverRotate(float_from_control);
