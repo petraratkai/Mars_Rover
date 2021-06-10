@@ -77,8 +77,8 @@ client.on('message', (topic, message, packet) => {
 					if(err) throw err;
 				});
 				//ready = false;
-				commands_complex.shift(); //remove the current position since we reached it 
-
+				commands_complex.shift(); //remove the current position since we reached it
+				path_complex.shift();
 			}
 		});
 	}
@@ -97,7 +97,9 @@ client.on('message', (topic, message, packet) => {
 		[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
 		path_complex = [];
 		let originalPath = commands_complex;
+		originalPath.unshift(math.complex(rover_coord.x, rover_coord.y);
 		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+		path_complex.shift(); //remove current position
 	}
 });
 
