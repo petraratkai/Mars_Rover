@@ -19,6 +19,10 @@ let allObstacles = [];
 let allHitboxes = [];
 let commandsNrOf = 0;
 
+let commands = [];
+let commands_complex = [];
+let path_complex = [];
+
 let notifications = [];
 //database stuff
 var dbo;
@@ -73,6 +77,7 @@ client.on('message', (topic, message, packet) => {
 					if(err) throw err;
 				});
 				//ready = false;
+				commands_complex.shift(); //remove the current position since we reached it 
 
 			}
 		});
@@ -90,7 +95,9 @@ client.on('message', (topic, message, packet) => {
 		let ball_compl = math.complex(message.x, message.y);
 		let newObst = {centre: ball_compl, radius: rad};
 		[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
-
+		path_complex = [];
+		let originalPath = commands_complex;
+		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 	}
 });
 
@@ -186,8 +193,10 @@ app.post('/sendInfo', (req, res) => {
 		//ready = false;
 		let start = math.complex(rover_coord.x, rover_coord.y);
 		let end = math.complex(req.body.x, req.body.y);
+		commands_complex.push(end);
 		/*let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+		path_complex.push.apply(path_complex, originalPath);
 		let first = toXY(originalPath[1]);
 		publish('comm/coords', first.x + '|' + first.y, options);
 		for(var i = 2; i<originalPath.length; i++)
@@ -195,6 +204,7 @@ app.post('/sendInfo', (req, res) => {
 			if(dbo) dbo.collection("commands").insertOne({x: originalPath[i].x, y: originalPath[i].y, time: d.getTime()}, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
+
 			})
 		}*/
 		publish('comm/coords', req.body.x + '|' + req.body.y, options);
@@ -202,6 +212,12 @@ app.post('/sendInfo', (req, res) => {
 		else {
 			var d = new Date;
 			var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
+			let start = commands_complex[commands_complex.length - 2];
+			let end = math.complex(req.body.x, req.body.y);
+			let originalPath = [start, end];
+			commands_complex.push(end);
+			originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+			path_complex.push.apply(path_complex, originalPath);
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
