@@ -162,12 +162,14 @@ class Map extends React.Component {
         ball = pinkball;
       else throw("invalid color" + ball_el.color);
       //alert(JSON.stringify(ball_el));
+      var x = ball_el.x-50-1.5;
+      var y = (ball_el.y-50)*(-1)-1.5;
       return (
         <Image
           key={JSON.stringify(ball_el)}
           className="fa-stack the-wrapper ball"
           src = {ball.default} width = "3%"
-          style = {{top: ball_el.y + "%", left: ball_el.x + "%"}}
+          style = {{top: y + "%", left: x + "%"}}
         />
       )
     })
