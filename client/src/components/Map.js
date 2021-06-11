@@ -181,7 +181,7 @@ class Map extends React.Component {
     var dest = require('../assets/img/dest.png');
     return !this.state.dest_coord ? null : this.state.dest_coord.map((dest_el) => {
       var x = dest_el.x+50-2.5;
-      var y = dest_el.y*(-1)+50-5;
+      var y = dest_el.y*(-1)-50-5;
       return (
         <Image
           key={JSON.stringify(dest_el)}
