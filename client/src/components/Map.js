@@ -128,10 +128,12 @@ class Map extends React.Component {
       let rect = this.ref.current.getBoundingClientRect();
       //alert(JSON.stringify(rect));
       let x = (event.clientX-rect.left)/rect.width*100;
+      x-=50;
       x = x.toFixed(2);
       let y = (event.clientY-rect.top)/rect.height*100;
+      y = (y-50)*(-1);
       y = y.toFixed(2);
-      this.props.parentCallback({x:x-50, y:(y-50)*(-1)});
+      this.props.parentCallback({x:x, y:y});
     }
     }
   }
