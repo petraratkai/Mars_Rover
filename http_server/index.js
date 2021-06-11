@@ -138,7 +138,7 @@ app.get("/rover", (req, res) => {
   x+=1;
   y+=1;
   //console.log("rover pos request received");
-  res.send("{\"x\": " + x%100 + ", \"y\": " + y%100 + "}");
+  res.send("{\"x\": " + x%100-50 + ", \"y\": " + y%100-50 + "}");
 })
 app.get("/clearnotif", (req, res) => {
   notifications=[];

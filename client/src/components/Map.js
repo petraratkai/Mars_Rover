@@ -69,7 +69,7 @@ class Rover extends React.Component {
       <Image
           className="fa-stack the-wrapper rover"
           src = {rover.default} width = "10%"
-          style = {{top: this.state.y*90/100 + "%", left: this.state.x*90/100 + "%"}}
+          style = {{top: y + "%", left: x + "%"}}
       />
     );
   }
