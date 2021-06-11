@@ -201,6 +201,7 @@ class Map extends React.Component {
         />
         <Rover ref={this.rover}/>
         {this.renderBalls()}
+        {this.renderDest()}
       </a>
 
       </div>
