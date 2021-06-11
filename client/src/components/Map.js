@@ -131,7 +131,7 @@ class Map extends React.Component {
       x = x.toFixed(2);
       let y = (event.clientY-rect.top)/rect.height*100;
       y = y.toFixed(2);
-      this.props.parentCallback({x:1, y:(y-50)*(-1)});
+      this.props.parentCallback({x:x-50, y:(y-50)*(-1)});
     }
     }
   }
@@ -165,7 +165,7 @@ class Map extends React.Component {
           key={JSON.stringify(ball_el)}
           className="fa-stack the-wrapper ball"
           src = {ball.default} width = "3%"
-          style = {{top: ((ball_el.y-1.5)+50)*(-1)) + "%", left: (ball_el.x-1.5)+50 + "%"}}
+          style = {{top: ((ball_el.y-1.5)+50)*(-1) + "%", left: (ball_el.x-1.5)+50 + "%"}}
         />
       )
     })
