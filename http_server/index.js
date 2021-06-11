@@ -196,6 +196,7 @@ app.post('/sendInfo', (req, res) => {
 		let start = math.complex(rover_coord.x, rover_coord.y);
 		let end = math.complex(req.body.x, req.body.y);
 		commands_complex.push(end);
+		commands.push(req.body);
 		/*let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.push.apply(path_complex, originalPath);
@@ -218,6 +219,7 @@ app.post('/sendInfo', (req, res) => {
 			let end = math.complex(req.body.x, req.body.y);
 			let originalPath = [start, end];
 			commands_complex.push(end);
+			commands.push(req.body);
 			originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 			path_complex.push.apply(path_complex, originalPath);
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
