@@ -172,7 +172,10 @@ app.get("/balls", (req, res) => {
 		//coord = result;
 		//res.send(coord);
 	});
-  res.send(coord);
+	let ball_dest = [];
+	ball_dest.push(coord);
+	ball_dest.push(commands);
+  res.send(ball_dest);
 })
 
 app.post("/clearmap", (req, res) => {

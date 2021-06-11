@@ -80,7 +80,8 @@ class Map extends React.Component {
     this.rover = React.createRef();
     //this.ball_cord = [];
     this.state = {
-      ball_cord: []
+      ball_cord: [],
+      dest_coord: []
     };
     this.handleClick = this.handleClick.bind(this);
     this.ref = React.createRef();
@@ -112,7 +113,7 @@ class Map extends React.Component {
             //ball_cord.push(res.data);
             //alert(JSON.stringify(res.data));
             //alert(window.location.hostname)
-            this.setState({ball_cord: res.data});
+            this.setState({ball_cord: res.data[0], dest_coord: res.data[1]});
           }
         }
         )
@@ -169,6 +170,21 @@ class Map extends React.Component {
       )
     })
   }
+  renderDest(){
+    var dest = require('../assets/img/dest.png');
+    return !this.state.dest_coord ? null : this.state.dest_coord.map((dest_el) => {
+      return (
+        <Image
+          key={JSON.stringify(dest_el)}
+          className="fa-stack the-wrapper ball"
+          src = {dest.default} width = "5%"
+          style = {{top: (dest_el.y-2.5) + "%", left: (dest_el.x-2.5) + "%"}}
+        />
+      );
+    });
+  }
+
+
   render() {
     const status = 'Map';
 //<div className="status">{status}</div>
