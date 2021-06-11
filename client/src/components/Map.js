@@ -113,7 +113,7 @@ class Map extends React.Component {
             //ball_cord.push(res.data);
             //alert(JSON.stringify(res.data));
             //alert(window.location.hostname)
-            this.setState({ball_cord: res.data[0], dest_coord: res.data[1]});
+            this.setState({ball_cord: res.data.balls, dest_coord: res.data.dest});
           }
         }
         )
