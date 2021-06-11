@@ -197,6 +197,7 @@ app.post('/sendInfo', (req, res) => {
 		let end = math.complex(req.body.x, req.body.y);
 		commands_complex.push(end);
 		commands.push(req.body);
+		console.log(commands);
 		/*let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.push.apply(path_complex, originalPath);
