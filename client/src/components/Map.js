@@ -63,6 +63,8 @@ class Rover extends React.Component {
   })
   render() {
     var rover = require("../assets/img/mars_rover.png");
+    var x = this.state.x+50-5;
+    var y = this.state.y*(-1)+50-5;
     return (
       <Image
           className="fa-stack the-wrapper rover"
@@ -164,7 +166,7 @@ class Map extends React.Component {
       //alert(JSON.stringify(ball_el));
       var x = ball_el.x+50-1.5;
       var y = ball_el.y*(-1)+50-1.5;
-      alert(x + " , " + y);
+      //alert(x + " , " + y);
       return (
         <Image
           key={JSON.stringify(ball_el)}
