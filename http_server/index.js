@@ -189,7 +189,7 @@ app.post("/clearmap", (req, res) => {
 })
 
 app.post("/test", (req, res) => {
-	notifications.push(req.body);
+	notifications.push(JSON.stringify(req.body));
 })
 var options={
 retain:true,
