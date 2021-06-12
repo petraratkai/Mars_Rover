@@ -41,9 +41,11 @@ class Notifications extends React.Component {
     }, 100);
   }
   renderNotifications() {
+    var i = 0;
     return !this.state.messages ? null : this.state.messages.map((notif) => {
+      i+=1;
       return (
-        <li>
+        <li key={i.toString()}>
           {notif}
         </li>
       );
