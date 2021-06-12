@@ -101,6 +101,9 @@ client.on('message', (topic, message, packet) => {
 		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.shift(); //remove current position
 	}
+	else if(topic == 'command/rover') {
+		rover_coord = {x: message.x, y: message.y};
+	}
 });
 
 client.on("connect", () => {
@@ -184,6 +187,10 @@ app.post("/clearmap", (req, res) => {
 	if(dbo) dbo.collection("balls").deleteMany({});
 	notifications.unshift("map cleared");
 })
+
+app.post("/test", (req, res) => {
+	notifications.push(req.body);
+})
 var options={
 retain:true,
 qos:0};
@@ -253,6 +260,7 @@ console.log("subscribing to topics");
 client.subscribe("control/esptest");
 client.subscribe("ready");
 client.subscribe("balls");
+client.subscribe('command/rover');
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect

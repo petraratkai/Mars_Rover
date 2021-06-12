@@ -19,16 +19,26 @@ class Notifications extends React.Component {
     //alert('clearing notifi');
   }
   componentDidMount() {
+    var notcnt = 0;
+    var sum = 0;
     this.interval = setInterval(()=> {
+      var startTime = new Date();
+      var endTime;
       axios.get('http://' + window.location.hostname + ':8000/notifications')
         .then(res => {
           //alert(this.rover.current);
+          endTime = new Date();
+          notcnt += 1;
+          sum += (endTime-startTime)/1000;
+          if(ballcnt == 1000) {
+            axios.post('http://' + window.location.hostname + ':8000/test', 'notifications took on avg ' + sum/notcnt + 'ms');
+          }
            this.setState({messages: res.data});
         })
         .catch(err => {
           console.log(err);
         })
-    }, 500);
+    }, 100);
   }
   renderNotifications() {
     return !this.state.messages ? null : this.state.messages.map((notif) => {

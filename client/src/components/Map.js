@@ -91,18 +91,33 @@ class Map extends React.Component {
 
   componentDidMount  ()
   {
+    var rovercnt = 0;
+    var sum1 = 0;
     this.roverinterval = setInterval(()=> {
+      var startTime = new Date();
+      var endTime;
       axios.get('http://' + window.location.hostname + ':8000/rover')
         .then(res => {
           //alert(this.rover.current);
+          endTime = new Date();
+          rovercnt+=1;
+          sum1+= (endTime-startTime)/1000;
+          if(ballcnt == 1000) {
+            axios.post('http://' + window.location.hostname + ':8000/test', 'rover took on avg ' + sum1/rovercnt + 'ms');
+          }
           if(this.rover.current) this.rover.current.changePos(res.data.x,res.data.y);
         })
         .catch(err => {
           console.log(err);
         })
-    }, 500);
+        endTime
+    }, 100);
+    var ballcnt = 0;
+    var sum = 0;
     this.ballinterval = setInterval(()=> {
       //alert(window.location.hostname);
+      var startTime = new Date();
+      var endTime;
       axios.get('http://' + window.location.hostname + ':8000/balls')
         .then(res => {
           if(res.data) {
@@ -115,14 +130,22 @@ class Map extends React.Component {
             //ball_cord.push(res.data);
             //alert(JSON.stringify(res.data));
             //alert(window.location.hostname)
+            endTime = new Date();
+            ballcnt+=1;
+            sum+=(endTime-startTime)/1000;
+            if(ballcnt == 1000) {
+              axios.post('http://' + window.location.hostname + ':8000/test', 'balls took on avg ' + sum/ballcnt + 'ms');
+            }
             this.setState({ball_cord: res.data.balls, dest_coord: res.data.dest});
           }
+
         }
         )
         .catch(err => {
           console.log(err);
         })
-    }, 5000);
+
+    }, 200);
   }
   handleClick(event) {
     if(this) {
@@ -140,11 +163,7 @@ class Map extends React.Component {
     }
   }
   renderBalls() {
-    /*return !this.balls.current ? null : this.balls.current.map((ball) => {
-      return (
-        <Ball ref = {ball} />
-      );
-    });*/
+
     var ball;
     var redball = require('../assets/img/coloredspheres/sphere-11.png');
     var blueball = require('../assets/img/coloredspheres/sphere-23.png');
