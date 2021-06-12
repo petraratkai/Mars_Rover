@@ -25,6 +25,8 @@ INA219_WE ina219; // this is the instantiation of the library for the current se
 
 unsigned int loopTrigger;
 unsigned int com_count=0;   // a variables to count the interrupts. Used for program debugging.
+
+unsigned int info_count = 0;
 //*********************************************************//
 
 //************************ Control Variables ***************************//
@@ -94,6 +96,7 @@ void loop() {
   
   if(loopTrigger) { // 1000/1024 kHz, set by TCA0
     loopTrigger = 0;
+    info_count++;
     
     smps.update(); // ------------- Update SMPS ------------//
 
@@ -112,14 +115,14 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial1.print("driveFail:");
-            Serial1.print((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial1.print(":");
-            Serial1.println((target_x_pixel_change - ofs.total_x1)/(pixel_angle_ratio)); // Send the error in degrees
+            Serial.print("driveFail:");
+            Serial.print((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial.print(":");
+            Serial.println((target_x_pixel_change - ofs.total_x1)/(pixel_angle_ratio)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             Serial.println("driveDone");
             return_success_due = false;
           }
@@ -147,6 +150,10 @@ void loop() {
         }
         checkStop();
         checkCurrent();
+        if (info_count >= 205){
+          Serial.println(10*ofs.total_y1/157);
+          info_count = 0;
+        }
         break;
 
       case rover_rotate:
@@ -290,8 +297,8 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
   char c;
   static short int i = 0;
 
-  while (Serial1.available() > 0 && !data_available){
-    c = Serial1.read();
+  while (Serial.available() > 0 && !data_available){
+    c = Serial.read();
 
     if (c != end){
       received_data[i] = c;
