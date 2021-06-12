@@ -145,7 +145,7 @@ class Map extends React.Component {
           console.log(err);
         })
 
-    }, 200);
+    }, 300);
   }
   handleClick(event) {
     if(this) {
