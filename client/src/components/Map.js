@@ -110,7 +110,6 @@ class Map extends React.Component {
         .catch(err => {
           console.log(err);
         })
-        endTime
     }, 100);
     var ballcnt = 0;
     var sum = 0;
