@@ -103,6 +103,7 @@ class Map extends React.Component {
           rovercnt+=1;
           sum1+= (endTime-startTime)/1000;
           if(ballcnt == 1000) {
+            alert('balls done');
             axios.post('http://' + window.location.hostname + ':8000/test', 'rover took on avg ' + sum1/rovercnt + 'ms');
           }
           if(this.rover.current) this.rover.current.changePos(res.data.x,res.data.y);
