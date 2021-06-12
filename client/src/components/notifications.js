@@ -30,7 +30,7 @@ class Notifications extends React.Component {
           endTime = new Date();
           notcnt += 1;
           sum += (endTime-startTime)/1000;
-          if(ballcnt == 1000) {
+          if(notcnt == 1000) {
             axios.post('http://' + window.location.hostname + ':8000/test', 'notifications took on avg ' + sum/notcnt + 'ms');
           }
            this.setState({messages: res.data});
