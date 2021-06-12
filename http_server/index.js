@@ -188,9 +188,9 @@ app.post("/clearmap", (req, res) => {
 	notifications.unshift("map cleared");
 })
 
-app.post("/test", (req, res) => {
+/*app.post("/test", (req, res) => {
 	notifications.push(JSON.stringify(req.body));
-})
+})*/
 var options={
 retain:true,
 qos:0};
