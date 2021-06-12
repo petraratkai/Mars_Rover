@@ -50,11 +50,17 @@ float acc2 = 0; // dx controller
 const float y_kp = 0.003; // P gain of the y controller (forward distance)
 const float x_kp = 0.004; // P gain of the x controller (angle)
 
+float v_y = 0;
+
 float max_vref = 4;
 
 const short int endpoint_beta = 3; // Tolerance of commands at the endpoint before returning to standby
 const short int endpoint_time_delta = 100; // Time (in control loop cycles) for which the endpoint needs to be reached before standby
 short int endpoint_cycles_elapsed = 0;
+
+unsigned int rover_stuck_counter = 0; // Counts the number of cycles for which the rover is close to stationary
+float rover_stuck_beta = 0; // Maximum velocity to be considered stuck
+unsigned int rover_stuck_delta = 1500; // ~ 3 seconds
 
 short int stop_cycles_elapsed = 0; // Timer. Wait 'endpoint_cycles_elapsed' before returning errors via control link, after the rover has received a stop command
 bool return_error_due = false;
@@ -150,6 +156,10 @@ void loop() {
         }
         checkStop();
         checkCurrent();
+        if(checkStuck()){
+          return_error_due = true;
+          roverStandby();
+        }
         if (info_count >= 205){
           Serial.println(10*ofs.total_y1/157);
           info_count = 0;
@@ -235,6 +245,8 @@ bool roverUpdate(){
   long int y_diff = target_pixel_dist - ofs.total_y1;
   long int x_diff = target_x_pixel_change - ofs.total_x1;
 
+  v_y = ofs.getAvgdy();
+
   if (abs(y_diff) <= endpoint_beta){ // Check if the enpoint has been reached to a satisfactory accuracy
     if (abs(x_diff) <= endpoint_beta){
       if (endpoint_cycles_elapsed == endpoint_time_delta){ // Ensure endpoint has been met for a minimum time, avoid overshoot incorrectly identified as endpoint
@@ -259,7 +271,7 @@ bool roverUpdate(){
     target_dx = (target_dx > 0) ? 3 : -3;
   }
 
-  v1 = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PID controllers
+  v1 = pid_update(v_y, target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PID controllers
   v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2); // Return value in volts 
 
   motor.setMotorDelta((int)(v1/smps.vref*255), (int)(2*v2/smps.vref*255)); // Voltage setpoint is converted to a PWM value on the motors
@@ -322,6 +334,19 @@ void parseCommand(){ // Called during standby if there is data_available
 bool checkCurrentLimit(){
   // CHECK FOR HIGH CURRENT (e.g. motors have been stopped) 
   // return an error to control and move to standby
+  return false;
+}
+
+bool checkStuck(){ // Checks if the rover's velocity in y-axis is below a threshold for a given time
+  if(abs(v_y) <= rover_stuck_beta){
+    if(rover_stuck_counter == rover_stuck_delta){
+      rover_stuck_counter = 0;
+      return true;
+    }
+    rover_stuck_counter++;
+  } else {
+    rover_stuck_counter = 0;
+  }
   return false;
 }
 //------------------------------------------------------------------------------//
