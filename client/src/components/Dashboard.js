@@ -52,7 +52,7 @@ export default function Dashboard() {
                       <p className="card-category">Input commands to control the rover</p>
                       </div>
                       <div className="card-body ">
-                        <Pointinput coords = {this.state.coords}/>
+                        <Pointinput coords = {coords}/>
                       </div>
                     <div>
                       <Clearmap/>
