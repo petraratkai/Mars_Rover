@@ -15,10 +15,11 @@ export default function Dashboard(props) {
             }
         }
     }*/
-    this.state = coords: {
+    this.state = {coords: {
       x:0,
       y:0
     }
+  };
   handleCallback = (coordinates) => {
     //pointinput state
     //alert(JSON.stringify(coordinates));
