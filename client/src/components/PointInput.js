@@ -53,7 +53,7 @@ class Pointinput extends React.Component {
           x:
           <input
             name="x"
-             type="text" pattern="[0-9]*([.][0-9]*)?"
+             type="text" pattern="[-]?[0-9]*([.][0-9]*)?"
             value={this.state.x}
             style={{ width: "50px" }}
             onChange={this.handleInputChange} />
@@ -62,7 +62,7 @@ class Pointinput extends React.Component {
           y:
           <input
             name = "y"
-            type="text" pattern="[0-9]*([.][0-9]*)?"
+            type="text" pattern="[-]?[0-9]*([.][0-9]*)?"
             value={this.state.y}
             style={{ width: "50px"}}
             onChange={this.handleInputChange} />

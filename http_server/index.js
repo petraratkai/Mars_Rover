@@ -103,6 +103,8 @@ client.on('message', (topic, message, packet) => {
 		path_complex.shift(); //remove current position
 	}
 	else if(topic == 'control/positions') {
+		// posx = message.x;
+		//var posy = message.y;
 		rover_coord = {x: message.x, y: message.y};
 	}
 });
