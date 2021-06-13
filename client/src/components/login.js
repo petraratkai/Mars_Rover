@@ -20,7 +20,6 @@ export default function Login ({ setToken }) {
    );
    setToken(token);
  }
-  render() {
     return (
       <div className = "login">
         <h1>Please log in</h1>
@@ -35,7 +34,7 @@ export default function Login ({ setToken }) {
         </form>
       </div>
     )
-  }
+  
 }
 
 Login.propTypes = {
