@@ -5,8 +5,8 @@ import Clearmap from "./clearmap.js"
 import Notifications from "./notifications.js"
 import Battery from "./battery.js"
 
-export default function Dashboard(props) {
-  /*constructor(props){
+class Dashboard extends Component {
+  constructor(props){
         super(props);
         this.state = {
             coords: {
@@ -14,17 +14,13 @@ export default function Dashboard(props) {
               y:0
             }
         }
-    }*/
-    this.state = {coords: {
-      x:0,
-      y:0
     }
-  };
-  this.handleCallback = (coordinates) => {
+  handleCallback = (coordinates) => {
     //pointinput state
     //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
   }
+  render() {
     return (
       <div className="content" >
         <div className="container-fluid">
@@ -110,7 +106,8 @@ export default function Dashboard(props) {
           </div>
         </div>
       </div>
-    );
+    )
+  }
 }
 
-//export default Dashboard;
+export default Dashboard;
