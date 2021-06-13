@@ -189,6 +189,7 @@ app.post("/clearmap", (req, res) => {
 	coord = [];
 	commands = [];
 	if(dbo) dbo.collection("balls").deleteMany({});
+	if(dbo) dbo.collection("commands").deleteMany({});
 	notifications.unshift("map cleared");
 })
 
