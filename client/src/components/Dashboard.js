@@ -16,7 +16,7 @@ export default function Dashboard() {
         }
     }*/
     const [coords, setCoords] = useState({x:0, y:0});
-  handleCallback = (coordinates) => {
+  function handleCallback = (coordinates) => {
     //pointinput state
     //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
