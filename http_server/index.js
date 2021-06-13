@@ -144,7 +144,8 @@ app.get("/rover", (req, res) => {
   //console.log("rover pos request received");
 	var roverx = x%100-50;
 	var rovery = y%100-50;
-  res.send("{\"x\": " + roverx + ", \"y\": " + rovery + "}");
+  //res.send("{\"x\": " + roverx + ", \"y\": " + rovery + "}");
+	res.send(rover_coord);
 })
 app.get("/clearnotif", (req, res) => {
   notifications=[];
