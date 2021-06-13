@@ -262,7 +262,7 @@ console.log("subscribing to topics");
 client.subscribe("control/esptest");
 client.subscribe("ready");
 client.subscribe("balls");
-client.subscribe('command/rover');
+client.subscribe('control/positions');
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
 //notice this is printed even before we connect
