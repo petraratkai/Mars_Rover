@@ -15,3 +15,5 @@ class Battery extends React.Component {
     );
   }
 }
+
+export default Battery;
