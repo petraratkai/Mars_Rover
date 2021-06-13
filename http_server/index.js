@@ -94,6 +94,7 @@ client.on('message', (topic, message, packet) => {
 		let rad = 1;
 		let ball_compl = math.complex(message.x, message.y);
 		let newObst = {centre: ball_compl, radius: rad};
+		coord.push(message);
 		[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
 		path_complex = [];
 		let originalPath = commands_complex;

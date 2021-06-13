@@ -62,7 +62,8 @@ class Rover extends React.Component {
     });
   })
   render() {
-    var rover = require("../assets/img/mars_rover.png");
+    //var rover = require("../assets/img/mars_rover.png");
+    var rover = require("../assets/img/rover2.png");
     var x = this.state.x+50-5;
     var y = this.state.y*(-1)+50-5;
     return (
