@@ -25,9 +25,9 @@ export default function Dashboard() {
     //alert(JSON.stringify(coordinates));
     setCoords(coordinates);
   }
-  if(!token) {
+  /*if(!token) {
   return <Login setToken={setToken} />
-}
+}*/
 
     return (
       <div className="content" >
