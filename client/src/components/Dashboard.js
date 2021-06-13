@@ -44,7 +44,7 @@ class Dashboard extends Component {
             </div>
             <div className="col-md-6">
               <div className = "row" >
-                <div className="col-md-5">
+                <div className="col-md-6">
                   <div className="card">
                     <div className="card-header ">
                       <h4 className="card-title">Commands</h4>
@@ -64,7 +64,7 @@ class Dashboard extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-3" >
+                <div className="col-md-4" >
                   <div className="card">
                     <div className="card-header ">
                       <h4 className="card-title">Battery</h4>
