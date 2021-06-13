@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
 async function loginUser(credentials) {
  return fetch('http://localhost:8000/login', {
@@ -34,7 +35,7 @@ export default function Login ({ setToken }) {
         </form>
       </div>
     )
-  
+
 }
 
 Login.propTypes = {
