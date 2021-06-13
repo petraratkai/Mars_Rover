@@ -177,7 +177,7 @@ app.get("/balls", (req, res) => {
 	}
 	if(dbo) dbo.collection("balls").find({}).toArray((err,result) => {
 		if(err) throw err;
-		console.log("balls read");
+		//console.log("balls read");
 		//coord = result;
 		//res.send(coord);
 	});
