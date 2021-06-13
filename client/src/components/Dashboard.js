@@ -25,7 +25,6 @@ export default function Dashboard(props) {
     //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
   }
-  render() {
     return (
       <div className="content" >
         <div className="container-fluid">
@@ -111,8 +110,7 @@ export default function Dashboard(props) {
           </div>
         </div>
       </div>
-    )
-  }
+    );
 }
 
 //export default Dashboard;
