@@ -220,7 +220,7 @@ class Map extends React.Component {
     const status = 'Map';
 //<div className="status">{status}</div>
   //var background = require('../assets/img/brown_square.jpg');
-  var background = require('../assets/img/map2.jpg');
+  var background = require('../assets/img/map2.png');
   var ball = require('../assets/img/coloredspheres/sphere-08.png');
   var rover = require("../assets/img/mars_rover.png");
     return (
