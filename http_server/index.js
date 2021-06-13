@@ -208,11 +208,11 @@ app.post('/sendInfo', (req, res) => {
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		//ready = false;
-		console.log(JSON.stringify(rover_coord));
-		/*let start = math.complex(rover_coord.x, rover_coord.y);
+		//console.log(JSON.stringify(rover_coord));
+		let start = math.complex(rover_coord.x, rover_coord.y);
 		let end = math.complex(req.body.x, req.body.y);
 		commands_complex.push(end);
-		commands.push(req.body);*/
+		commands.push(req.body);
 		//console.log(commands);
 		/*let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
