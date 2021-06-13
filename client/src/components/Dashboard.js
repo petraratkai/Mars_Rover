@@ -3,6 +3,7 @@ import Map from "./Map.js";
 import Pointinput from "./PointInput.js";
 import Clearmap from "./clearmap.js"
 import Notifications from "./notifications.js"
+import Battery from "./battery.js"
 
 class Dashboard extends Component {
   constructor(props){
@@ -67,14 +68,11 @@ class Dashboard extends Component {
                   <div className="card">
                     <div className="card-header ">
                       <h4 className="card-title">Battery</h4>
-                      <p className="card-category">Input commands to control the rover</p>
+                      <p className="card-category">current state of battery:</p>
                       </div>
                       <div className="card-body ">
-                        <Pointinput coords = {this.state.coords}/>
+                        <Battery>
                       </div>
-                    <div>
-                      <Clearmap/>
-                    </div>
                     <div className="card-footer ">
                       <hr />
                       <div className="stats">
