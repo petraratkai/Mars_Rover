@@ -5,8 +5,8 @@ import Clearmap from "./clearmap.js"
 import Notifications from "./notifications.js"
 import Battery from "./battery.js"
 
-class Dashboard extends Component {
-  constructor(props){
+export default function Dashboard {
+  /*constructor(props){
         super(props);
         this.state = {
             coords: {
@@ -14,8 +14,9 @@ class Dashboard extends Component {
               y:0
             }
         }
-    }
-  handleCallback = (coordinates) => {
+    }*/
+    const [coords, setCoords] = useState({x:0, y:0});
+  this.handleCallback = (coordinates) => {
     //pointinput state
     //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
@@ -110,4 +111,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+//export default Dashboard;
