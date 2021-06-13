@@ -64,12 +64,12 @@ class Rover extends React.Component {
   render() {
     //var rover = require("../assets/img/mars_rover.png");
     var rover = require("../assets/img/rover2.png");
-    var x = this.state.x+50-7.5;
-    var y = this.state.y*(-1)+50-7.5;
+    var x = this.state.x+50-10;
+    var y = this.state.y*(-1)+50-10;
     return (
       <Image
           className="fa-stack the-wrapper rover"
-          src = {rover.default} width = "15%"
+          src = {rover.default} width = "20%"
           style = {{top: y + "%", left: x + "%"}}
       />
     );
@@ -219,7 +219,8 @@ class Map extends React.Component {
   render() {
     const status = 'Map';
 //<div className="status">{status}</div>
-  var background = require('../assets/img/brown_square.jpg');
+  //var background = require('../assets/img/brown_square.jpg');
+  var background = require('../assets/img/map2.jpg');
   var ball = require('../assets/img/coloredspheres/sphere-08.png');
   var rover = require("../assets/img/mars_rover.png");
     return (
