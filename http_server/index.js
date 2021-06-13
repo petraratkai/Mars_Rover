@@ -253,6 +253,7 @@ app.get("/notifications", (req, res) => {
 });
 
 app.use('/login', (req, res) => {
+	console.log(req.body);
 	if(req.body == "password")
   	res.send({
     	token: 'testtoken'
