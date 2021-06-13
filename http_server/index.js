@@ -258,7 +258,7 @@ app.use('/login', (req, res) => {
   	res.send({
     	token: 'testtoken'
   	});
-		else res.send('');
+		else res.send({token:''});
 });
 app.listen(PORT, () => {
   console.log("Browser server listening on " + PORT);
