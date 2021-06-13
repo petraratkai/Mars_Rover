@@ -43,24 +43,45 @@ class Dashboard extends Component {
             </div>
             <div className="col-md-7">
               <div className = "row" >
-                <div className="card">
-                  <div className="card-header ">
-                    <h4 className="card-title">Commands</h4>
-                    <p className="card-category">Input commands to control the rover</p>
-                  </div>
-                  <div className="card-body ">
-                    <Pointinput coords = {this.state.coords}/>
-                  </div>
-                  <div>
-                    <Clearmap/>
-                  </div>
-                  <div className="card-footer ">
-                    <hr />
-                    <div className="stats">
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="card-header ">
+                      <h4 className="card-title">Commands</h4>
+                      <p className="card-category">Input commands to control the rover</p>
+                      </div>
+                      <div className="card-body ">
+                        <Pointinput coords = {this.state.coords}/>
+                      </div>
+                    <div>
+                      <Clearmap/>
+                    </div>
+                    <div className="card-footer ">
+                      <hr />
+                      <div className="stats">
                       <i className="fa fa-history"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="card-header ">
+                      <h4 className="card-title">Battery</h4>
+                      <p className="card-category">Input commands to control the rover</p>
+                      </div>
+                      <div className="card-body ">
+                        <Pointinput coords = {this.state.coords}/>
+                      </div>
+                    <div>
+                      <Clearmap/>
+                    </div>
+                    <div className="card-footer ">
+                      <hr />
+                      <div className="stats">
+                      <i className="fa fa-history"></i>
+                      </div>
+                    </div>
+                  </div>
               </div>
               <div className = "row" style={{height:"40%"}}>
                 <div className="card">
