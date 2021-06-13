@@ -5,7 +5,7 @@ import Clearmap from "./clearmap.js"
 import Notifications from "./notifications.js"
 import Battery from "./battery.js"
 
-function Dashboard(props) {
+export default function Dashboard(props) {
   /*constructor(props){
         super(props);
         this.state = {
@@ -114,4 +114,4 @@ function Dashboard(props) {
   }
 }
 
-export default Dashboard;
+//export default Dashboard;
