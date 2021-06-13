@@ -20,7 +20,7 @@ export default function Dashboard(props) {
       y:0
     }
   };
-  handleCallback = (coordinates) => {
+  this.handleCallback = (coordinates) => {
     //pointinput state
     //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
