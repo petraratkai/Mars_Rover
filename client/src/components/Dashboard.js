@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Map from "./Map.js";
 import Pointinput from "./PointInput.js";
 import Clearmap from "./clearmap.js"
