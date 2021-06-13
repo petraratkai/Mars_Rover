@@ -10,7 +10,7 @@ class Battery extends React.Component {
     return(
       <Image
 
-          src = {battery.default} width = "100%%"
+          src = {battery.default} width = "20%"
       />
     );
   }
