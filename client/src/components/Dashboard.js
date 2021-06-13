@@ -71,7 +71,7 @@ class Dashboard extends Component {
                       <p className="card-category">current state of battery:</p>
                       </div>
                       <div className="card-body ">
-                        <Battery>
+                        <Battery/>
                       </div>
                     <div className="card-footer ">
                       <hr />
