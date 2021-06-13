@@ -227,7 +227,7 @@ class Map extends React.Component {
       <div >
       <a className="block-icon">
         <Image
-          src={background.default} height="100%" width="100%"
+          src={background.default} height="20%" width="20%"
           ref = {this.ref}
           onClick = {this.handleClick}
         />
