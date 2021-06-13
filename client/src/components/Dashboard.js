@@ -82,6 +82,7 @@ class Dashboard extends Component {
                       </div>
                     </div>
                   </div>
+                  </div>
               </div>
               <div className = "row" style={{height:"40%"}}>
                 <div className="card">
