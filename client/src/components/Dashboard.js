@@ -83,6 +83,7 @@ class Dashboard extends Component {
                   </div>
               </div>
               <div className = "row" style={{height:"40%"}}>
+              <div className = "col-md-7">
                 <div className="card">
                   <div className="card-header ">
                     <h4 className="card-title">Notifications</h4>
@@ -97,6 +98,7 @@ class Dashboard extends Component {
                       <i className="fa fa-history"></i>
                       </div>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
