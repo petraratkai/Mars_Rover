@@ -42,7 +42,7 @@ class Dashboard extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-6">
               <div className = "row" >
                 <div className="col-md-6">
                   <div className="card">
