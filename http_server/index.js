@@ -251,6 +251,14 @@ app.post('/sendInfo', (req, res) => {
 app.get("/notifications", (req, res) => {
 	res.send(notifications);
 });
+
+app.use('/login', (req, res) => {
+	if(req.body == "password")
+  	res.send({
+    	token: 'testtoken'
+  	});
+		else res.send('');
+});
 app.listen(PORT, () => {
   console.log("Browser server listening on " + PORT);
 })

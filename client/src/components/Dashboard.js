@@ -4,6 +4,7 @@ import Pointinput from "./PointInput.js";
 import Clearmap from "./clearmap.js"
 import Notifications from "./notifications.js"
 import Battery from "./battery.js"
+import Login from "./login.js"
 
 export default function Dashboard() {
   /*constructor(props){
@@ -24,9 +25,9 @@ export default function Dashboard() {
     //alert(JSON.stringify(coordinates));
     setCoords(coordinates);
   }
-  /*if(!token) {
+  if(!token) {
   return <Login setToken={setToken} />
-}*/
+}
 
     return (
       <div className="content" >
