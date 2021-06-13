@@ -7,7 +7,7 @@ async function loginUser(credentials) {
    headers: {
      'Content-Type': 'application/json'
    },
-   body: JSON.stringify(credentials)
+   body: credentials
  })
    .then(data => data.json())
 }
@@ -20,7 +20,8 @@ export default function Login ({ setToken }) {
    const token = await loginUser(
      password
    );
-   setToken(token);
+   if(token!="")
+    setToken(token);
  }
     return (
       <div className = "login">
