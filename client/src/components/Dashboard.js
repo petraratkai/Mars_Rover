@@ -19,7 +19,7 @@ export default function Dashboard() {
   function handleCallback(coordinates)  {
     //pointinput state
     //alert(JSON.stringify(coordinates));
-    setCoords({coords: coordinates});
+    setCoords(coordinates);
   }
 
     return (
