@@ -42,7 +42,7 @@ class Dashboard extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
               <div className = "row" >
                 <div className="col-md-6">
                   <div className="card">
@@ -64,24 +64,7 @@ class Dashboard extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-4" >
-                  <div className="card">
-                    <div className="card-header ">
-                      <h4 className="card-title">Battery</h4>
-                      <p className="card-category">current state of battery:</p>
-                      </div>
-                      <div className="card-body ">
-                        <Battery/>
-                      </div>
-                    <div className="card-footer ">
-                      <hr />
-                      <div className="stats">
-                      <i className="fa fa-history"></i>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-              </div>
+
               <div className = "row" style={{height:"40%"}}>
                 <div className="card">
                   <div className="card-header ">
@@ -100,6 +83,24 @@ class Dashboard extends Component {
                 </div>
               </div>
             </div>
+            <div className="col-md-4" >
+              <div className="card">
+                <div className="card-header ">
+                  <h4 className="card-title">Battery</h4>
+                  <p className="card-category">current state of battery:</p>
+                  </div>
+                  <div className="card-body ">
+                    <Battery/>
+                  </div>
+                <div className="card-footer ">
+                  <hr />
+                  <div className="stats">
+                  <i className="fa fa-history"></i>
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
 
           </div>
         </div>

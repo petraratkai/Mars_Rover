@@ -102,7 +102,7 @@ client.on('message', (topic, message, packet) => {
 		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.shift(); //remove current position
 	}
-	else if(topic == 'command/rover') {
+	else if(topic == 'control/estimates') {
 		rover_coord = {x: message.x, y: message.y};
 	}
 });
