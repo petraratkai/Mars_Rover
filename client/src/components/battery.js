@@ -9,7 +9,7 @@ class Battery extends React.Component {
     var battery = require('../assets/img/battery100.jpg');
     return(
       <Image
-
+        className = "clearmap"
           src = {battery.default} width = "50px"
       />
     );
