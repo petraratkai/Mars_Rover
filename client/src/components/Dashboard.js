@@ -16,7 +16,7 @@ export default function Dashboard() {
         }
     }*/
     const [coords, setCoords] = useState({x:0, y:0});
-  this.handleCallback = (coordinates) => {
+  handleCallback = (coordinates) => {
     //pointinput state
     //alert(JSON.stringify(coordinates));
     this.setState({coords: coordinates});
@@ -36,7 +36,7 @@ export default function Dashboard() {
                 <div className="card-body ">
                   <div className="legend">
                   <div className = "board">
-                    <Map parentCallback = {this.handleCallback} style={{height: "100%"}} />
+                    <Map parentCallback = {handleCallback} style={{height: "100%"}} />
                   </div>
 
                 </div>
