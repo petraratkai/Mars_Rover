@@ -25,7 +25,7 @@ class Dashboard extends Component {
         <div className="container-fluid">
           <div className="row">
 
-            <div className="col-md-6" style={{height: "100%"}}>
+            <div className="col-md-5" style={{height: "100%"}}>
               <div className="card " >
                 <div className="card-header ">
                   <h4 className="card-title">Map</h4>
@@ -36,12 +36,12 @@ class Dashboard extends Component {
                   <div className = "board">
                     <Map parentCallback = {this.handleCallback} style={{height: "100%"}} />
                   </div>
-                  
+
                 </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-7">
               <div className = "row" >
                 <div className="card">
                   <div className="card-header ">
