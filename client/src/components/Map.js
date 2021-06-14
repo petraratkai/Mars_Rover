@@ -112,7 +112,7 @@ class Map extends React.Component {
         .catch(err => {
           console.log(err);
         })
-    }, 200);
+    }, 300);
     //var ballcnt = 0;
     //var sum = 0;
     this.ballinterval = setInterval(()=> {
@@ -146,7 +146,7 @@ class Map extends React.Component {
           console.log(err);
         })
 
-    }, 300);
+    }, 400);
   }
   handleClick(event) {
     if(this) {
