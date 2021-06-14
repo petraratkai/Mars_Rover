@@ -38,7 +38,7 @@ class Notifications extends React.Component {
         .catch(err => {
           console.log(err);
         })
-    }, 300);
+    }, 500);
   }
   renderNotifications() {
     var i = 0;
