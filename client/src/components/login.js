@@ -19,7 +19,7 @@ export default function Login ({ setToken }) {
    e.preventDefault();
    const token = await loginUser({password:
      password
-   });
+   }).token;
    if(token!="")
     setToken(token);
  }
