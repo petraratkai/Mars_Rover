@@ -253,12 +253,9 @@ app.get("/notifications", (req, res) => {
 });
 
 app.use('/login', (req, res) => {
-	console.log(req.body);
-	if(req.body == "password")
-  	res.send({
-    	token: 'testtoken'
-  	});
-		else res.send({token:''});
+  res.send({
+    token: 'test123'
+  });
 });
 app.listen(PORT, () => {
   console.log("Browser server listening on " + PORT);

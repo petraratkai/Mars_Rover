@@ -20,7 +20,6 @@ export default function Login ({ setToken }) {
    const token = await loginUser(
      password
    );
-   alert("token is" + token);
    if(token!="")
     setToken(token);
  }
