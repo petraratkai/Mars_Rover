@@ -22,7 +22,7 @@ export default function Login ({ setToken }) {
    });
    alert(JSON.stringify(token));
    if(token.data.token)
-    setToken(token.data.token);
+    setToken(token.data);
  }
     return (
       <div className = "login">
