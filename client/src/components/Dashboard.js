@@ -76,7 +76,7 @@ export default function Dashboard() {
                     <div>
                       <Clearmap/>
                     </div>
-                    
+
                   </div>
                 </div>
                 <div className="col-md-4" >
@@ -88,12 +88,7 @@ export default function Dashboard() {
                       <div className="card-body ">
                         <Battery/>
                       </div>
-                    <div className="card-footer ">
-                      <hr />
-                      <div className="stats">
-                      <i className="fa fa-history"></i>
-                      </div>
-                    </div>
+
                   </div>
                   </div>
               </div>
@@ -107,12 +102,7 @@ export default function Dashboard() {
                   <div className="card-body ">
                     <Notifications/>
                   </div>
-                  <div className="card-footer ">
-                    <hr />
-                    <div className="stats">
-                      <i className="fa fa-history"></i>
-                      </div>
-                  </div>
+                  
                 </div>
                 </div>
               </div>
