@@ -26,7 +26,7 @@ export default function Dashboard() {
             }
         }
     }*/
-    //const [coords, setCoords] = useState({x:0, y:0});
+    const [coords, setCoords] = useState({x:0, y:0});
     //const [token, setToken] = useState();
     const token = getToken;
 
