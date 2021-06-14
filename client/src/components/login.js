@@ -29,8 +29,8 @@ export default function Login ({ setToken }) {
         <h1>Please log in</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            <p>Password:</p>
-            <input className = "clearmap" type="password" onChange={e => setPassword(e.target.value)}đ/>
+            <p className = "clearmap">Password:</p>
+            <input  type="password" onChange={e => setPassword(e.target.value)}đ/>
           </label>
           <div>
             <button className = "clearmap" type="submit">Submit</button>
