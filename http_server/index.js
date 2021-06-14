@@ -278,6 +278,6 @@ client.subscribe("ready");
 client.subscribe("control/obstacles");
 client.subscribe('control/positions');
 
-var timer_id=setInterval(function(){publish("comm/connection",message,options);},10000);
+var timer_id=setInterval(function(){publish("comm/connection",message,options);},5000);
 //notice this is printed even before we connect
 console.log("end of script");
