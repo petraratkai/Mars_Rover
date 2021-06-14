@@ -58,8 +58,8 @@ count+=1;
 
 //receive messages - listener
 client.on('message', (topic, message, packet) => {
-	console.log("message is "+ message);
-	console.log("topic is "+ topic);
+	//console.log("message is "+ message);
+	//console.log("topic is "+ topic);
 	if(topic == 'ready') {
 		var sort_chron = {time: 1};
 		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
