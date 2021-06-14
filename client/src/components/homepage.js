@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Roverfeatures from './roverfeatures.js'
+import TeamMembers from './teammembers.js'
 
 class Home extends Component {
   render() {
@@ -47,6 +48,18 @@ class Home extends Component {
                 <Roverfeatures/>
               </div>
             </div>
+            </div>
+            <div className = "row">
+            <div className = "col-md-12">
+              <div className = "card">
+                <div className = "card-header">
+                  <h4 className="card-title">Team members</h4>
+                </div>
+                <div className = "card-body">
+                  <TeamMembers/>
+                </div>
+              </div>
+              </div>
             </div>
           </div>
         </div>
