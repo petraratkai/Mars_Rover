@@ -82,15 +82,15 @@ client.on('message', (topic, message, packet) => {
 			}
 		});
 	}
-	else if(topic == 'balls') {
+	else if(topic == 'control/obstacles') {
 		//let ball = {x: ballx, y:bally, color: colors[i-1]};
 		//coord.push(ball);
 		//var myobj = { score: game.cars[i].score, Date: new Date() };
 		//coord.push(message);
-		/*if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
+		if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("1 ball inserted");
-		});*/
+		});
 		let rad = 1;
 		let ball_compl = math.complex(message.x, message.y);
 		let newObst = {centre: ball_compl, radius: rad};
@@ -274,7 +274,7 @@ console.log("subscribing to topics");
 //client.subscribe(topic_o); //object
 client.subscribe("control/esptest");
 client.subscribe("ready");
-client.subscribe("balls");
+client.subscribe("control/obstacles");
 client.subscribe('control/positions');
 
 //var timer_id=setInterval(function(){publish("comm/laptoptest",message,options);},5000);
