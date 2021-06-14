@@ -17,7 +17,7 @@ class Clearmap extends React.Component {
   }
   render() {
     return (
-      <button className = "clearmap" onClick = {this.handleClick} >
+      <button className = "clearmap b4" onClick = {this.handleClick} >
         clear map
       </button>
     );
