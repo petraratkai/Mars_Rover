@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import Roverfeatures from './roverfeatures.js'
 import TeamMembers from './teammembers.js'
+import Image from "react-bootstrap/Image"
 
 class Home extends Component {
+
   render() {
+    var team = require('../assets/img/team.jpeg');
     return (
       <div className = "content">
         <div className = "container-fluid">
@@ -35,7 +38,7 @@ class Home extends Component {
                   <h4 className="card-title ">The team</h4>
                 </div>
                 <div className = "card-body">
-                  img
+                  <Image src = {team.default} width = "100%" />
                 </div>
               </div>
             </div>
