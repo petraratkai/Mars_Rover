@@ -6,6 +6,16 @@ import Notifications from "./notifications.js"
 import Battery from "./battery.js"
 import Login from "./login.js"
 
+function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
+}
+
 export default function Dashboard() {
   /*constructor(props){
         super(props);
@@ -16,8 +26,9 @@ export default function Dashboard() {
             }
         }
     }*/
-    const [coords, setCoords] = useState({x:0, y:0});
-    const [token, setToken] = useState();
+    //const [coords, setCoords] = useState({x:0, y:0});
+    //const [token, setToken] = useState();
+    const token = getToken;
 
 
   function handleCallback(coordinates)  {
