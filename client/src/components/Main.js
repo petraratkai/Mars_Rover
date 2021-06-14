@@ -15,7 +15,7 @@ class Main extends Component {
           <Route path = "/home" component = {Home} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/profile" component={Other} />
-          <Redirect from='*' to='/dashboard' />
+          <Redirect from='*' to='/home' />
         </Switch>
 
       </div>

@@ -57,9 +57,9 @@ class Notifications extends React.Component {
       <ul className = "notifications">
         {this.renderNotifications()}
       </ul>
-      <button className = "clearmap" onClick={this.handleClick}>
+      <button className = "clearmap map" onClick={this.handleClick}>
         clear
-      </button>
+      </button >
       </div>
     );
   }

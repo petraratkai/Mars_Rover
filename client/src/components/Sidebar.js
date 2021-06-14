@@ -12,6 +12,11 @@ class Sidebar extends Component {
             </Link>
           </div>
           <ul className="nav">
+          <li className="nav-item">
+            <NavLink className="nav-link" to='/home'>
+              <p>Home</p>
+            </NavLink>
+          </li>
             <li className="nav-item">
               <NavLink className="nav-link" to='/dashboard'>
                 <p>Dashboard</p>

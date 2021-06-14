@@ -67,7 +67,7 @@ class Pointinput extends React.Component {
             style={{ width: "50px"}}
             onChange={this.handleInputChange} />
         </label>
-        <input type="submit" value="go to point" />
+        <input className = "b4" type="submit" value="go to point" />
       </form>
     );
   }
