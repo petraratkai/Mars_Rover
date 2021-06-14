@@ -43,7 +43,9 @@ class Pointinput extends React.Component {
 
   }
   componentWillReceiveProps(nextProps) {
-  this.setState({ x: nextProps.coords.x, y: nextProps.coords.y });
+    let xval = nextProps.coords.x*2;
+    let yval = nextProps.coord.y*2;
+  this.setState({ x: xval, y: yval });
 }
 
   render() {
