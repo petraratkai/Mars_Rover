@@ -21,8 +21,8 @@ export default function Login ({ setToken }) {
      password
    });
    alert(JSON.stringify(token));
-   if(token.data)
-    setToken(token);
+   if(token.data.token)
+    setToken(token.data.token);
  }
     return (
       <div className = "login">
