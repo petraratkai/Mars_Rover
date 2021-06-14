@@ -29,11 +29,11 @@ export default function Login ({ setToken }) {
         <h1>Please log in</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            <p>Password</p>
-            <input type="password" onChange={e => setPassword(e.target.value)}đ/>
+            <p>Password:</p>
+            <input className = "clearmap" type="password" onChange={e => setPassword(e.target.value)}đ/>
           </label>
           <div>
-            <button type="submit">Submit</button>
+            <button className = "clearmap" type="submit">Submit</button>
           </div>
         </form>
       </div>
