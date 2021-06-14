@@ -28,11 +28,13 @@ class Pointinput extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    alert('A destination point was submitted: ' + this.state.x + ', ' + this.state.y);
+    //alert('A destination point was submitted: ' + this.state.x + ', ' + this.state.y);
+    let xval = this.state.x*2;
+    let yval = this.state.y*2;
     const test = { test: "This is a test" };
     const point = {
-      x: this.state.x,
-      y: this.state.y
+      x: xval,
+      y: yval
     };
     axios.post(
   'http://' + window.location.hostname + ':8000/sendInfo', this.state
@@ -43,9 +45,7 @@ class Pointinput extends React.Component {
 
   }
   componentWillReceiveProps(nextProps) {
-    let xval = nextProps.coords.x*2;
-    let yval = nextProps.coord.y*2;
-  this.setState({ x: xval, y: yval });
+  this.setState({ x: nextProps.coords.x, y: nextProps.coords.y });
 }
 
   render() {
