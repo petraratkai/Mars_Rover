@@ -135,3 +135,7 @@ void drive_smps::setup(){
 float drive_smps::getiL(){
   return iL;
 }
+
+float drive_smps::getvb(){
+  return vb;
+}

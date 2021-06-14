@@ -25,8 +25,7 @@ INA219_WE ina219; // this is the instantiation of the library for the current se
 
 unsigned int loopTrigger;
 unsigned int com_count=0;   // a variables to count the interrupts. Used for program debugging.
-
-unsigned int info_count = 0;
+unsigned int slow_trigger = 0; // operates at 100th speed of main control loop
 //*********************************************************//
 
 //************************ Control Variables ***************************//
@@ -38,8 +37,6 @@ long int target_pixel_dist = 0;
 float target_angle = 0; // in degrees
 int target_x_pixel_change = 0; // in pixels, converted from the target angle
 
-const float pixel_angle_ratio = 41.0f;
-
 // PID
 float e1 = 0; // dy controller
 float acc1 = 0;
@@ -50,17 +47,11 @@ float acc2 = 0; // dx controller
 const float y_kp = 0.003; // P gain of the y controller (forward distance)
 const float x_kp = 0.004; // P gain of the x controller (angle)
 
-float v_y = 0;
-
 float max_vref = 4;
 
 const short int endpoint_beta = 3; // Tolerance of commands at the endpoint before returning to standby
 const short int endpoint_time_delta = 100; // Time (in control loop cycles) for which the endpoint needs to be reached before standby
 short int endpoint_cycles_elapsed = 0;
-
-unsigned int rover_stuck_counter = 0; // Counts the number of cycles for which the rover is close to stationary
-float rover_stuck_beta = 0; // Maximum velocity to be considered stuck
-unsigned int rover_stuck_delta = 1500; // ~ 3 seconds
 
 short int stop_cycles_elapsed = 0; // Timer. Wait 'endpoint_cycles_elapsed' before returning errors via control link, after the rover has received a stop command
 bool return_error_due = false;
@@ -88,21 +79,21 @@ void setup() {
   motor.setup();     
   ofs.setup();
 
-  Serial1.begin(9600); // UART connection for the control link
-  Serial.begin(9600);
+  //Serial1.begin(9600); // UART connection for the control link
+  Serial.begin(1000000);
 }
  
 bool t = true;
 bool t2 = true;
 
 void loop() {
-  unsigned long currentMillis = millis(); // Slower due to TCA0?
+  unsigned long currentMillis = millis(); // Slower due to TCA0
 
   readToBuffer();
   
   if(loopTrigger) { // 1000/1024 kHz, set by TCA0
     loopTrigger = 0;
-    info_count++;
+    slow_trigger++;
     
     smps.update(); // ------------- Update SMPS ------------//
 
@@ -121,25 +112,22 @@ void loop() {
         }
         else{
           if(return_error_due){
-            Serial.print("driveFail:");
-            Serial1.print("driveFail:");
-            Serial1.print((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial1.print(":");
-            Serial1.println((target_x_pixel_change - ofs.total_x1)/(pixel_angle_ratio)); // Send the error in degrees
+            Serial.println("driveFail");
+            Serial.println((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial.println((target_x_pixel_change - ofs.total_x1)/(38.0f)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
-            Serial.println("driveDone");
+            //Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             return_success_due = false;
           }
 
           if(data_available){
-            Serial.println("data received");
+            //Serial.println("data received");
             strcpy(temp_data, received_data);
             parseCommand();
-            Serial.println(command_from_control);
-            Serial.println(float_from_control);
+            //Serial.println(command_from_control);
+            //Serial.println(float_from_control);
 
             if (!strcmp(command_from_control, "rotate")){
               roverRotate(float_from_control);
@@ -156,16 +144,6 @@ void loop() {
           roverStandby();
         }
         checkStop();
-        checkCurrent();
-        if(checkStuck()){
-          return_error_due = true;
-          roverStandby();
-        }
-        if (info_count >= 205){
-          Serial1.println(10*ofs.total_y1/157);
-          Serial.println(10*ofs.total_y1/157);
-          info_count = 0;
-        }
         break;
 
       case rover_rotate:
@@ -173,7 +151,6 @@ void loop() {
           roverStandby();
         }
         checkStop();
-        checkCurrent();
         break;
 
       case rover_stop:
@@ -184,6 +161,16 @@ void loop() {
         roverStandby();
         break;
     }
+  }
+  if(slow_trigger == 10){
+    if(current_command_state == rover_move || current_command_state == rover_rotate){
+      Serial.print(smps.getiL());
+      Serial.print(",");
+      Serial.print(smps.getvb());
+      Serial.print(",");
+      Serial.println(currentMillis);
+    }
+    slow_trigger = 0;
   }
 }
 
@@ -226,7 +213,7 @@ void roverRotate(float angle){
   target_dist = 0;
   target_pixel_dist = 0;
   target_angle = angle;
-  target_x_pixel_change = (int)(angle*pixel_angle_ratio);
+  target_x_pixel_change = (int)(angle*40.0f);
   if (angle > 0){
     motor.setMotorDirection(ccw);
   } else {
@@ -246,8 +233,6 @@ bool roverUpdate(){
 
   long int y_diff = target_pixel_dist - ofs.total_y1;
   long int x_diff = target_x_pixel_change - ofs.total_x1;
-
-  v_y = ofs.getAvgdy();
 
   if (abs(y_diff) <= endpoint_beta){ // Check if the enpoint has been reached to a satisfactory accuracy
     if (abs(x_diff) <= endpoint_beta){
@@ -273,7 +258,7 @@ bool roverUpdate(){
     target_dx = (target_dx > 0) ? 3 : -3;
   }
 
-  v1 = pid_update(v_y, target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PID controllers
+  v1 = pid_update(ofs.getAvgdy(), target_dy, &e1, dykp, dyki, dykd, &acc1); // velocity PID controllers
   v2 = pid_update(ofs.getAvgdx(), target_dx, &e2, dxkp, dxki, dxkd, &acc2); // Return value in volts 
 
   motor.setMotorDelta((int)(v1/smps.vref*255), (int)(2*v2/smps.vref*255)); // Voltage setpoint is converted to a PWM value on the motors
@@ -287,7 +272,7 @@ bool roverUpdate(){
 
 bool checkStop(){ // Checks serial buffer for the STOP instruction
   if (data_available){
-    //Serial.println("data received");
+    Serial.println("data received");
     if(!strcmp(received_data, "stop")){
       roverStandby();
       return_error_due = true;
@@ -297,22 +282,13 @@ bool checkStop(){ // Checks serial buffer for the STOP instruction
   }
 }
 
-void checkCurrent(){ // Intended to identify when the rover's wheels have been stopped or locked up
-  if (smps.getiL() > 2){
-    //Serial.println("current limited");
-    roverStandby();
-    return_error_due = true;
-    stop_cycles_elapsed = 0;
-  }
-}
-
 void readToBuffer(){ // Read in new data from Serial1 to the received_data buffer
   char end = '\n';
   char c;
   static short int i = 0;
 
-  while (Serial1.available() > 0 && !data_available){
-    c = Serial1.read();
+  while (Serial.available() > 0 && !data_available){
+    c = Serial.read();
 
     if (c != end){
       received_data[i] = c;
@@ -336,19 +312,6 @@ void parseCommand(){ // Called during standby if there is data_available
 bool checkCurrentLimit(){
   // CHECK FOR HIGH CURRENT (e.g. motors have been stopped) 
   // return an error to control and move to standby
-  return false;
-}
-
-bool checkStuck(){ // Checks if the rover's velocity in y-axis is below a threshold for a given time
-  if(abs(v_y) <= rover_stuck_beta){
-    if(rover_stuck_counter == rover_stuck_delta){
-      rover_stuck_counter = 0;
-      return true;
-    }
-    rover_stuck_counter++;
-  } else {
-    rover_stuck_counter = 0;
-  }
   return false;
 }
 //------------------------------------------------------------------------------//
