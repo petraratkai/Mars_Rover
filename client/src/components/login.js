@@ -8,7 +8,7 @@ async function loginUser(credentials) {
  ).then(response => {
      alert(response);
       if(response)
-        return response.json();
+        return response;
    });
 }
 
