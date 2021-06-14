@@ -253,6 +253,7 @@ app.get("/notifications", (req, res) => {
 });
 
 app.use('/login', (req, res) => {
+	console.log(JSON.stringify(req.body));
   res.send({
     token: 'test123'
   });
