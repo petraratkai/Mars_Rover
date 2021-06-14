@@ -7,7 +7,7 @@ async function loginUser(credentials) {
    headers: {
      'Content-Type': 'application/json'
    },
-   body: credentials
+   body: JSPN.stringify(credentials)
  })
    .then(data => data.json())
 }
@@ -17,6 +17,7 @@ export default function Login ({ setToken }) {
 
   const handleSubmit = async e => {
    e.preventDefault();
+   alert(password);
    const token = await loginUser(
      password
    );
