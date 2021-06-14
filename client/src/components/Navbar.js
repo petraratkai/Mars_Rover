@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import useToken from "./useToken.js"
 
-class Navbar extends Component {
-  render() {
+function Navbar () {
+  const { token, setToken } = useToken();
     return (
       <nav className="navbar navbar-expand-lg " color-on-scroll="500">
         <div className="container-fluid">
@@ -10,7 +11,7 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse justify-content-end" id="navigation">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link" to='/'>
+                <Link className="nav-link" to='/' onClick = {setToken(undefined)}>
                   <span className="no-icon">Log out</span>
                 </Link>
               </li>
@@ -19,7 +20,6 @@ class Navbar extends Component {
         </div>
       </nav>
     )
-  }
 }
 
 export default Navbar
