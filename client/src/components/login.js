@@ -6,8 +6,9 @@ async function loginUser(credentials) {
  return     axios.post(
    'http://' + window.location.hostname + ':8000/login', credentials
  ).then(response => {
-     console.log(response);
-     return response.json();
+     alert(response);
+      if(response)
+        return response.json();
    });
 }
 
