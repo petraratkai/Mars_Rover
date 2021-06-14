@@ -6,7 +6,7 @@ async function loginUser(credentials) {
  return     axios.post(
    'http://' + window.location.hostname + ':8000/login', credentials
  ).then(response => {
-     alert(response);
+     //alert(response);
       if(response)
         return response;
    });
@@ -20,7 +20,7 @@ export default function Login ({ setToken }) {
    const token = await loginUser({password:
      password
    });
-   alert(JSON.stringify(token));
+   //alert(JSON.stringify(token));
    if(token.data.token)
     setToken(token.data.token);
  }
