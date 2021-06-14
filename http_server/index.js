@@ -252,7 +252,7 @@ app.get("/notifications", (req, res) => {
 	res.send(notifications);
 });
 
-app.use('/login', (req, res) => {
+app.post('/login', (req, res) => {
 	//console.log(JSON.stringify(req.body));
 	if(req.password == "password")
   res.send({
