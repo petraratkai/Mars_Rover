@@ -7,7 +7,7 @@ import Battery from "./battery.js"
 import Login from "./login.js"
 import useToken from "./useToken.js"
 
-function setToken(userToken) {
+/*function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
 }
 
@@ -15,7 +15,7 @@ function getToken() {
   const tokenString = sessionStorage.getItem('token');
   const userToken = JSON.parse(tokenString);
   return userToken?.token
-}
+}*/
 
 export default function Dashboard() {
   /*constructor(props){
