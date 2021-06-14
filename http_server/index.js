@@ -91,7 +91,7 @@ client.on('message', (topic, message, packet) => {
 			if (err) throw err;
 			console.log("1 ball inserted");
 		});
-		let rad = 1;
+		/*let rad = 1;
 		let ball_compl = math.complex(message.x, message.y);
 		let newObst = {centre: ball_compl, radius: rad};
 		coord.push(message);
@@ -100,7 +100,7 @@ client.on('message', (topic, message, packet) => {
 		let originalPath = commands_complex;
 		originalPath.unshift(math.complex(rover_coord.x, rover_coord.y));
 		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
-		path_complex.shift(); //remove current position
+		path_complex.shift(); //remove current position*/
 	}
 	else if(topic == 'control/positions') {
 		// posx = message.x;
