@@ -21,7 +21,7 @@ export default function Login ({ setToken }) {
      password
    });
    alert(JSON.stringify(token));
-   if(token!={})
+   if(token.data)
     setToken(token);
  }
     return (

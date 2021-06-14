@@ -254,7 +254,7 @@ app.get("/notifications", (req, res) => {
 
 app.post('/login', (req, res) => {
 	//console.log(JSON.stringify(req.body));
-	if(req.password == "password")
+	if(req.body.password == "password")
   res.send({
     token: 'test123'
   });
