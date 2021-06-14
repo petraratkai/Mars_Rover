@@ -38,7 +38,7 @@ long int target_pixel_dist = 0;
 float target_angle = 0; // in degrees
 int target_x_pixel_change = 0; // in pixels, converted from the target angle
 
-const float pixel_angle_ratio = 38.0f;
+const float pixel_angle_ratio = 41.0f;
 
 // PID
 float e1 = 0; // dy controller
@@ -122,13 +122,14 @@ void loop() {
         else{
           if(return_error_due){
             Serial.print("driveFail:");
-            Serial.print((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
-            Serial.print(":");
-            Serial.println((target_x_pixel_change - ofs.total_x1)/(pixel_angle_ratio)); // Send the error in degrees
+            Serial1.print("driveFail:");
+            Serial1.print((target_pixel_dist - ofs.total_y1)/(15.748f)); // Send the error in mm from the expected endpoint
+            Serial1.print(":");
+            Serial1.println((target_x_pixel_change - ofs.total_x1)/(pixel_angle_ratio)); // Send the error in degrees
             return_error_due = false;
           }
           if(return_success_due){
-            Serial.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
+            Serial1.println("driveDone"); // Lets the control system know the rover is in standby and available for new commands
             Serial.println("driveDone");
             return_success_due = false;
           }
@@ -161,6 +162,7 @@ void loop() {
           roverStandby();
         }
         if (info_count >= 205){
+          Serial1.println(10*ofs.total_y1/157);
           Serial.println(10*ofs.total_y1/157);
           info_count = 0;
         }
@@ -309,8 +311,8 @@ void readToBuffer(){ // Read in new data from Serial1 to the received_data buffe
   char c;
   static short int i = 0;
 
-  while (Serial.available() > 0 && !data_available){
-    c = Serial.read();
+  while (Serial1.available() > 0 && !data_available){
+    c = Serial1.read();
 
     if (c != end){
       received_data[i] = c;
