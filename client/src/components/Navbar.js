@@ -11,7 +11,7 @@ function Navbar () {
           <div className="collapse navbar-collapse justify-content-end" id="navigation">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link" to='/'>
+                <Link className="nav-link" to='/' onClick = {setToken(undefined)}>
                   <span className="no-icon">Log out</span>
                 </Link>
               </li>
