@@ -87,10 +87,10 @@ client.on('message', (topic, message, packet) => {
 		//coord.push(ball);
 		//var myobj = { score: game.cars[i].score, Date: new Date() };
 		//coord.push(message);
-		if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
+		/*if(dbo) dbo.collection("balls").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("1 ball inserted");
-		});
+		});*/
 		/*let rad = 1;
 		let ball_compl = math.complex(message.x, message.y);
 		let newObst = {centre: ball_compl, radius: rad};
