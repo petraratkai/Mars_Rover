@@ -26,7 +26,7 @@ let path_complex = [];
 let notifications = [];
 //database stuff
 var dbo;
-const uri = "mongodb+srv://MarsRover:Ji3mrANVpliUEzA9@cluster0.899ar.mongodb.net/MarsRover?retryWrites=true&w=majority";
+const uri = "mongodb+srv://MarsRover:Ji3mrANVpliUEzA9@cluster0.zplcu.mongodb.net/MarsRover?retryWrites=true&w=majority";
 const MongoClient = Mongo.MongoClient;
 const mongoClient = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoClient.connect((err, db) => {
