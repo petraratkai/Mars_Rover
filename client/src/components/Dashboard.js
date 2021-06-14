@@ -5,6 +5,7 @@ import Clearmap from "./clearmap.js"
 import Notifications from "./notifications.js"
 import Battery from "./battery.js"
 import Login from "./login.js"
+import useToken from "./useToken.js"
 
 function setToken(userToken) {
   sessionStorage.setItem('token', JSON.stringify(userToken));
@@ -28,8 +29,8 @@ export default function Dashboard() {
     }*/
     const [coords, setCoords] = useState({x:0, y:0});
     //const [token, setToken] = useState();
-    const token = getToken();
-
+    //const token = getToken();
+    const { token, setToken } = useToken();
 
   function handleCallback(coordinates)  {
     //pointinput state
