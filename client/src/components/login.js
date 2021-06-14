@@ -17,10 +17,10 @@ export default function Login ({ setToken }) {
 
   const handleSubmit = async e => {
    e.preventDefault();
-   alert(password);
    const token = await loginUser(
      password
    );
+   alert(token);
    if(token!="")
     setToken(token);
  }
