@@ -194,8 +194,8 @@ app.get("/balls", (req, res) => {
   if(i<=5) {
   //ballx = Math.random()*100-50;
   //bally = Math.random()*100-50;
-	ballx = -ballfixed[i].x;
-	bally = ballfixed[i].y;
+	bally = ballfixed[i].x;
+	ballx = ballfixed[i].y;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
 	notifications.unshift("ball found: " + colors[i-1]);
