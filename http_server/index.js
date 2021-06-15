@@ -126,7 +126,7 @@ client.on('message', (topic, message, packet) => {
 			//publish('ready', "done", options);
 	}
 	else if(topic == 'done') {
-		if(commands.length ==1) ready =true;
+		if(commands.length <=1) ready =true;
 		commands.shift();
 		commands_complex.shift();
 		path_complex.shift();
