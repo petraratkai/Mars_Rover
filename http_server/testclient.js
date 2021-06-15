@@ -12,7 +12,7 @@ if (client.connected == true){
 client.publish(topic,msg,options);
 
 }
-count+=1;
+//count+=1;
 /*if (count==2) //ens script
 	clearTimeout(timer_id); //stop timer
 	client.end();
