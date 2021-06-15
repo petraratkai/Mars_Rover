@@ -110,7 +110,7 @@ client.on('message', (topic, message, packet) => {
 		retain:true,
 		qos:0};
 		rover_coord = JSON.parse(message);
-		if(rover_coord.x == commands[0].x && rover_coord.y == commands[0].y)
+		if(commands.length>0 && rover_coord.x == commands[0].x && rover_coord.y == commands[0].y)
 			publish('ready', "done", options);
 	}
 });
