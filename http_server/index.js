@@ -106,7 +106,7 @@ client.on('message', (topic, message, packet) => {
 		[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
 		path_complex = [];
 		let originalPath = commands_complex;
-		originalPath.unshift(math.complex({re: rover_coord.x, im: rover_coord.y});
+		originalPath.unshift(math.complex({re: rover_coord.x, im: rover_coord.y}));
 		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.shift(); //remove current position
 	}
