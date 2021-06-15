@@ -66,10 +66,15 @@ client.on('message', (topic, message, packet) => {
 		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
 			if(err) throw err;
 			if(res.length===undefined || res.length == 0) {
-				ready = true;
+				//ready = true;
 			}
 			else {
-				if(commands.length==0) {ready = true;}
+				if(commands.length==1) {
+					ready = true;
+					commands_complex.shift(); //remove the current position since we reached it
+					path_complex.shift();
+					commands.shift();
+				}
 				else {
 				var options={
 				retain:true,
