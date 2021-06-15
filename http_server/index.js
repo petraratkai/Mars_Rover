@@ -127,7 +127,6 @@ client.on('message', (topic, message, packet) => {
 	}
 	else if(topic == 'done') {
 		if(commands.length ==1) ready =true;
-		else {ready = false; }
 		commands.shift();
 		commands_complex.shift();
 		path_complex.shift();
@@ -258,7 +257,7 @@ app.post('/sendInfo', (req, res) => {
 		else {
 			var d = new Date;
 			var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
-			let start = commands_complex[commands_complex.length - 2];
+			let start = commands_complex[commands_complex.length - 1];
 			let end = math.complex(req.body.x, req.body.y);
 			let originalPath = [start, end];
 			commands_complex.push(end);
