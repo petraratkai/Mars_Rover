@@ -5,7 +5,7 @@ var dest = {x: 0, y: 0};
 var rover_pos = {x: 0, y: 0};
 
 function publish(topic,msg,options){
-console.log("publishing",msg);
+//console.log("publishing",msg);
 
 if (client.connected == true){
 
