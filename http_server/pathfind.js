@@ -136,8 +136,8 @@ function placePivot(halfspan, margin, radius, centre, relativePos, Iy, cplxcoeff
 //check that a pivot position isn't too close to another obstacle, if so recursively call on the obstacle and forward the pivot, else place
 function checkPivot(checked, hitboxlist, hitboxindex, halfspan, margin, relativePos, Iy, cplxcoeff, startpt, endpt){
 
-    var radius = (maths.re(hitboxelist[hitboxindex][1]) - maths.re(hitboxelist[hitboxindex][2]) )/2;
-    var centre = maths.divide(maths.add(hitboxelist[hitboxindex][0], hitboxelist[hitboxindex][2]), 2);
+    var radius = (maths.re(hitboxlist[hitboxindex][1]) - maths.re(hitboxlist[hitboxindex][2]) )/2;
+    var centre = maths.divide(maths.add(hitboxlist[hitboxindex][0], hitboxlist[hitboxindex][2]), 2);
     var pivot;
     var starttemplocal, Iylocal, slopelocal, anglelocal, coefflocal;
 
