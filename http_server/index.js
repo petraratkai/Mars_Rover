@@ -70,13 +70,13 @@ client.on('message', (topic, message, packet) => {
 			else {
 				var options={
 				retain:true,
-				qos:2};
+				qos:0};
 				publish('comm/coords', res[0], options);
 				var query = {time: res[0].time};
 				dbo.collection("commands").deleteOne(query, (err, result) => {
 					if(err) throw err;
 				});
-				ready = false;
+				//ready = false;
 				commands_complex.shift(); //remove the current position since we reached it
 				path_complex.shift();
 			}
@@ -199,7 +199,7 @@ app.post("/clearmap", (req, res) => {
 })*/
 var options={
 retain:true,
-qos:2};
+qos:0};
 
 function toXY(z) {
 	return {x: z.re, y:z.im};
@@ -208,7 +208,7 @@ function toXY(z) {
 app.post('/sendInfo', (req, res) => {
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
-		ready = false;
+		//ready = false;
 		//console.log(JSON.stringify(rover_coord));
 		let start = math.complex(rover_coord.x, rover_coord.y);
 		let end = math.complex(req.body.x, req.body.y);
