@@ -74,4 +74,4 @@ if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
 	  publish("control/positions",JSON.stringify(rover_pos),options);
 	}
 }
-},2000);
+},500);
