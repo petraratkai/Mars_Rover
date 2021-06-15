@@ -28,8 +28,8 @@ client.on('message', (topic, message, packet) => {
     //dest = JSON.parse(message);
     if(message!= '{"x":null,"y":null}') {
     var ar = message.toString().split("|");
-    dest.x = ar[0];
-    dest.y = ar[1];
+    dest.x = parseFloat(ar[0]);
+    dest.y = parseFloat(ar[1]);
   }
     console.log("received command: " + message);
   }
@@ -63,9 +63,9 @@ var timer_id=setInterval(function(){
   publish("control/positions",JSON.stringify(rover_pos),options);
   if(Math.abs(rover_pos.x-dest.x) < 2 && Math.abs(rover_pos.y-dest.y) < 2 ) {
     rover_pos = dest;
-		console.log(JSON.stringify(dest));
+		//console.log(JSON.stringify(dest));
 		publish("control/positions",JSON.stringify(rover_pos),options);
-    publish('ready', JSON.stringify(rover_pos), options);
+    //publish('ready', JSON.stringify(rover_pos), options);
 
   }
 },500);
