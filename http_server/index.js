@@ -66,7 +66,7 @@ client.on('message', (topic, message, packet) => {
 		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
 			if(err) throw err;
 			if(res.length===undefined || res.length == 0) {
-				//ready = true;
+				ready = true;
 			}
 			else {
 				if(commands.length==0) {ready = true;}
@@ -81,7 +81,7 @@ client.on('message', (topic, message, packet) => {
 					dbo.collection("commands").deleteOne(query, (err, result) => {
 					if(err) throw err;
 				});
-				//ready = false;
+				ready = false;
 				commands_complex.shift(); //remove the current position since we reached it
 				path_complex.shift();
 				commands.shift();
@@ -100,13 +100,13 @@ client.on('message', (topic, message, packet) => {
 			console.log("1 ball inserted");
 		});
 		let rad = 1;
-		let ball_compl = math.complex(message.x, message.y);
+		let ball_compl = math.complex({re: message.x, im: message.y});
 		let newObst = {centre: ball_compl, radius: rad};
 		coord.push(message);
 		[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
 		path_complex = [];
 		let originalPath = commands_complex;
-		originalPath.unshift(math.complex(rover_coord.x, rover_coord.y));
+		originalPath.unshift(math.complex({re: rover_coord.x, im: rover_coord.y}));
 		path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.shift(); //remove current position
 	}
