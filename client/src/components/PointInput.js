@@ -31,11 +31,11 @@ class Pointinput extends React.Component {
     //alert('A destination point was submitted: ' + this.state.x + ', ' + this.state.y);
     const test = { test: "This is a test" };
     const point = {
-      x: parseFloat(this.state.x),
-      y: parseFloat(this.state.y)
+      x: parseFloat(this.state.x)*2,
+      y: parseFloat(this.state.y)*2
     };
     axios.post(
-  'http://' + window.location.hostname + ':8000/sendInfo', this.state
+  'http://' + window.location.hostname + ':8000/sendInfo', point
 )/*.then(response => {
     console.log(response);
     return response.json();
