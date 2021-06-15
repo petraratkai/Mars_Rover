@@ -79,7 +79,7 @@ client.on('message', (topic, message, packet) => {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', JSON.stringify(commands[0]), options);
+				publish('comm/coords', commands[0].x + '|' + commands[0].y), options);
 				var query = {time: res[0].time};
 
 				if(dbo)
@@ -131,7 +131,7 @@ client.on('message', (topic, message, packet) => {
 		commands_complex.shift();
 		path_complex.shift();
 		if(commands.length>0) {
-		publish('comm/coords', JSON.stringify(commands[0]), options);
+		publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
 		ready = false;
 	}
 	}
