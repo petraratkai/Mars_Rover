@@ -195,7 +195,7 @@ app.get("/balls", (req, res) => {
   //ballx = Math.random()*100-50;
   //bally = Math.random()*100-50;
 	ballx = 0;
-	bally = 50;
+	bally = 50/3;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
 	notifications.unshift("ball found: " + colors[i-1]);
@@ -248,8 +248,8 @@ function toXY(z) {
 
 app.post('/sendInfo', (req, res) => {
 	var d = new Date();
-		var xval = req.body.x*3;
-		var yval = req.body.y*3;
+		var xval = req.body.x;
+		var yval = req.body.y;
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		ready = false;
@@ -268,7 +268,7 @@ app.post('/sendInfo', (req, res) => {
 		let first = toXY(originalPath[1]);
 		commands.push(toXY(originalPath[1]));
 		console.log(JSON.stringify(first));
-		publish('comm/coords', first.x + '|' + first.y, options);
+		publish('comm/coords', first.x*3 + '|' + first.y*3, options);
 
 		for(var i = 2; i<originalPath.length; i++)
 		{
