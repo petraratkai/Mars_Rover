@@ -113,7 +113,7 @@ app.post('/sendInfo', (req, res) => {
 			var d = new Date;
 			var command = {x: req.body.x, y: req.body.y, time: d.getTime()};
 			let start = commands_complex[commands_complex.length - 2];
-			let end = math.complex({re: req.body.x, im: req.body.y);
+			let end = math.complex({re: req.body.x, im: req.body.y});
 			let originalPath = [start, end];
 			commands_complex.push(end);
 			commands.push(req.body);
