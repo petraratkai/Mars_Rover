@@ -242,7 +242,7 @@ app.post('/sendInfo', (req, res) => {
 		commands_complex.push(end);
 		commands.push(req.body);
 		//console.log(commands);
-		/*let originalPath = [start, end];
+		let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		path_complex.push.apply(path_complex, originalPath);
 		let first = toXY(originalPath[1]);
@@ -254,7 +254,7 @@ app.post('/sendInfo', (req, res) => {
 				console.log("command saved in db");
 
 			})
-		}*/
+		}
 		if(req.body.y && req.body.x)
 		publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		}
@@ -266,8 +266,8 @@ app.post('/sendInfo', (req, res) => {
 			let originalPath = [start, end];
 			commands_complex.push(end);
 			commands.push(req.body);
-			/*originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
-			path_complex.push.apply(path_complex, originalPath);*/
+			originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+			path_complex.push.apply(path_complex, originalPath);
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
