@@ -1,5 +1,5 @@
 var mqtt    = require('mqtt');
-var client  = mqtt.connect("mqtt:/3.8.187.198",{clientId:"test"});
+var client  = mqtt.connect("mqtt:/localhost",{clientId:"test"});
 
 var dest = {x: 0, y: 0};
 var rover_pos = {x: 0, y: 0};
