@@ -127,6 +127,7 @@ client.on('message', (topic, message, packet) => {
 	}
 	else if(topic == 'done') {
 		if(commands.length ==1) ready =true;
+		else {ready = false; }
 		commands.shift();
 		commands_complex.shift();
 		path_complex.shift();
