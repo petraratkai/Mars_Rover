@@ -74,7 +74,7 @@ client.on('message', (topic, message, packet) => {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', commands[0], options);
+				publish('comm/coords', JSON.stringify(commands[0]), options);
 				var query = {time: res[0].time};
 
 				if(dbo)
