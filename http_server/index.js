@@ -195,12 +195,22 @@ app.get("/balls", (req, res) => {
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
 	notifications.unshift("ball found: " + colors[i-1]);
+
 	//var myobj = { score: game.cars[i].score, Date: new Date() };
 	if(dbo) dbo.collection("balls").insertOne(ball, function(err, res) {
 		if (err) throw err;
 		console.log("1 ball inserted");
 
 	});
+	let rad = 1;
+	let ball_compl = math.complex({re: ballx, im: bally});
+	let newObst = {centre: ball_compl, radius: rad};
+	[allObstacles, allHitboxes] = addObstacle(newObst, allObstacles);
+	path_complex = [];
+	let originalPath = commands_complex;
+	originalPath.unshift(math.complex({re: rover_coord.x, im: rover_coord.y}));
+	path_complex = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+	path_complex.shift(); //remove current position
 
 	}
 	if(dbo) dbo.collection("balls").find({}).toArray((err,result) => {
