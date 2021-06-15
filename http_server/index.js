@@ -243,6 +243,7 @@ function toXY(z) {
 }
 
 app.post('/sendInfo', (req, res) => {
+	var d = new Date();
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		ready = false;
