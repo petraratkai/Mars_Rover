@@ -69,7 +69,7 @@ client.on('message', (topic, message, packet) => {
 				//ready = true;
 			}
 			else {
-				if(commands.length=0) {ready = true;}
+				if(commands.length==0) {ready = true;}
 				else {
 				var options={
 				retain:true,
