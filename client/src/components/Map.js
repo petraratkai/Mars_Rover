@@ -209,7 +209,7 @@ class Map extends React.Component {
           key={JSON.stringify(dest_el)}
           className="fa-stack the-wrapper ball"
           src = {dest.default} width = "5%"
-          style = {{top: y + "%", left: x/+ "%"}}
+          style = {{top: y + "%", left: x+ "%"}}
         />
       );
     });
