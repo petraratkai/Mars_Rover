@@ -62,6 +62,7 @@ client.on('message', (topic, message, packet) => {
 	console.log("topic is "+ topic);
 	if(topic == 'ready') {
 		var sort_chron = {time: 1};
+		if(dbo)
 		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
 			if(err) throw err;
 			if(res.length===undefined || res.length == 0) {
