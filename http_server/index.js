@@ -225,7 +225,7 @@ function toXY(z) {
 app.post('/sendInfo', (req, res) => {
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
-		ready = false;
+		//ready = false;
 		//console.log(JSON.stringify(rover_coord));
 		let start = math.complex({re: rover_coord.x, im: rover_coord.y});
 		let end = math.complex({re: req.body.x, im: req.body.y});
