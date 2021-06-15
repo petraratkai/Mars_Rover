@@ -125,6 +125,12 @@ client.on('message', (topic, message, packet) => {
 		if(commands.length>0 && !ready && Math.abs(rover_coord.x - commands[0].x)<0.2 && Math.abs(rover_coord.y -commands[0].y) <0.2)
 			publish('ready', "done", options);
 	}
+	else if(topic == 'done') {
+		if(commands.length ==1) ready =true;
+		commands.shift();
+		commands_complex.shift();
+		path_complex.shift();
+	}
 });
 
 client.on("connect", () => {
@@ -295,6 +301,7 @@ client.subscribe("control/esptest");
 client.subscribe("ready");
 client.subscribe("control/obstacles");
 client.subscribe('control/positions');
+client.subscribe('done');
 
 var timer_id=setInterval(function(){publish("comm/connection",message,options);},5000);
 //notice this is printed even before we connect
