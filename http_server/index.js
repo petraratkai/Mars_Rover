@@ -68,13 +68,14 @@ client.on('message', (topic, message, packet) => {
 			if(res.length===undefined || res.length == 0) {
 				//ready = true;
 			}
+			else {
 				if(commands.length==0) {ready = true;}
 				else {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', commands[0], options);
-				var query = {time: commands[0].time};
+				publish('comm/coords', res[0], options);
+				var query = {time: res[0].time};
 
 				if(dbo)
 					dbo.collection("commands").deleteOne(query, (err, result) => {
@@ -82,8 +83,8 @@ client.on('message', (topic, message, packet) => {
 				});
 				ready = false;
 				commands_complex.shift(); //remove the current position since we reached it
-				commands.shift();
 				path_complex.shift();
+			}
 			}
 		});
 	}
