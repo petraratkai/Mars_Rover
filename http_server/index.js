@@ -177,6 +177,7 @@ app.get("/rover", (req, res) => {
   //res.send("{\"x\": " + roverx + ", \"y\": " + rovery + "}");
 	res.send(rover_coord);
 })
+
 app.get("/clearnotif", (req, res) => {
   notifications=[];
   //console.log("rover pos request received");
@@ -186,12 +187,15 @@ var i = 0;
 var ballx, bally;
 let coord = [];
 let colors = ["red", "blue", "yellow", "pink", "green"];
+//let ballfixed = [{x:0, y:50}, {x:30, y:60}, {x:75, y:20}, {x:40, y:10}, {x:, y:}];
 app.get("/balls", (req, res) => {
   i++;
   //console.log("ball request received");
-  if(i<=5) {
-  ballx = Math.random()*100-50;
-  bally = Math.random()*100-50;
+  if(i<=1) {
+  //ballx = Math.random()*100-50;
+  //bally = Math.random()*100-50;
+	ballx = 0;
+	bally = 50;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
 	notifications.unshift("ball found: " + colors[i-1]);
@@ -244,10 +248,13 @@ function toXY(z) {
 
 app.post('/sendInfo', (req, res) => {
 	var d = new Date();
+		var xval = req.body.x*3;
+		var yval = req.body.y*3;
 		if(ready) {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		ready = false;
 		//console.log(JSON.stringify(rover_coord));
+
 		let start = math.complex({re: rover_coord.x, im: rover_coord.y});
 		let end = math.complex({re: req.body.x, im: req.body.y});
 		commands_complex.push(end);
