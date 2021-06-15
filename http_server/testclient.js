@@ -55,10 +55,10 @@ var timer_id=setInterval(function(){
   var dy = unit*Math.sin(alpha);
   rover_pos.x += dx;
   rover_pos.y += dy;
-  publish("comm/coords",JSON.stringify(rover_pos),options);
+  publish("control/positions",JSON.stringify(rover_pos),options);
   if(Math.abs(rover_pos.x-dest.x) < 0.2 && Math.abs(rover_pos.y-dest.y) < 0.2 ) {
     rover_pos = dest;
     publish('ready', JSON.stringify(rover_pos), options);
-    publish("comm/coords",JSON.stringify(rover_pos),options);
+    publish("control/positions",JSON.stringify(rover_pos),options);
   }
 },500);
