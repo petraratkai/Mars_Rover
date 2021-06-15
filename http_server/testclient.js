@@ -59,7 +59,7 @@ if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
 		//console.log(JSON.stringify(dest));
 		console.log(JSON.stringify(rover_pos));
 		publish("control/positions",JSON.stringify(rover_pos),options);
-		rover_pos = dest;
+		//rover_pos = dest;
     //publish('ready', JSON.stringify(rover_pos), options);
 
   }
