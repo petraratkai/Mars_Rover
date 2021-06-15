@@ -64,8 +64,8 @@ class Rover extends React.Component {
   render() {
     //var rover = require("../assets/img/mars_rover.png");
     var rover = require("../assets/img/rover2.2.png");
-    var x = this.state.x/2+50-10;
-    var y = this.state.y*(-1)/2+50-10;
+    var x = parseFloat(this.state.x)/2+50-10;
+    var y = parseFloat(this.state.y)*(-1)/2+50-10;
     return (
       <Image
           className="fa-stack the-wrapper rover"
