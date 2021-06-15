@@ -106,7 +106,12 @@ client.on('message', (topic, message, packet) => {
 	else if(topic == 'control/positions') {
 		// posx = message.x;
 		//var posy = message.y;
+		var options={
+		retain:true,
+		qos:0};
 		rover_coord = JSON.parse(message);
+		if(rover_coord.x == commands[0].x && rover_coord.y == commands[0].y)
+			publish('ready', "done", options);
 	}
 });
 
