@@ -130,6 +130,10 @@ client.on('message', (topic, message, packet) => {
 		commands.shift();
 		commands_complex.shift();
 		path_complex.shift();
+		if(commands.length>0) {
+		publish('comm/coords', JSON.stringify(commands[0]), options);
+		ready = false;
+	}
 	}
 });
 
