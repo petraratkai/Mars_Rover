@@ -270,8 +270,8 @@ app.post('/sendInfo', (req, res) => {
 
 			})
 		}
-		if(req.body.y && req.body.x)
-		publish('comm/coords', req.body.x + '|' + req.body.y, options);
+		//if(req.body.y && req.body.x)
+		//publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		}
 		else {
 			var d = new Date;
