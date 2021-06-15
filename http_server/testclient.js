@@ -26,7 +26,7 @@ client.on('message', (topic, message, packet) => {
 	console.log("topic is "+ topic);
 	if(topic == 'comm/coords') {
     //dest = JSON.parse(message);
-    var ar = message.split("|");
+    var ar = message.toString().split("|");
     dest.x = ar[0];
     dest.y = ar[1];
     console.log("received command: " + message);
