@@ -184,8 +184,8 @@ class Map extends React.Component {
         ball = pinkball;
       else throw("invalid color" + ball_el.color);
       //alert(JSON.stringify(ball_el));
-      var x = ball_el.x/2+50-1.5;
-      var y = ball_el.y/2*(-1)+50-1.5;
+      var x = parseFloat(ball_el.x)/2+50-1.5;
+      var y = parseFloat(ball_el.y)/2*(-1)+50-1.5;
       //alert(x + " , " + y);
       return (
         <Image
