@@ -191,11 +191,11 @@ let colors = ["red", "blue", "yellow", "pink", "green"];
 app.get("/balls", (req, res) => {
   i++;
   //console.log("ball request received");
-  if(i<=1) {
-  //ballx = Math.random()*100-50;
-  //bally = Math.random()*100-50;
-	ballx = 0;
-	bally = 50/2.5;
+  if(i<=5) {
+  ballx = Math.random()*100-50;
+  bally = Math.random()*100-50;
+	//ballx = 0;
+	//bally = 50/2.5;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
 	notifications.unshift("ball found: " + colors[i-1]);
