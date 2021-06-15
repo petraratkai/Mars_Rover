@@ -54,13 +54,7 @@ qos:0};
 client.subscribe('comm/coords');
 
 var timer_id=setInterval(function(){
-  var alpha = Math.atan2(dest.y-rover_pos.y, dest.x-rover_pos.x);
-  var unit = 1;
-  var dx = unit*Math.cos(alpha);
-  var dy = unit*Math.sin(alpha);
-  rover_pos.x += dx;
-  rover_pos.y += dy;
-  publish("control/positions",JSON.stringify(rover_pos),options);
+
   if(Math.abs(rover_pos.x-dest.x) < 2 && Math.abs(rover_pos.y-dest.y) < 2 ) {
     rover_pos = dest;
 		//console.log(JSON.stringify(dest));
@@ -68,4 +62,13 @@ var timer_id=setInterval(function(){
     //publish('ready', JSON.stringify(rover_pos), options);
 
   }
+	else {
+		var alpha = Math.atan2(dest.y-rover_pos.y, dest.x-rover_pos.x);
+	  var unit = 1;
+	  var dx = unit*Math.cos(alpha);
+	  var dy = unit*Math.sin(alpha);
+	  rover_pos.x += dx;
+	  rover_pos.y += dy;
+	  publish("control/positions",JSON.stringify(rover_pos),options);
+	}
 },500);
