@@ -70,7 +70,7 @@ client.on('message', (topic, message, packet) => {
 			else {
 				var options={
 				retain:true,
-				qos:0};
+				qos:2};
 				publish('comm/coords', res[0], options);
 				var query = {time: res[0].time};
 				dbo.collection("commands").deleteOne(query, (err, result) => {
@@ -199,7 +199,7 @@ app.post("/clearmap", (req, res) => {
 })*/
 var options={
 retain:true,
-qos:0};
+qos:2};
 
 function toXY(z) {
 	return {x: z.re, y:z.im};
