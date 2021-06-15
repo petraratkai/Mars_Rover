@@ -222,8 +222,8 @@ app.post('/sendInfo', (req, res) => {
     //publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		ready = false;
 		//console.log(JSON.stringify(rover_coord));
-		let start = math.complex(rover_coord.x, rover_coord.y);
-		let end = math.complex(req.body.x, req.body.y);
+		let start = math.complex({re: rover_coord.x, im: rover_coord.y});
+		let end = math.complex({re: req.body.x, im: req.body.y});
 		commands_complex.push(end);
 		commands.push(req.body);
 		//console.log(commands);
