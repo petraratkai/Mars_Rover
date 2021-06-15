@@ -187,7 +187,7 @@ var i = 0;
 var ballx, bally;
 let coord = [];
 let colors = ["red", "blue", "yellow", "pink", "green"];
-//let ballfixed = [{x:0, y:50}, {x:30, y:60}, {x:75, y:20}, {x:40, y:10}, {x:, y:}];
+let ballfixed = [{x:-25, y:20}, {x:25, y:24}, {x:38, y:-25}, {x:-35, y:-14}, {x: 60, y:15}];
 app.get("/balls", (req, res) => {
   i++;
   //console.log("ball request received");
