@@ -250,7 +250,7 @@ app.post('/sendInfo', (req, res) => {
 		let start = math.complex({re: rover_coord.x, im: rover_coord.y});
 		let end = math.complex({re: req.body.x, im: req.body.y});
 		commands_complex.push(end);
-		commands.push(req.body);
+		//commands.push(req.body);
 		//console.log(commands);
 		let originalPath = [start, end];
 		console.log("before" + JSON.stringify(originalPath));
