@@ -66,14 +66,17 @@ client.on('message', (topic, message, packet) => {
 		dbo.collection("commands").find().sort(sort_chron).limit(1).toArray((err, res) => {
 			if(err) throw err;
 			if(res.length===undefined || res.length == 0) {
-				ready = true;
+				//ready = true;
 			}
 			else {
+				if(commands.length==0) {ready = true;}
+				else {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', res[0], options);
+				publish('comm/coords', commands[0], options);
 				var query = {time: res[0].time};
+
 				if(dbo)
 					dbo.collection("commands").deleteOne(query, (err, result) => {
 					if(err) throw err;
@@ -81,6 +84,8 @@ client.on('message', (topic, message, packet) => {
 				ready = false;
 				commands_complex.shift(); //remove the current position since we reached it
 				path_complex.shift();
+				commands.shift();
+			}
 			}
 		});
 	}
@@ -112,7 +117,7 @@ client.on('message', (topic, message, packet) => {
 		retain:true,
 		qos:0};
 		rover_coord = JSON.parse(message);
-		if(commands.length>0 && rover_coord.x == commands[0].x && rover_coord.y == commands[0].y)
+		if(commands.length>0 && !ready && rover_coord.x == commands[0].x && rover_coord.y == commands[0].y)
 			publish('ready', "done", options);
 	}
 });
