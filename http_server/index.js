@@ -68,7 +68,6 @@ client.on('message', (topic, message, packet) => {
 			if(res.length===undefined || res.length == 0) {
 				//ready = true;
 			}
-			else {
 				if(commands.length==0) {ready = true;}
 				else {
 				var options={
@@ -84,7 +83,6 @@ client.on('message', (topic, message, packet) => {
 				ready = false;
 				commands_complex.shift(); //remove the current position since we reached it
 				path_complex.shift();
-			}
 			}
 		});
 	}
