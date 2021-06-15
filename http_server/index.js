@@ -191,7 +191,7 @@ let ballfixed = [{x:-25, y:20}, {x:25, y:24}, {x:38, y:-25}, {x:-35, y:-14}, {x:
 app.get("/balls", (req, res) => {
   i++;
   //console.log("ball request received");
-  if(i<=5) {
+  if(i<=0) {
   //ballx = Math.random()*100-50;
   //bally = Math.random()*100-50;
 	bally = ballfixed[i].x;
