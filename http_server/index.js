@@ -79,7 +79,7 @@ client.on('message', (topic, message, packet) => {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', commands[0].x*3 + '|' + commands[0].y*3, options);
+				publish('comm/coords', commands[0].x + '|' + commands[0].y, options);
 				var query = {time: res[0].time};
 
 				if(dbo)
@@ -131,7 +131,7 @@ client.on('message', (topic, message, packet) => {
 		commands_complex.shift();
 		path_complex.shift();
 		if(commands.length>0) {
-		publish('comm/coords', commands[0].x*3+"|"+commands[0].y*3, options);
+		publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
 		ready = false;
 	}
 	}
@@ -268,7 +268,7 @@ app.post('/sendInfo', (req, res) => {
 		let first = toXY(originalPath[1]);
 		commands.push(toXY(originalPath[1]));
 		console.log(JSON.stringify(first));
-		publish('comm/coords', first.x*3 + '|' + first.y*3, options);
+		publish('comm/coords', first.x + '|' + first.y, options);
 
 		for(var i = 2; i<originalPath.length; i++)
 		{
