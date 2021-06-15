@@ -162,7 +162,7 @@ function checkPivot(checked, hitboxlist, hitboxindex, halfspan, margin, relative
     //examine all obstacles for potential collision and replace pivot if need be
     for(var i=0; i<hitboxlist.length; i++){
         if(i != hitboxindex){
-            centre = maths.divide(maths.add(hitboxes[i][0], hitboxes[i][2]), 2);
+            centre = maths.divide(maths.add(hitboxlist[i][0], hitboxlist[i][2]), 2);
             /*console.log("obstacle centre and distance to pivot");
             console.log(centre);
             console.log( (maths.subtract(pivot, centre)).toPolar().r )*/
