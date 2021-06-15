@@ -254,9 +254,9 @@ app.post('/sendInfo', (req, res) => {
 		//console.log(commands);
 		let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
-		path_complex.push.apply(path_complex, originalPath);
+		//path_complex.push.apply(path_complex, originalPath);
 		let first = toXY(originalPath[1]);
-		commands.push(toXY(originalPath[i]));
+		commands.push(toXY(originalPath[1]));
 		publish('comm/coords', first.x + '|' + first.y, options);
 
 		for(var i = 2; i<originalPath.length; i++)
