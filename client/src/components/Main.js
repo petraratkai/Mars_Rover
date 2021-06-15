@@ -1,3 +1,6 @@
+//template source from: https://antonyorenge.com/simple-dashboard-in-react/
+//last date accessed: 23/05/2021
+//switch options adapted to project
 import React, { Component } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'

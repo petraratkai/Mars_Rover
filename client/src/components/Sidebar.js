@@ -1,3 +1,6 @@
+//template source from: https://antonyorenge.com/simple-dashboard-in-react/
+//last date accessed: 23/05/2021
+//menu options and links adapted to project
 import React, { Component } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 

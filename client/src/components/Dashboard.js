@@ -1,3 +1,6 @@
+//template source from: https://antonyorenge.com/simple-dashboard-in-react/
+//last date accessed: 23/05/2021
+// file has been adapted to contain the elements needed for the project, and the the grid boxes were rearanged
 import React, { Component, useState } from 'react';
 import Map from "./Map.js";
 import Pointinput from "./PointInput.js";
@@ -102,7 +105,7 @@ export default function Dashboard() {
                   <div className="card-body ">
                     <Notifications/>
                   </div>
-                  
+
                 </div>
                 </div>
               </div>

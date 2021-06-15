@@ -1,3 +1,6 @@
+/*template source from: https://antonyorenge.com/simple-dashboard-in-react/
+//last date accessed: 23/05/2021
+//not modified*/
 $().ready(function() {
     $sidebar = $('.sidebar');
     $sidebar_img_container = $sidebar.find('.sidebar-background');

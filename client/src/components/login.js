@@ -1,3 +1,8 @@
+/*
+file taken from https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
+last date accessed: 14/06/2021
+not modified
+*/
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
