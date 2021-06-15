@@ -73,7 +73,8 @@ client.on('message', (topic, message, packet) => {
 				qos:0};
 				publish('comm/coords', res[0], options);
 				var query = {time: res[0].time};
-				dbo.collection("commands").deleteOne(query, (err, result) => {
+				if(dbo)
+					dbo.collection("commands").deleteOne(query, (err, result) => {
 					if(err) throw err;
 				});
 				ready = false;
