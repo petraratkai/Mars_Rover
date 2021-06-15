@@ -250,16 +250,16 @@ app.post('/sendInfo', (req, res) => {
 		let start = math.complex({re: rover_coord.x, im: rover_coord.y});
 		let end = math.complex({re: req.body.x, im: req.body.y});
 		commands_complex.push(end);
-		//commands.push(req.body);
+		commands.push(req.body);
 		//console.log(commands);
-		let originalPath = [start, end];
+		/*let originalPath = [start, end];
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		//path_complex.push.apply(path_complex, originalPath);
 		let first = toXY(originalPath[1]);
 		commands.push(toXY(originalPath[1]));
-		publish('comm/coords', first.x + '|' + first.y, options);
+		publish('comm/coords', first.x + '|' + first.y, options);*/
 
-		for(var i = 2; i<originalPath.length; i++)
+		/*for(var i = 2; i<originalPath.length; i++)
 		{
 			commands.push(toXY(originalPath[i]));
 			if(dbo) dbo.collection("commands").insertOne({x: originalPath[i].x, y: originalPath[i].y, time: d.getTime()}, (err, result) => {
@@ -267,7 +267,7 @@ app.post('/sendInfo', (req, res) => {
 				console.log("command saved in db");
 
 			})
-		}
+		}*/
 		if(req.body.y && req.body.x)
 		publish('comm/coords', req.body.x + '|' + req.body.y, options);
 		}
