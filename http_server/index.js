@@ -122,8 +122,8 @@ client.on('message', (topic, message, packet) => {
 		retain:true,
 		qos:0};
 		rover_coord = JSON.parse(message);
-		if(commands.length>0 && !ready && Math.abs(rover_coord.x - commands[0].x)<0.2 && Math.abs(rover_coord.y -commands[0].y) <0.2)
-			publish('ready', "done", options);
+		if(commands.length>0 && !ready && Math.abs(rover_coord.x - commands[0].x)<0.2 && Math.abs(rover_coord.y -commands[0].y) <0.2);
+			//publish('ready', "done", options);
 	}
 	else if(topic == 'done') {
 		if(commands.length ==1) ready =true;
