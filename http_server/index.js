@@ -262,8 +262,8 @@ app.post('/sendInfo', (req, res) => {
 			let originalPath = [start, end];
 			commands_complex.push(end);
 			commands.push(req.body);
-			originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
-			path_complex.push.apply(path_complex, originalPath);
+			/*originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+			path_complex.push.apply(path_complex, originalPath);*/
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
