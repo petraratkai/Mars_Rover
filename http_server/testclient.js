@@ -58,6 +58,7 @@ if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
   if(Math.abs(rover_pos.x-dest.x) < 2 && Math.abs(rover_pos.y-dest.y) < 2 ) {
     rover_pos = dest;
 		//console.log(JSON.stringify(dest));
+		console.log(JSON.stringify(rover_pos));
 		publish("control/positions",JSON.stringify(rover_pos),options);
     //publish('ready', JSON.stringify(rover_pos), options);
 
@@ -69,6 +70,7 @@ if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
 	  var dy = unit*Math.sin(alpha);
 	  rover_pos.x += dx;
 	  rover_pos.y += dy;
+		console.log(JSON.stringify(rover_pos));
 	  publish("control/positions",JSON.stringify(rover_pos),options);
 	}
 }
