@@ -260,6 +260,7 @@ app.post('/sendInfo', (req, res) => {
 		//path_complex.push.apply(path_complex, originalPath);
 		let first = toXY(originalPath[1]);
 		commands.push(toXY(originalPath[1]));
+		console.log(JSON.stringify(first));
 		publish('comm/coords', first.x + '|' + first.y, options);
 
 		for(var i = 2; i<originalPath.length; i++)
