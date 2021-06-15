@@ -31,6 +31,9 @@ client.on('message', (topic, message, packet) => {
     dest.y = ar[1];
     console.log("received command: " + message);
   }
+  else {
+    console.log("received topic: " + topic);
+  }
 })
 
 client.on("connect", () => {
