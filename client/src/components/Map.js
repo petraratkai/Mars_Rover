@@ -184,15 +184,15 @@ class Map extends React.Component {
         ball = pinkball;
       else throw("invalid color" + ball_el.color);
       //alert(JSON.stringify(ball_el));
-      var x = ball_el.x+50-1.5;
-      var y = ball_el.y*(-1)+50-1.5;
+      var x = ball_el.x/2+50-1.5;
+      var y = ball_el.y/2*(-1)+50-1.5;
       //alert(x + " , " + y);
       return (
         <Image
           key={JSON.stringify(ball_el)}
           className="fa-stack the-wrapper ball"
           src = {ball.default} width = "3%"
-          style = {{top: y/2 + "%", left: x/2 + "%"}}
+          style = {{top: y + "%", left: x + "%"}}
         />
       )
     })
@@ -201,15 +201,15 @@ class Map extends React.Component {
     var dest = require('../assets/img/dest.png');
     return !this.state.dest_coord ? null : this.state.dest_coord.map((dest_el) => {
       //alert(JSON.stringify(dest_el));
-      var x = parseFloat(dest_el.x)+50-2.5;
-      var y = parseFloat(dest_el.y)*(-1)+50-5;
+      var x = parseFloat(dest_el.x)/2+50-2.5;
+      var y = parseFloat(dest_el.y)/2*(-1)+50-5;
       //alert(x + ", " + y);
       return (
         <Image
           key={JSON.stringify(dest_el)}
           className="fa-stack the-wrapper ball"
           src = {dest.default} width = "5%"
-          style = {{top: y/2 + "%", left: x/2 + "%"}}
+          style = {{top: y + "%", left: x/+ "%"}}
         />
       );
     });
