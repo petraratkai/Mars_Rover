@@ -79,7 +79,7 @@ client.on('message', (topic, message, packet) => {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', commands[0].x + '|' + commands[0].y, options);
+				publish('comm/coords', commands[0].x*3 + '|' + commands[0].y*3, options);
 				var query = {time: res[0].time};
 
 				if(dbo)
@@ -131,7 +131,7 @@ client.on('message', (topic, message, packet) => {
 		commands_complex.shift();
 		path_complex.shift();
 		if(commands.length>0) {
-		publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
+		publish('comm/coords', commands[0].x*3+"|"+commands[0].y*3, options);
 		ready = false;
 	}
 	}
@@ -195,7 +195,7 @@ app.get("/balls", (req, res) => {
   //ballx = Math.random()*100-50;
   //bally = Math.random()*100-50;
 	ballx = 0;
-	bally = 50/3;
+	bally = 50/3.5;
   let ball = {x: ballx, y:bally, color: colors[i-1]};
   coord.push(ball);
 	notifications.unshift("ball found: " + colors[i-1]);
