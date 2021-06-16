@@ -1,3 +1,6 @@
+/*MQTT client setup based http://www.steves-internet-guide.com/using-node-mqtt-client/,
+last accessed: Jun 15 2021},
+}*/
 var Mongo = require('mongodb');
 const express = require("express");
 const path = require("path");
