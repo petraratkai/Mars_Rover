@@ -82,7 +82,7 @@ client.on('message', (topic, message, packet) => {
 				var options={
 				retain:true,
 				qos:0};
-				publish('comm/coords', commands[0].x + '|' + commands[0].y, options);
+				publish('comm/coords', path_complex[0].re + '|' + path_complex[0].im, options);
 				var query = {time: res[0].time};
 
 				if(dbo)
@@ -134,7 +134,8 @@ client.on('message', (topic, message, packet) => {
 		commands_complex.shift();
 		path_complex.shift();
 		if(commands.length>0) {
-		publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
+		//publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
+		publish('comm/coords', path_complex[0].re + "|" + path_complex[0].im, options);
 		ready = false;
 	}
 	}
