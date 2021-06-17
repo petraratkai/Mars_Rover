@@ -133,7 +133,7 @@ client.on('message', (topic, message, packet) => {
 		commands.shift();
 		commands_complex.shift();
 		path_complex.shift();
-		if(commands.length>0) {
+		if(commands.length>0 && path_complex.length>0) {
 		//publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
 		publish('comm/coords', path_complex[0].re + "|" + path_complex[0].im, options);
 		ready = false;
@@ -268,15 +268,16 @@ app.post('/sendInfo', (req, res) => {
 		console.log("before" + JSON.stringify(originalPath));
 		originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 		console.log("after" + JSON.stringify(originalPath));
-		//path_complex.push.apply(path_complex, originalPath);
+		path_complex.push.apply(path_complex, originalPath);
 		let first = toXY(originalPath[1]);
 		commands.push(toXY(originalPath[1]));
 		console.log(JSON.stringify(first));
 		publish('comm/coords', first.x + '|' + first.y, options);
 
-		for(var i = 2; i<originalPath.length; i++)
+		for(var i = 1; i<originalPath.length; i++)
 		{
-			commands.push(toXY(originalPath[i]));
+			//commands.push(toXY(originalPath[i]));
+			path_complex.push(originalPath[i]);
 			if(dbo) dbo.collection("commands").insertOne({x: originalPath[i].x, y: originalPath[i].y, time: d.getTime()}, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
