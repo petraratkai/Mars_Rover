@@ -129,10 +129,13 @@ client.on('message', (topic, message, packet) => {
 			//publish('ready', "done", options);
 	}
 	else if(topic == 'done') {
-		if(commands.length <=1) ready =true;
+		if(path_complex.length <=1) ready =true;
+		if(commands_comlex[0]==path_complex[0]) {
 		commands.shift();
 		commands_complex.shift();
+	}
 		path_complex.shift();
+
 		if(commands.length>0 && path_complex.length>0) {
 		//publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
 		publish('comm/coords', path_complex[0].re + "|" + path_complex[0].im, options);
@@ -275,7 +278,7 @@ app.post('/sendInfo', (req, res) => {
 		console.log(JSON.stringify(first));
 		publish('comm/coords', first.x + '|' + first.y, options);
 
-		for(var i = 1; i<originalPath.length; i++)
+		for(var i = 2; i<originalPath.length; i++)
 		{
 			commands.push(toXY(originalPath[i]));
 			path_complex.push(originalPath[i]);
