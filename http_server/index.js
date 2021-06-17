@@ -237,6 +237,8 @@ app.post("/clearmap", (req, res) => {
 	console.log(req.body);
 	coord = [];
 	commands = [];
+	path_complex = [];
+	commands_complex = [];
 	if(dbo) dbo.collection("balls").deleteMany({});
 	if(dbo) dbo.collection("commands").deleteMany({});
 	notifications.unshift("map cleared");
