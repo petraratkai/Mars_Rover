@@ -130,7 +130,7 @@ client.on('message', (topic, message, packet) => {
 	}
 	else if(topic == 'done') {
 		if(path_complex.length <=1) ready =true;
-		if(commands_comlex[0]==path_complex[0]) {
+		if(commands_complex[0]==path_complex[0]) {
 		commands.shift();
 		commands_complex.shift();
 	}
