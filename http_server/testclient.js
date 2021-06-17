@@ -19,6 +19,7 @@ client.publish(topic,msg,options);
 }*/
 }
 
+publish('done', "done", options);
 
 
 client.on('message', (topic, message, packet) => {
