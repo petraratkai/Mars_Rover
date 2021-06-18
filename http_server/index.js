@@ -137,8 +137,8 @@ client.on('message', (topic, message, packet) => {
 		path_complex.shift();
 
 		if(commands.length>0 && path_complex.length>0) {
-		//publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
-		publish('comm/coords', path_complex[0].re + "|" + path_complex[0].im, options);
+		publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
+		//publish('comm/coords', path_complex[0].re + "|" + path_complex[0].im, options);
 		ready = false;
 	}
 	else {
