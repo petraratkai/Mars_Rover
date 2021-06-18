@@ -129,7 +129,7 @@ client.on('message', (topic, message, packet) => {
 			//publish('ready', "done", options);
 	}
 	else if(topic == 'done') {
-		if(path_complex.length <=1) ready =true;
+		//if(path_complex.length <=1) ready =true;
 		if(commands_complex[0]==path_complex[0]) {
 		commands.shift();
 		commands_complex.shift();
@@ -140,6 +140,9 @@ client.on('message', (topic, message, packet) => {
 		//publish('comm/coords', commands[0].x+"|"+commands[0].y, options);
 		publish('comm/coords', path_complex[0].re + "|" + path_complex[0].im, options);
 		ready = false;
+	}
+	else {
+		ready = true;
 	}
 	}
 });
