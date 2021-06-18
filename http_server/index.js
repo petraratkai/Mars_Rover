@@ -306,10 +306,14 @@ app.post('/sendInfo', (req, res) => {
 			let end = math.complex(req.body.x, req.body.y);
 			let originalPath = [start, end];
 			commands_complex.push(end);
-			commands.push(req.body);
+			//commands.push(req.body);
 			originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
 			originalPath.shift();
 			path_complex.push.apply(path_complex, originalPath);
+			for(var j = 0; j<originalPath.length; j++) {
+				commands.push(toXY(originalPath[j]));
+				path_complex.push(originalPath[j]);
+			}
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
