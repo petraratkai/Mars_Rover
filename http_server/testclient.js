@@ -66,6 +66,7 @@ if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
 		if(!donesent) {
 		publish('done', "done", options);
 		donesent = true;
+		console.log("done sent");
 	}
 
   }
