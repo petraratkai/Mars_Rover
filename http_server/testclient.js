@@ -57,7 +57,7 @@ client.subscribe('comm/coords');
 
 var timer_id=setInterval(function(){
 if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
-  if(Math.abs(rover_pos.x-dest.x) < 1 && Math.abs(rover_pos.y-dest.y) < 1 && !donesent) {
+  if(Math.abs(rover_pos.x-dest.x) < 2 && Math.abs(rover_pos.y-dest.y) < 2 && !donesent) {
 		//console.log(JSON.stringify(dest));
 		console.log(JSON.stringify(rover_pos));
 		publish("control/positions",JSON.stringify(rover_pos),options);
