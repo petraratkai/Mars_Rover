@@ -13,8 +13,8 @@ var count = 0;
 var rover_coord = {x:0, y:0};
 var ball_coord = [];
 let ready = true;
-let roverWidth = 5;
-let safetyMargin = 5;
+let roverWidth = 10;
+let safetyMargin = 10;
 
 var math = require('mathjs');
 let obst_complex = [];
