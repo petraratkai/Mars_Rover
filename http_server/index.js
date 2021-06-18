@@ -283,11 +283,11 @@ app.post('/sendInfo', (req, res) => {
 		console.log(JSON.stringify(first));
 		publish('comm/coords', first.x + '|' + first.y, options);
 
-		for(var i = 2; i<originalPath.length; i++)
+		for(var j = 2; j<originalPath.length; j++)
 		{
-			commands.push(toXY(originalPath[i]));
-			path_complex.push(originalPath[i]);
-			if(dbo) dbo.collection("commands").insertOne({x: originalPath[i].x, y: originalPath[i].y, time: d.getTime()}, (err, result) => {
+			commands.push(toXY(originalPath[j]));
+			path_complex.push(originalPath[j]);
+			if(dbo) dbo.collection("commands").insertOne({x: originalPath[j].x, y: originalPath[j].y, time: d.getTime()}, (err, result) => {
 				if(err) throw err;
 				console.log("command saved in db");
 
@@ -305,6 +305,7 @@ app.post('/sendInfo', (req, res) => {
 			commands_complex.push(end);
 			commands.push(req.body);
 			originalPath = pathAdjust(originalPath, allObstacles, allHitboxes, roverWidth, safetyMargin);
+			originalPath.shift();
 			path_complex.push.apply(path_complex, originalPath);
 			if(dbo) dbo.collection("commands").insertOne(command, (err, result) => {
 				if(err) throw err;
