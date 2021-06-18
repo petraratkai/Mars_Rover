@@ -3,7 +3,7 @@ var client  = mqtt.connect("mqtt:/localhost",{clientId:"test"});
 
 var dest = {x: 0, y: 0};
 var rover_pos = {x: 0, y: 0};
-
+var donesent = false;
 function publish(topic,msg,options){
 //console.log("publishing",msg);
 
@@ -27,6 +27,7 @@ client.on('message', (topic, message, packet) => {
 	console.log("topic is "+ topic);
 	if(topic == 'comm/coords') {
     //dest = JSON.parse(message);
+		donesent = false;
     if(message!= '{"x":null,"y":null}') {
     var ar = message.toString().split("|");
     dest.x = parseFloat(ar[0]);
@@ -56,13 +57,14 @@ client.subscribe('comm/coords');
 
 var timer_id=setInterval(function(){
 if(rover_pos!== {x:null,y:null} && dest !== {x:null,y:null}) {
-  if(Math.abs(rover_pos.x-dest.x) < 2 && Math.abs(rover_pos.y-dest.y) < 2 ) {
+  if(Math.abs(rover_pos.x-dest.x) < 1 && Math.abs(rover_pos.y-dest.y) < 1 && !donesent) {
 		//console.log(JSON.stringify(dest));
 		console.log(JSON.stringify(rover_pos));
 		publish("control/positions",JSON.stringify(rover_pos),options);
 		//rover_pos = dest;
     //publish('ready', JSON.stringify(rover_pos), options);
 		publish('done', "done", options);
+		donesent = true;
 
   }
 	else {
