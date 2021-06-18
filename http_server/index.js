@@ -288,7 +288,7 @@ app.post('/sendInfo', (req, res) => {
 
 		for(var j = 2; j<originalPath.length; j++)
 		{
-			commands.push(toXY(originalPath[j]));
+			//commands.push(toXY(originalPath[j]));
 			path_complex.push(originalPath[j]);
 			if(dbo) dbo.collection("commands").insertOne({x: originalPath[j].x, y: originalPath[j].y, time: d.getTime()}, (err, result) => {
 				if(err) throw err;
